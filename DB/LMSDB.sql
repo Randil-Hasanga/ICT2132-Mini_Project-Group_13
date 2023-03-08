@@ -1,6 +1,7 @@
 CREATE DATABASE if not exists LMSDB;
 
 USE LMSDB;
+CREATE USER 'lecturer'@'localhost' IDENTIFIED BY 'lecturer123';
 
 -- admin table
 

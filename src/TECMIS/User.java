@@ -1,18 +1,21 @@
 package TECMIS;
 
+import TECMIS.Lecturer.Lecturer;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
+
 public class User extends JFrame{
 
+    protected String email;
     int User_id;
     String FName;
     String LName;
     String mobile;
     String gender;
-    String email;
     String DBemail;
 
     String pwd;
@@ -36,7 +39,7 @@ public class User extends JFrame{
     private JTextPane facultyOfTechnologyManagementTextPane;
     private JPanel pnlLogin;
 
-    public User() {
+    public void Login() {
         add(pnlLogin);
         setVisible(true);
         setSize(1000,350);
@@ -72,18 +75,37 @@ public class User extends JFrame{
                     while(rs.next()){
                         DBpwd = rs.getString("password");
                     }
-                    if(DBpwd != null && DBpwd.equals(pwd)){
-                        loginDisplay.setText("Password correct");
-                    } else {
-                        loginDisplay.setText("Incorrect email or password");
-                    }
+                    if(acc.equals("lecturer")){
+                        if(DBpwd != null && DBpwd.equals(pwd)){
+                            Statement stmt = conn.createStatement();
 
+                            String query1 = "CREATE USER IF NOT EXISTS 'lecturer'@'localhost' IDENTIFIED BY 'lecturer123'";
+                            String query2 = "GRANT SELECT,INSERT,UPDATE (User_id, FName, LName, Gender, Address_L1, Address_L2, DOB, Pro_pic, Position) ON LMSDB.Lecturer TO 'lecturer'@'localhost'";
+
+                            stmt.executeUpdate(query1);
+                            stmt.executeUpdate(query2);
+
+                            loginDisplay.setText("Password correct");
+
+                            Lecturer lecturer = new Lecturer(email,acc);
+                            lecturer.setVisible(true);
+                            setVisible(false);
+
+                        } else {
+                            loginDisplay.setText("Incorrect email or password");
+                        }
+                    }
                 } catch (SQLException ex) {
                     System.out.println("Connection failed !");
                     ex.printStackTrace();
                 }
             }
         });
+    }
+
+    public static void main(String[] args) {
+        User user = new User();
+        user.Login();
     }
 
 
