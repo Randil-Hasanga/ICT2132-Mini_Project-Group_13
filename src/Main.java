@@ -1,3 +1,4 @@
+import TECMIS.Lecturer.Lecturer;
 import TECMIS.MySqlCon;
 import TECMIS.User;
 
@@ -6,7 +7,6 @@ public class Main {
         MySqlCon con = new MySqlCon();
         con.MysqlMethod();
 
-        User user = new User();
     }
 
 }
