@@ -432,3 +432,138 @@ VALUES
 ('L001','N009'),
 ('L002','N010');
 
+
+
+-- LecturerAttendance table M-M
+
+CREATE TABLE if not exists LectureAttendance
+(
+	Lecturer_id int not null,
+    Attendance_id int,
+    primary key (Lecturer_id, Attendance_id),
+    foreign key (Lecturer_id) references Lecturer (User_id),
+    foreign key (Attendance_id) references Attendance (Attendance_id)
+);
+
+INSERT INTO LectureAttendance
+(Lecturer_id, Attendance_id)
+VALUES
+('L001',20),
+('L002',30),
+('L003',12),
+('L004',25),
+('L005',18),
+('L001',23),
+('L002',32),
+('L003',17),
+('L004',19),
+('L005',35),
+('L001',14),
+('L002',21),
+('L003',16),
+('L004',26),
+('L005',14);
+
+
+
+-- Tech_OfficerNotice table
+
+CREATE TABLE if not exists Tech_OfficerNotice
+(
+	T_Officer_Id int not null,
+    Notice_id int not null,
+    primary key (T_Officer_id, Notice_id),
+    foreign key (T_Officer_Id) references Technical_officer(User_id),
+    foreign key (Notice_id) references Technical_officer(User_id)
+);
+
+INSERT INTO Tech_OfficerNotice
+(T_Officer_Id, Notice_id)
+VALUES
+('TO001','N001'),
+('TO002','N002'),
+('TO003','N003'),
+('TO004','N004'),
+('TO005','N005'),
+('TO001','N006'),
+('TO002','N007'),
+('TO003','N008'),
+('TO004','N009'),
+('TO005','N0010');
+
+
+
+-- Tech_OfficerTimeTable table
+
+CREATE TABLE if not exists Tech_OfficerTimeTable
+(
+	T_Officer_Id int not null,
+    T_table_ID int not null,
+    primary key (T_Officer_ID, T_table_ID),
+    foreign key (T_Officer_ID) references Technical_officer(User_id),
+    foreign key (T_table_ID) references TimeTable(T_table_ID)
+);
+
+INSERT INTO Tech_OfficerTimeTable
+(T_Officer_Id, T_table_ID)
+VALUES
+('TO001',01),
+('TO002',02),
+('TO003',03),
+('TO004',04),
+('TO005',05),
+('TO001',06),
+('TO002',07),
+('TO003',08),
+('TO004',09),
+('TO005',10);
+
+
+-- T_Officer_Attendance table M-M
+
+CREATE TABLE if not exists T_Officer_Attendance
+(
+	T_Officer_ID int not null,
+    Attendance_id int,
+    primary key (T_Officer_ID, Attendance_id),
+    foreign key (T_Officer_ID) references Technical_officer(User_id),
+    foreign key (Attendance_id) references Attendance (Attendance_id)
+);
+
+INSERT INTO T_Officer_Attendance
+(T_Officer_ID, Attendance_id)
+VALUES
+('TO001',12),
+('TO002',15),
+('TO003',17),
+('TO004',16),
+('TO005',20),
+('TO001',22),
+('TO002',23),
+('TO003',25),
+('TO004',27),
+('TO005',28),
+('TO002',26),
+('TO003',30),
+('TO004',32),
+('TO005',35);
+
+
+-- T_Officer_Medical table M-M
+
+CREATE TABLE if not exists T_Officer_Medical
+(
+	Medical_id int not null,
+    T_Officer_ID int not null,
+    primary key(Medical_id, T_Officer_ID),
+    foreign key (Medical_id) references Medical (Medical_id),
+    foreign key (T_Officer_ID) references Technical_officer(User_id)
+);
+
+INSERT INTO T_Officer_Medical
+(Medical_id, T_Officer_ID)
+VALUES
+('M01','TO001'),
+('M02','TO002'),
+('M03','TO003');
+
