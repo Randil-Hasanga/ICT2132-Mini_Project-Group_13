@@ -161,7 +161,7 @@ CREATE TABLE if not exists TimeTable
 	End_Time TIME,
     Dep_id int,
     Location VARCHAR (15),
-    Admin_id int not null,
+    Admin_id VARCHAR(10) not null,
     foreign key (admin_id) references Addmin (User_id),
     foreign key (Dep_id) references Department (Dep_id)
 );
@@ -408,4 +408,27 @@ VALUES
 ('L004','M04'),
 ('L005','M05');
 
+-- Lecture_Notice table M-M
+CREATE TABLE if not exists Lecturer_Notice
+(
+	Lecturer_id VARCHAR(10) not null,
+    Notice_id VARCHAR(10) not null,
+    PRIMARY KEY(Lecturer_id,Notice_id),
+    FOREIGN KEY(Lecturer_id) REFERENCES Lecturer(User_id),
+    FOREIGN KEY(Notice_id) REFERENCES Notice(Notice_id)
+);
+
+INSERT INTO Lecturer_Notice
+(Lecturer_id,Notice_id)
+VALUES
+('L001','N001'),
+('L002','N002'),
+('L003','N003'),
+('L004','N004'),
+('L002','N005'),
+('L001','N006'),
+('L004','N007'),
+('L003','N008'),
+('L001','N009'),
+('L002','N010');
 
