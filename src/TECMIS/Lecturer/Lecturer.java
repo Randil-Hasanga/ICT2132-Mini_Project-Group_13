@@ -71,6 +71,14 @@ public class Lecturer extends User {
 
             }
         });
+        noticeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Notice LecNotice = new Notice(email,acc);
+                LecNotice.setVisible(true);
+                setVisible(false);
+            }
+        });
     }
 
 }
