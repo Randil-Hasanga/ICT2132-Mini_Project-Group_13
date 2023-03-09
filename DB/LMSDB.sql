@@ -41,7 +41,7 @@ CREATE TABLE if not exists Student
     Pro_pic blob,
     S_type VARCHAR(10),
     Password VARCHAR(20),
-    Lecturer_id int,
+    Lecturer_id VARCHAR(10),
     FOREIGN KEY (Lecturer_id) REFERENCES Lecturer(User_id)
 );
 
@@ -80,11 +80,11 @@ CREATE TABLE if not exists Lecturer
 INSERT INTO Lecturer
 (User_id,FName,LName,Gender,Address_L1,Address_L2,DOB,Email,Pro_pic,Password,Position)
 VALUES
-('L001','Saman','Perera','Male','Akuressa','Matara','sperera@gmail.com',null,'asd123','Professor'),
-('L002','Kumari','Lanka','Female','Eheliyagoda','Rathnapura','kumarilanka@gmail.com',null,'75qw6','Senior Professor'),
-('L003','Sandya','Gunathilaka','Female','Kamburupitiya','Matara','sgunathilaka@gmail.com',null,'hrq456','Senoir Lecturer'),
-('L004','Gihan','Fernando','Male','Kekanadura','Matara','gihan123@gmail.com',null,'201mnb','Professor'),
-('L005','Lalin','Perera','Male','Deniyaya','Matara','lalinperera@gmail.com',null,'qwe412','Senior Lecturer');
+('L001','Saman','Perera','Male','Akuressa','Matara','1989-04-05','sperera@gmail.com',null,'asd123','Professor'),
+('L002','Kumari','Lanka','Female','Eheliyagoda','Rathnapura','1993-05-24','kumarilanka@gmail.com',null,'75qw6','Senior Professor'),
+('L003','Sandya','Gunathilaka','Female','Kamburupitiya','Matara','1982-08-12','sgunathilaka@gmail.com',null,'hrq456','Senoir Lecturer'),
+('L004','Gihan','Fernando','Male','Kekanadura','Matara','1995-01-01','gihan123@gmail.com',null,'201mnb','Professor'),
+('L005','Lalin','Perera','Male','Deniyaya','Matara','1990-12-19','lalinperera@gmail.com',null,'qwe412','Senior Lecturer');
 
 -- Technical_officer table
 CREATE TABLE if not exists Technical_officer
@@ -231,17 +231,17 @@ VALUES
 CREATE TABLE if not exists Attendance
 (
 	Attendance_id int not null auto_increment,
-    Student_id VARCHAR(10),
+    Student_id VARCHAR(10) not null,
     Date_ Date,
-    Course_id VARCHAR(10),
+    Course_id VARCHAR(10) not null,
     Status_ Enum('Present','Absent'),
-    PRIMARY KEY(Attendance_id,Student_id),
+    PRIMARY KEY(Attendance_id,Student_id,Course_id),
     FOREIGN KEY(Student_id) REFERENCES Student(User_id),
 	FOREIGN KEY(Course_id) REFERENCES Course_Detail(Course_id)
 );
 
-INSERT INTO Attendence
-(Attendance_id,  Student_id,Date_ ,Status_ )
+INSERT INTO Attendance
+(Attendance_id,Student_id,Date_,Course_id,Status_ )
 VALUES
 (20,'S001','2023-03-01','CD001','Absent'),
 (20,'S002','2023-03-01','CD001','present'),
