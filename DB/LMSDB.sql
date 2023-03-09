@@ -4,7 +4,7 @@ USE LMSDB;
 
 -- admin table
 
-CREATE TABLE if not exists Addmin
+CREATE TABLE if not exists Admin
 (
 	User_id VARCHAR(10) NOT NULL PRIMARY KEY,
     FName VARCHAR(15),
@@ -15,21 +15,19 @@ CREATE TABLE if not exists Addmin
     DOB DATE,
     Email VARCHAR(50),
     Pro_pic blob,
-    Password VARCHAR(20),
-    Role_ VARCHAR(20)
+    Password VARCHAR(20)
 );
 
-INSERT INTO Addmin
-(User_id,FName,LName,Gender,Address_L1,Address_L2,DOB,Email,Pro_pic,Password,Role_)
+INSERT INTO Admin
+(User_id,FName,LName,Gender,Address_L1,Address_L2,DOB,Email,Pro_pic,Password)
 VALUES
-('A100','Uthpala','Kumari','Female','Deiyandara','Matara','1988-02-11','uthpala@gmail.com',null,'2345',' '),
-('A200','Wasantha','Kumara','Male','Bomiriya','Kaduwela','1989-01-14','wasantha@gmail.com',null,'3455',' '),
-('A300','Nilantha','Bandara','Male','Palmadulla','Rathnapura','1984-05-17','nilantha@gmail.com',null,'3345',' '),
-('A400','Vinod','Deshan','Male','Malawa','Kuruwita','1985-02-18','deshan@gmail.com',null,'2667',' ');
+('A100','Uthpala','Kumari','Female','Deiyandara','Matara','1988-02-11','uthpala@gmail.com',null,'2345'),
+('A200','Wasantha','Kumara','Male','Bomiriya','Kaduwela','1989-01-14','wasantha@gmail.com',null,'3455'),
+('A300','Nilantha','Bandara','Male','Palmadulla','Rathnapura','1984-05-17','nilantha@gmail.com',null,'3345'),
+('A400','Vinod','Deshan','Male','Malawa','Kuruwita','1985-02-18','deshan@gmail.com',null,'2667');
 
 
 -- student table
-
 CREATE TABLE if not exists Student
 (
 	User_id VARCHAR(10) NOT NULL PRIMARY KEY,
@@ -61,6 +59,7 @@ VALUES
 ('S009','Parami','Basnayaka', 'Male', 'Kamburupitiya', 'Matara', '2000-08-13', 'basnayaka@gmail.com', null, 'Undergraduate','1586','L001'),
 ('S010','Kasun','Bandara', 'Male', 'Yatiyana', 'Matara', '2000-04-25', 'kasun@gmail.com', null, 'Undergraduate','1796','L005');
 
+
 -- lecturer table
 
 CREATE TABLE if not exists Lecturer
@@ -90,7 +89,7 @@ VALUES
 -- Technical_officer table
 CREATE TABLE if not exists Technical_officer
 (
-	User_id VARCHAR(10) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	User_id VARCHAR(10)  NOT NULL PRIMARY KEY,
     Dep_id VARCHAR(8) not null,
     FName VARCHAR(15),
     LName VARCHAR(15),
@@ -117,7 +116,7 @@ VALUES
 -- department table
 CREATE TABLE if not exists Department
 (
-	Dep_id VARCHAR(8) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	Dep_id VARCHAR(8) NOT NULL  PRIMARY KEY,
     Dep_Name VARCHAR(30)
     
 );
@@ -150,7 +149,7 @@ VALUES
 ('CD001','Data Structures and Algorithm',2,'A100','L001'),
 ('CD002','Software Engineering',3,'A200','L003'),
 ('CD003','E-Commerce',2,'A300','L002'),
-('CD004','Object Oriented Programing','A400','L004');
+('CD004','Object Oriented Programing',3,'A400','L004');
 
 -- timetable table
 
@@ -211,7 +210,7 @@ VALUES
 
 CREATE TABLE if not exists Medical
 (
-	Medical_id VARCHAR(5) not null auto_increment,
+	Medical_id VARCHAR(5) not null ,
     Student_id int,
 	Start_Date DATE,
     End_Date Date,
@@ -304,5 +303,109 @@ VALUES
 (20,'S009','2023-03-06','CD003','Present'),
 (20,'S010','2023-03-06','CD003','Absent');
 
+
+-- Exam_mark table
+CREATE TABLE if not exists Exam_mark
+(
+	Mark_id VARCHAR(10) not null primary key,
+    Student_id VARCHAR(10),
+    Lecturer_id VARCHAR(10),
+    Eligibility VARCHAR(15),
+    Assignment001 DECIMAL(5,2),
+    Assignment002 DECIMAL(5,2),
+    Grade VARCHAR(6),
+    QUIZ01 DECIMAL(5,2),
+    QUIZ02 DECIMAL(5,2),
+    QUIZ03 DECIMAL(5,2),
+    MID DECIMAL(5,4),
+    SGPA DECIMAL(5,4),
+    CGPA DECIMAL(5,4),
+    FINAL_Practical DECIMAL(5,2),
+    FINAL_Theory DECIMAL(5,2),
+    FOREIGN KEY (Student_id) REFERENCES Student(User_id),
+    FOREIGN KEY (Lecturer_id) REFERENCES Lecturer(User_id)
+);
+
+INSERT INTO Exam_mark
+(Mark_id, Student_id,Lecturer_id,Eligibility,Assignment001,Assignment002,Grade,QUIZ01,QUIZ02,QUIZ03,MID,SGPA,CGPA,FINAL_Practical,FINAL_Theory)
+VALUES
+('EM1','S001','L001','EL',25,20,'A',7,7,8,25,3.45,3.40,30,50),
+('EM2','S002','L002','EL',28,27,'A+',8,9,10,27,3.91,3.88,36,55),
+('EM3','S003','L003','EL',20,25,'A-',5,8,9,25,3.74,3.70,35,51),
+('EM4','S004','L004','EL',23,24,'B+',7,8,9,24,3.34,3.30,29,45),
+('EM5','S005','L005','EL',29,27,'A+',9,10,10,27,4.00,4.00,38,59),
+('EM6','S006','L001','EL',24,24,'B+',7,6,10,25,3.40,3.35,30,49),
+('EM7','S007','L004','EL',26,27,'A-',8,7,9,27,3.56,3.50,33,50),
+('EM8','S008','L003','EL',28,27,'A',9,9,8,27,3.60,3.55,35,50),
+('EM9','S009','L001','EL',19,27,'C+',6,6,7,20,3.14,2.99,25,38),
+('EM10','S010','L001','EL',26,28,'A-',8,7,9,26,3.67,3.55,32,55);
+
+-- Student_CourseDetail table M-M
+CREATE TABLE if not exists Student_CourseDetail
+(
+	Student_id VARCHAR(10) not null,
+    Course_id VARCHAR(10) not null,
+    PRIMARY KEY (Student_id,Course_id),
+    FOREIGN KEY (Student_id) REFERENCES Student(User_id),
+    FOREIGN KEY (Course_id) REFERENCES  Course_Detail(User_id)
+);
+
+INSERT INTO Student_CourseDetail
+(Student_id,Course_id)
+VALUES
+('S001','CD001'),
+('S002','CD002'),
+('S003','CD003'),
+('S004','CD004'),
+('S005','CD002'),
+('S006','CD001'),
+('S007','CD003'),
+('S008','CD004'),
+('S009','CD002'),
+('S010','CD003');
+
+-- Student_Notice table M-M
+CREATE TABLE if not exists Student_Notice
+(
+	Student_id VARCHAR(10) not null,
+    Notice_id VARCHAR(10) not null,
+    PRIMARY KEY (Student_id,Notice_id),
+    FOREIGN KEY(Student_id) REFERENCES Student(User_id),
+    FOREIGN KEY(Notice_id) REFERENCES Notice(Notice_id)
+);
+
+INSERT INTO Student_Notice
+(Student_id,Notice_id)
+VALUES
+('S001','N001'),
+('S002','N002'),
+('S003','N003'),
+('S004','N004'),
+('S005','N005'),
+('S006','N006'),
+('S007','N007'),
+('S008','N008'),
+('S009','N009'),
+('S010','N010');
+
+
+-- Lecture_Medical table M-M
+CREATE TABLE if not exists Lecturer_Medical
+(
+	Lecturer_id VARCHAR(10) not null,
+    Medical_id VARCHAR(5) not null,
+	PRIMARY KEY(Lecturer_id,Medical_id),
+    FOREIGN KEY(Lecturer_id) REFERENCES Lecturer(User_id),
+    FOREIGN KEY(Medical_id) REFERENCES Medical(Medical_id)
+);
+
+INSERT INTO Lecturer_Medical
+(Lecturer_id,Medical_id)
+VALUES
+('L001','M01'),
+('L002','M02'),
+('L003','M03'),
+('L004','M04'),
+('L005','M05');
 
 
