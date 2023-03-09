@@ -72,7 +72,7 @@ CREATE TABLE if not exists Lecturer
     Address_L2 VARCHAR(50),
     DOB DATE,
     Email VARCHAR(50),
-    Pro_pic blob,
+    Pro_pic longblob,
     Password VARCHAR(20),
     Position VARCHAR(20)
 );
@@ -329,16 +329,16 @@ CREATE TABLE if not exists Exam_mark
 INSERT INTO Exam_mark
 (Mark_id, Student_id,Lecturer_id,Eligibility,Assignment001,Assignment002,Grade,QUIZ01,QUIZ02,QUIZ03,MID,SGPA,CGPA,FINAL_Practical,FINAL_Theory)
 VALUES
-('EM1','S001','L001','EL',25,20,'A',7,7,8,25,3.45,3.40,30,50),
-('EM2','S002','L002','EL',28,27,'A+',8,9,10,27,3.91,3.88,36,55),
-('EM3','S003','L003','EL',20,25,'A-',5,8,9,25,3.74,3.70,35,51),
-('EM4','S004','L004','EL',23,24,'B+',7,8,9,24,3.34,3.30,29,45),
-('EM5','S005','L005','EL',29,27,'A+',9,10,10,27,4.00,4.00,38,59),
-('EM6','S006','L001','EL',24,24,'B+',7,6,10,25,3.40,3.35,30,49),
-('EM7','S007','L004','EL',26,27,'A-',8,7,9,27,3.56,3.50,33,50),
-('EM8','S008','L003','EL',28,27,'A',9,9,8,27,3.60,3.55,35,50),
-('EM9','S009','L001','EL',19,27,'C+',6,6,7,20,3.14,2.99,25,38),
-('EM10','S010','L001','EL',26,28,'A-',8,7,9,26,3.67,3.55,32,55);
+('EM1','S001','L001',null,25,20,null,7,7,8,25,null,null,30,50),
+('EM2','S002','L002',null,28,27,null,8,9,10,27,null,null,36,55),
+('EM3','S003','L003',null,20,25,null,5,8,9,25,null,null,35,51),
+('EM4','S004','L004',null,23,24,null,7,8,9,24,null,null,29,45),
+('EM5','S005','L005',null,29,27,null,9,10,10,27,null,null,38,59),
+('EM6','S006','L001',null,24,24,null,7,6,10,25,null,null,30,49),
+('EM7','S007','L004',null,26,27,null,8,7,9,27,null,null,33,50),
+('EM8','S008','L003',null,28,27,null,9,9,8,27,null,null,35,50),
+('EM9','S009','L001',null,19,27,null,6,6,7,20,null,null,25,38),
+('EM10','S010','L001',null,26,28,null,8,7,9,26,null,null,32,55);
 
 -- Student_CourseDetail table M-M
 CREATE TABLE if not exists Student_CourseDetail
