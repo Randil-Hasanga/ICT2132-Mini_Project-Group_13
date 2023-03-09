@@ -23,46 +23,57 @@ public class Notice extends JFrame {
 
         add(pnlLecNotice);
         setSize(600, 600);
-        setTitle("Student Details");
+        setTitle("Lecturer notices");
         tblLecNotice.setEnabled(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         String LecIdQuery = "SELECT User_id FROM Lecturer WHERE Email = ?";
+        String LecNoticeQuery = "SELECT Notice.Notice_id,Notice.Subject_,Notice.Description_ FROM Notice,Lecturer_Notice,Lecturer WHERE (Notice.Notice_id = Lecturer_Notice.Notice_id) AND (Lecturer_Notice.Lecturer_id = Lecturer.User_id) AND Lecturer.User_id = ?";
 
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/LMSDB", "root", "")) {
-            try (PreparedStatement pstmt = conn.prepareStatement(String.valueOf(LecIdQuery))) {
-                pstmt.setString(1, email);
-                ResultSet rs = pstmt.executeQuery();
+            try (PreparedStatement pstmt1 = conn.prepareStatement(LecIdQuery);
+                PreparedStatement pstmt2 = conn.prepareStatement(LecNoticeQuery)) {
+                pstmt1.setString(1, email);
+                ResultSet rs1 = pstmt1.executeQuery();
 
-                while (rs.next()) {
-                    LecId = rs.getString("User_id");
+                while (rs1.next()) {
+                    LecId = rs1.getString("User_id");
                 }
 
-                String LecNoticeQuery = "SELECT * FROM Notice WHERE (Notice.Notice_id = LecturerNotice.Notice_id) AND (LecturerNotice.Lecturer_id = Lecturer.User_id)";
+                pstmt2.setString(1,LecId);
+                ResultSet rs2 = pstmt2.executeQuery();
 
-                try (PreparedStatement pstmt2 = conn.prepareStatement(LecNoticeQuery)) {
-                    ResultSet rs2 = pstmt2.executeQuery();
+                DefaultTableModel tableModel2 = new DefaultTableModel();
+                tblLecNotice.setModel(tableModel2);
+/*
+                tableModel2.addColumn("");
+                tableModel2.addColumn("");
+*/
+                ResultSetMetaData rsmd2 = rs2.getMetaData();
+                int columntCount2 = rsmd2.getColumnCount();
+                for (int i = 1; i <= columntCount2; i++) {
+                    tableModel2.addColumn(rsmd2.getColumnName(i));
+                }
 
-                    DefaultTableModel tableModel2 = new DefaultTableModel();
-                    tblLecNotice.setModel(tableModel2);
-
-                    tableModel2.addColumn("");
-                    tableModel2.addColumn("");
-
-                    ResultSetMetaData rsmd2 = rs2.getMetaData();
-                    int columntCount2 = rsmd2.getColumnCount();
-
-                    while (rs.next()) {
-                        for (int i = 1; i <= columntCount2; i++) {
-                            Object[] rowData = new Object[2];
-                            rowData[0] = rsmd2.getColumnName(i);
-                            rowData[1] = rs2.getObject(i);
-                            tableModel2.addRow(rowData);
-                        }
+                while (rs2.next()) {
+                    Object[] rowData = new Object[columntCount2];
+                    for (int i = 1; i <= columntCount2; i++) {
+                        rowData[i-1] = rs2.getObject(i);
                     }
-                } catch (RuntimeException ex) {
-                    throw new RuntimeException(ex);
+                    tableModel2.addRow(rowData);
                 }
+/*
+                while (rs2.next()) {
+
+                    for (int i = 1; i <= columntCount2; i++) {
+                        Object[] rowData = new Object[2];
+                        rowData[0] = rsmd2.getColumnName(i);
+                        rowData[1] = rs2.getObject(i);
+                        tableModel2.addRow(rowData);
+                    }
+
+                }*/
+
 
             } catch (SQLException e) {
                 throw new RuntimeException(e);

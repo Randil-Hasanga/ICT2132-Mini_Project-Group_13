@@ -7,6 +7,9 @@ public class Main {
         MySqlCon con = new MySqlCon();
         con.MysqlMethod();
 
+        User user = new User();
+        user.Login();
+
     }
 
 }

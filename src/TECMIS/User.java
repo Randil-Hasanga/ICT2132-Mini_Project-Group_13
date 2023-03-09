@@ -39,6 +39,7 @@ public class User extends JFrame{
     private JTextPane facultyOfTechnologyManagementTextPane;
     private JPanel pnlLogin;
 
+
     public void Login() {
         add(pnlLogin);
         setVisible(true);
@@ -103,10 +104,7 @@ public class User extends JFrame{
         });
     }
 
-    public static void main(String[] args) {
-        User user = new User();
-        user.Login();
-    }
+
 
 
 }

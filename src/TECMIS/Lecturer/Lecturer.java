@@ -28,8 +28,10 @@ public class Lecturer extends User {
 
     private String email;
     private String acc;
+    private String em1;
     String Fname;
     String Lname;
+
 
     public Lecturer(String email,String acc) {
         this.email = email;
