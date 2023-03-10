@@ -12,14 +12,12 @@ public class Notice extends JFrame {
     private JTable tblLecNotice;
     private JButton backButton;
 
-    private String email;
+    private String userId;
     private String acc;
 
-    String LecId;
-
-    public Notice(String email, String acc) {
-        this.email = email;
-        this.acc = acc;
+    public Notice(String userId, String acc) {
+        this.userId = this.userId;
+        this.acc = this.acc;
 
         add(pnlLecNotice);
         setSize(600, 600);
@@ -27,20 +25,12 @@ public class Notice extends JFrame {
         tblLecNotice.setEnabled(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        String LecIdQuery = "SELECT User_id FROM Lecturer WHERE Email = ?";
         String LecNoticeQuery = "SELECT Notice.Notice_id,Notice.Subject_,Notice.Description_ FROM Notice,Lecturer_Notice,Lecturer WHERE (Notice.Notice_id = Lecturer_Notice.Notice_id) AND (Lecturer_Notice.Lecturer_id = Lecturer.User_id) AND Lecturer.User_id = ?";
 
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/LMSDB", "root", "")) {
-            try (PreparedStatement pstmt1 = conn.prepareStatement(LecIdQuery);
-                PreparedStatement pstmt2 = conn.prepareStatement(LecNoticeQuery)) {
-                pstmt1.setString(1, email);
-                ResultSet rs1 = pstmt1.executeQuery();
+            try (PreparedStatement pstmt2 = conn.prepareStatement(LecNoticeQuery)) {
 
-                while (rs1.next()) {
-                    LecId = rs1.getString("User_id");
-                }
-
-                pstmt2.setString(1,LecId);
+                pstmt2.setString(1,userId);
                 ResultSet rs2 = pstmt2.executeQuery();
 
                 DefaultTableModel tableModel2 = new DefaultTableModel();
@@ -85,7 +75,7 @@ public class Notice extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Lecturer lecBack = new Lecturer(email,acc);
+                Lecturer lecBack = new Lecturer(userId,acc);
                 lecBack.setVisible(true);
                 setVisible(false);
             }

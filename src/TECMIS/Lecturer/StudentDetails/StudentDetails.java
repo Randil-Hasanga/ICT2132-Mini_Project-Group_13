@@ -19,12 +19,12 @@ public class StudentDetails extends JFrame{
     private JPanel pnlStudentDetails;
     private JButton clearButton;
 
-    private String email;
+    private String userId;
     private String acc;
 
 
-    public StudentDetails(String email,String acc){
-        this.email = email;
+    public StudentDetails(String userId,String acc){
+        this.userId = userId;
         this.acc = acc;
 
         add(pnlStudentDetails);
@@ -45,7 +45,7 @@ public class StudentDetails extends JFrame{
         btnBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Lecturer lecBack = new Lecturer(email,acc);
+                Lecturer lecBack = new Lecturer(userId,acc);
                 lecBack.setVisible(true);
                 setVisible(false);
             }
@@ -58,7 +58,7 @@ public class StudentDetails extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 sid = txtSID.getText();
-                String stdTable = "SELECT User_Id,CONCAT(FName,' ',LName) AS Full_Name,Gender,CONCAT(Address_L1,' ',Address_L2) AS Address, DOB, Email, S_type AS Student_type,Lecturer_id AS LecturerId_mentor FROM Student WHERE User_Id = ?";
+                String stdTable = "SELECT User_id,CONCAT(FName,' ',LName) AS Full_Name,Gender,CONCAT(Address_L1,' ',Address_L2) AS Address, DOB, Email, S_type AS Student_type,Lecturer_id AS LecturerId_mentor FROM Student WHERE User_Id = ?";
 
                 try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/LMSDB", "root", "")) {
                     try (PreparedStatement pstmt = conn.prepareStatement(stdTable)) {

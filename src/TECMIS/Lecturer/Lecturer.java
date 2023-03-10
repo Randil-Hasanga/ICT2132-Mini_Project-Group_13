@@ -26,15 +26,14 @@ public class Lecturer extends User {
     private JLabel lblWelcome;
     private JTextArea facultyOfTechnologyManagementTextArea;
 
-    private String email;
+    private String userId;
     private String acc;
-    private String em1;
     String Fname;
     String Lname;
 
 
-    public Lecturer(String email,String acc) {
-        this.email = email;
+    public Lecturer(String userId,String acc) {
+        this.userId = userId;
         this.acc = acc;
 
         add(pnlLecturer);
@@ -42,12 +41,12 @@ public class Lecturer extends User {
         setTitle("Lecturer");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        String sql = "SELECT FName,LName FROM " + acc + " WHERE Email = ?";
+        String sql = "SELECT FName,LName FROM " + acc + " WHERE User_id = ?";
 
         ResultSet rs;
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/LMSDB", "root", "")) {
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, email);
+                pstmt.setString(1, userId);
                 rs = pstmt.executeQuery();
 
                 while(rs.next()){
@@ -67,7 +66,7 @@ public class Lecturer extends User {
         studentDetailsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                StudentDetails sd = new StudentDetails(email,acc);
+                StudentDetails sd = new StudentDetails(userId,acc);
                 sd.setVisible(true);
                 setVisible(false);
 
@@ -76,8 +75,16 @@ public class Lecturer extends User {
         noticeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Notice LecNotice = new Notice(email,acc);
+                Notice LecNotice = new Notice(userId,acc);
                 LecNotice.setVisible(true);
+                setVisible(false);
+            }
+        });
+        uploadMarksButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UploadMarks up = new UploadMarks(userId,acc);
+                up.setVisible(true);
                 setVisible(false);
             }
         });
