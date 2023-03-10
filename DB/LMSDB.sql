@@ -90,7 +90,7 @@ VALUES
 CREATE TABLE if not exists Technical_officer
 (
 	User_id VARCHAR(10)  NOT NULL PRIMARY KEY,
-    Dep_id VARCHAR(8) not null,
+    Dep_id VARCHAR(10) not null,
     FName VARCHAR(15),
     LName VARCHAR(15),
 	Gender ENUM('Male','Female'),
@@ -116,7 +116,7 @@ VALUES
 -- department table
 CREATE TABLE if not exists Department
 (
-	Dep_id VARCHAR(8) NOT NULL  PRIMARY KEY,
+	Dep_id VARCHAR(10) NOT NULL  PRIMARY KEY,
     Dep_Name VARCHAR(30)
     
 );
@@ -137,8 +137,8 @@ CREATE TABLE if not exists Course_Detail
 	Course_id VARCHAR(10) NOT NULL PRIMARY KEY,
     Course_Name VARCHAR(30),
     Credit int,
-    Admin_id int not null,
-    Lecturer_id int not null,
+    Admin_id VARCHAR(10) not null,
+    Lecturer_id VARCHAR(10) not null,
     foreign key (admin_id) references Addmin (User_id),
     foreign key (Lecturer_id) references Lecturer (User_id)
 );
@@ -146,10 +146,10 @@ CREATE TABLE if not exists Course_Detail
 INSERT INTO Course_Detail
 (Course_id, Course_Name, Credit, Admin_id, Lecturer_id)
 VALUES
-('CD001','Data Structures and Algorithm',2,'A100','L001'),
-('CD002','Software Engineering',3,'A200','L003'),
-('CD003','E-Commerce',2,'A300','L002'),
-('CD004','Object Oriented Programing',3,'A400','L004');
+('ICT01','Data Structures and Algorithm',2,'A100','L001'),
+('ICT02','E-Commerce',2,'A300','L002'),
+('ICT03','Software Engineering',3,'A200','L003'),
+('ICT04','Object Oriented Programing',3,'A400','L004');
 
 -- timetable table
 
@@ -159,7 +159,7 @@ CREATE TABLE if not exists TimeTable
 	Subject_name VARCHAR (50), 
     Start_Time TIME,
 	End_Time TIME,
-    Dep_id int,
+    Dep_id VARCHAR(10),
     Location VARCHAR (15),
     Admin_id VARCHAR(10) not null,
     foreign key (admin_id) references Addmin (User_id),
@@ -188,7 +188,7 @@ CREATE TABLE if not exists Notice
 	Notice_id VARCHAR(10) NOT NULL PRIMARY KEY,
     Subject_ VARCHAR(30),
     Description_ VARCHAR(1000),
-    Admin_id int not null,
+    Admin_id VARCHAR(10) not null,
     foreign key (admin_id) references Addmin (User_id)
 );
 
@@ -211,7 +211,7 @@ VALUES
 CREATE TABLE if not exists Medical
 (
 	Medical_id VARCHAR(5) not null ,
-    Student_id int,
+    Student_id VARCHAR(10) not null,
 	Start_Date DATE,
     End_Date Date,
     Medical_Condition VARCHAR(15),
@@ -222,9 +222,9 @@ CREATE TABLE if not exists Medical
 INSERT INTO Medical
 (Medical_id, Student_id, Start_Date,End_Date, Medical_Condition)
 VALUES
-('M01',1,'2023-02-05','2023-02-19','Approved'),
-('M02',1,'2023-02-10','2023-02-24','Approved'),
-('M03',1,'2023-03-01','2023-03-15','Reject');
+('M01','S001','2023-02-05','2023-02-19','Approved'),
+('M02','S001','2023-02-10','2023-02-24','Approved'),
+('M03','S001','2023-03-01','2023-03-15','Reject');
 
 -- Attendance table ***WEAK***
 
@@ -307,8 +307,9 @@ VALUES
 -- Exam_mark table
 CREATE TABLE if not exists Exam_mark
 (
-	Mark_id VARCHAR(10) not null primary key,
-    Student_id VARCHAR(10),
+	Mark_id int not null auto_increment primary key,
+    Student_id VARCHAR(10) not null,
+    Course_id VARCHAR(10) not null,
     Lecturer_id VARCHAR(10),
     Eligibility VARCHAR(15),
     Assignment001 DECIMAL(5,2),
@@ -317,29 +318,29 @@ CREATE TABLE if not exists Exam_mark
     QUIZ01 DECIMAL(5,2),
     QUIZ02 DECIMAL(5,2),
     QUIZ03 DECIMAL(5,2),
-    MID DECIMAL(5,4),
+    MID DECIMAL(5,2),
     SGPA DECIMAL(5,4),
     CGPA DECIMAL(5,4),
     FINAL_Practical DECIMAL(5,2),
     FINAL_Theory DECIMAL(5,2),
+    FOREIGN KEY (Course_id) REFERENCES Course_Detail(Course_id),
     FOREIGN KEY (Student_id) REFERENCES Student(User_id),
     FOREIGN KEY (Lecturer_id) REFERENCES Lecturer(User_id)
 );
 
 INSERT INTO Exam_mark
-(Mark_id, Student_id,Lecturer_id,Eligibility,Assignment001,Assignment002,Grade,QUIZ01,QUIZ02,QUIZ03,MID,SGPA,CGPA,FINAL_Practical,FINAL_Theory)
+(Mark_id, Student_id,Course_id,Lecturer_id,Eligibility,Assignment001,Assignment002,Grade,QUIZ01,QUIZ02,QUIZ03,MID,SGPA,CGPA,FINAL_Practical,FINAL_Theory)
 VALUES
-('EM1','S001','L001',null,25,20,null,7,7,8,25,null,null,30,50),
-('EM2','S002','L002',null,28,27,null,8,9,10,27,null,null,36,55),
-('EM3','S003','L003',null,20,25,null,5,8,9,25,null,null,35,51),
-('EM4','S004','L004',null,23,24,null,7,8,9,24,null,null,29,45),
-('EM5','S005','L005',null,29,27,null,9,10,10,27,null,null,38,59),
-('EM6','S006','L001',null,24,24,null,7,6,10,25,null,null,30,49),
-('EM7','S007','L004',null,26,27,null,8,7,9,27,null,null,33,50),
-('EM8','S008','L003',null,28,27,null,9,9,8,27,null,null,35,50),
-('EM9','S009','L001',null,19,27,null,6,6,7,20,null,null,25,38),
-('EM10','S010','L001',null,26,28,null,8,7,9,26,null,null,32,55);
-
+(1,'S001','ICT01','L001',null,25,20,null,7,7,8,18,null,null,30,50),
+(2,'S002','ICT01','L002',null,28,27,null,8,9,10,15,null,null,36,55),
+(3,'S003','ICT01','L003',null,20,25,null,5,8,9,12,null,null,35,51),
+(4,'S004','ICT01','L004',null,23,24,null,7,8,9,17,null,null,29,45),
+(5,'S005','ICT01','L005',null,29,27,null,9,10,10,20,null,null,38,59),
+(6,'S006','ICT01','L001',null,24,24,null,7,6,10,10,null,null,30,49),
+(7,'S007','ICT01','L004',null,26,27,null,8,7,9,13,null,null,33,50),
+(8,'S008','ICT01','L003',null,28,27,null,9,9,8,19,null,null,35,50),
+(9,'S009','ICT01','L001',null,19,27,null,6,6,7,9,null,null,25,38),
+(10,'S010','ICT01','L001',null,26,28,null,8,7,9,14,null,null,32,55);
 -- Student_CourseDetail table M-M
 CREATE TABLE if not exists Student_CourseDetail
 (
@@ -438,7 +439,7 @@ VALUES
 
 CREATE TABLE if not exists LectureAttendance
 (
-	Lecturer_id int not null,
+	Lecturer_id VARCHAR(10) not null,
     Attendance_id int,
     primary key (Lecturer_id, Attendance_id),
     foreign key (Lecturer_id) references Lecturer (User_id),
@@ -470,8 +471,8 @@ VALUES
 
 CREATE TABLE if not exists Tech_OfficerNotice
 (
-	T_Officer_Id int not null,
-    Notice_id int not null,
+	T_Officer_Id VARCHAR(10) not null,
+    Notice_id VARCHAR(10) not null,
     primary key (T_Officer_id, Notice_id),
     foreign key (T_Officer_Id) references Technical_officer(User_id),
     foreign key (Notice_id) references Technical_officer(User_id)
@@ -497,7 +498,7 @@ VALUES
 
 CREATE TABLE if not exists Tech_OfficerTimeTable
 (
-	T_Officer_Id int not null,
+	T_Officer_Id VARCHAR(10) not null,
     T_table_ID int not null,
     primary key (T_Officer_ID, T_table_ID),
     foreign key (T_Officer_ID) references Technical_officer(User_id),
@@ -523,7 +524,7 @@ VALUES
 
 CREATE TABLE if not exists T_Officer_Attendance
 (
-	T_Officer_ID int not null,
+	T_Officer_ID VARCHAR(10) not null,
     Attendance_id int,
     primary key (T_Officer_ID, Attendance_id),
     foreign key (T_Officer_ID) references Technical_officer(User_id),
@@ -553,8 +554,8 @@ VALUES
 
 CREATE TABLE if not exists T_Officer_Medical
 (
-	Medical_id int not null,
-    T_Officer_ID int not null,
+	Medical_id VARCHAR(10) not null,
+    T_Officer_ID VARCHAR(10) not null,
     primary key(Medical_id, T_Officer_ID),
     foreign key (Medical_id) references Medical (Medical_id),
     foreign key (T_Officer_ID) references Technical_officer(User_id)

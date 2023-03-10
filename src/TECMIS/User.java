@@ -10,13 +10,9 @@ import java.sql.*;
 
 public class User extends JFrame{
 
-    protected String email;
-    int User_id;
-    String FName;
-    String LName;
-    String mobile;
-    String gender;
-    String DBemail;
+    protected String userId;
+
+
 
     String pwd;
     String DBpwd;
@@ -29,7 +25,7 @@ public class User extends JFrame{
 
 
     private JComboBox<String> userDrop;
-    private JTextField txtEmail;
+    private JTextField txtUserId;
     private JPasswordField txtPwd;
     private JButton btnClear;
     private JButton btnOK;
@@ -50,7 +46,7 @@ public class User extends JFrame{
         btnClear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                txtEmail.setText("");
+                txtUserId.setText("");
                 txtPwd.setText("");
                 loginDisplay.setText("");
             }
@@ -65,13 +61,13 @@ public class User extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 pwd = String.valueOf(txtPwd.getPassword());
-                email = txtEmail.getText();
+                userId = txtUserId.getText();
 
-                String sql = "SELECT Password FROM " + acc + " WHERE Email = ?";
+                String sql = "SELECT Password FROM " + acc + " WHERE User_id = ?";
 
                 try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/LMSDB", "root", "");
                      PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                    pstmt.setString(1, email);
+                    pstmt.setString(1, userId);
                     ResultSet rs = pstmt.executeQuery();
                     while(rs.next()){
                         DBpwd = rs.getString("password");
@@ -88,7 +84,7 @@ public class User extends JFrame{
 
                             loginDisplay.setText("Password correct");
 
-                            Lecturer lecturer = new Lecturer(email,acc);
+                            Lecturer lecturer = new Lecturer(userId,acc);
                             lecturer.setVisible(true);
                             setVisible(false);
 
@@ -103,8 +99,5 @@ public class User extends JFrame{
             }
         });
     }
-
-
-
 
 }
