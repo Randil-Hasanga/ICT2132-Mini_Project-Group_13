@@ -40,6 +40,7 @@
             </constraints>
             <properties>
               <background color="-983809"/>
+              <editable value="false"/>
               <font name="Consolas" size="16" style="1"/>
               <foreground color="-16777216"/>
               <text value="Faculty of Technology&#10;Management Information System&#10;[ T E C M I S ]"/>

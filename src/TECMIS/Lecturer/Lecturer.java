@@ -1,6 +1,7 @@
 package TECMIS.Lecturer;
 
 import TECMIS.Lecturer.StudentDetails.StudentDetails;
+import TECMIS.Lecturer.UploadCourseMaterials.UploadCourseMaterials;
 import TECMIS.User;
 
 import javax.swing.*;
@@ -85,6 +86,14 @@ public class Lecturer extends User {
             public void actionPerformed(ActionEvent e) {
                 UploadMarks up = new UploadMarks(userId,acc);
                 up.setVisible(true);
+                setVisible(false);
+            }
+        });
+        courseMaterialsButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UploadCourseMaterials upCourse = new UploadCourseMaterials(userId,acc);
+                upCourse.setVisible(true);
                 setVisible(false);
             }
         });
