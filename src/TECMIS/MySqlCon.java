@@ -3,22 +3,26 @@ package TECMIS;
 import java.sql.*;
 
 public class MySqlCon {
-    public void MysqlMethod() {
+    public static void main(String[] args) {
+        MySqlCon x = new MySqlCon();
+        x.MysqlMethod();
+    }
+    public static Connection MysqlMethod() {
         String url = "jdbc:mysql://localhost:3306/LMSDB";
         String username = "root";
         String password = "";
+        Connection conn = null;
 
-        try (Connection conn = DriverManager.getConnection(url, username, password);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM Student")) {
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(url,username,password);
+            System.out.println("done");
 
-            while (rs.next()) {
-                System.out.println(rs.getString("Fname"));
-            }
-
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         } catch (SQLException e) {
-            System.out.println("Connection failed !");
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+        return conn;
     }
 }

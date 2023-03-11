@@ -2,6 +2,7 @@ package TECMIS.Lecturer;
 
 import TECMIS.Lecturer.StudentDetails.StudentDetails;
 import TECMIS.Lecturer.UploadCourseMaterials.UploadCourseMaterials;
+import TECMIS.MySqlCon;
 import TECMIS.User;
 
 import javax.swing.*;
@@ -10,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class Lecturer extends User {
+
+    Connection conn = MySqlCon.MysqlMethod();
     private JButton profileButton;
     private JButton courceMaterialsButton;
     private JButton courseMaterialsButton;
@@ -32,10 +35,9 @@ public class Lecturer extends User {
     String Fname;
     String Lname;
 
-
-    public Lecturer(String userId,String acc) {
-        this.userId = userId;
-        this.acc = acc;
+    public void methodLecturer() {
+        userId = getUserId();
+        acc = getAcc();
 
         add(pnlLecturer);
         setSize(600, 600);
@@ -45,29 +47,27 @@ public class Lecturer extends User {
         String sql = "SELECT FName,LName FROM " + acc + " WHERE User_id = ?";
 
         ResultSet rs;
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/LMSDB", "root", "")) {
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, userId);
-                rs = pstmt.executeQuery();
 
-                while(rs.next()){
-                    Fname = rs.getString("FName");
-                    Lname = rs.getString("LName");
-                }
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, userId);
+            rs = pstmt.executeQuery();
 
-
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            while (rs.next()) {
+                Fname = rs.getString("FName");
+                Lname = rs.getString("LName");
             }
+
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        lblWelcome.setText("Welcome Dr." + Fname +" "+ Lname +"!");
+        lblWelcome.setText("Welcome Dr." + Fname + " " + Lname + "!");
         studentDetailsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                StudentDetails sd = new StudentDetails(userId,acc);
+                StudentDetails sd = new StudentDetails();
+                sd.viewStudentDetails();
                 sd.setVisible(true);
                 setVisible(false);
 
@@ -76,15 +76,18 @@ public class Lecturer extends User {
         noticeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Notice LecNotice = new Notice(userId,acc);
+                Notice LecNotice = new Notice();
+                Lecturer l2 = new Lecturer();
                 LecNotice.setVisible(true);
                 setVisible(false);
+                LecNotice.viewNotice();
             }
         });
         uploadMarksButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                UploadMarks up = new UploadMarks(userId,acc);
+                UploadMarks up = new UploadMarks();
+                up.upMarks();
                 up.setVisible(true);
                 setVisible(false);
             }
@@ -92,11 +95,11 @@ public class Lecturer extends User {
         courseMaterialsButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                UploadCourseMaterials upCourse = new UploadCourseMaterials(userId,acc);
+                UploadCourseMaterials upCourse = new UploadCourseMaterials();
+                upCourse.upCourseMaterials();
                 upCourse.setVisible(true);
                 setVisible(false);
             }
         });
     }
-
 }

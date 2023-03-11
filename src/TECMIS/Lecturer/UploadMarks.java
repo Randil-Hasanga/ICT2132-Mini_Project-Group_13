@@ -1,11 +1,16 @@
 package TECMIS.Lecturer;
 
+import TECMIS.MySqlCon;
+import TECMIS.User;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class UploadMarks extends JFrame{
+public class UploadMarks extends Lecturer{
+
+    Connection conn = MySqlCon.MysqlMethod();
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JTextField txtSID;
     private JTextField txtA1;
@@ -41,10 +46,10 @@ public class UploadMarks extends JFrame{
 
 
 
-    public UploadMarks(String userId,String acc){
+    public void upMarks(){
 
-        this.userId = userId;
-        this.acc = acc;
+        userId = User.getUserId();
+        acc = User.getAcc();
 
         add(pnlUploadMarks);
         setSize(600, 600);
@@ -71,9 +76,10 @@ public class UploadMarks extends JFrame{
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Lecturer lecBack = new Lecturer(userId,acc);
+                Lecturer lecBack = new Lecturer();
                 lecBack.setVisible(true);
                 setVisible(false);
+                lecBack.methodLecturer();
             }
         });
         uploadButton.addActionListener(new ActionListener() {
@@ -92,9 +98,7 @@ public class UploadMarks extends JFrame{
 
                 String upMarks = "INSERT INTO Exam_mark (Mark_id,Student_id,Course_id,Lecturer_id,Eligibility,Assignment001,Assignment002,Grade,QUIZ01,QUIZ02,QUIZ03,MID,SGPA,CGPA,FINAL_Practical,FINAL_Theory) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-                try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/LMSDB", "root", "");
-                    PreparedStatement stmt = conn.prepareStatement(upMarks)){
-
+                try(PreparedStatement stmt = conn.prepareStatement(upMarks)){
                     stmt.setNull(1, Types.INTEGER);
                     stmt.setString(2,SID);
                     stmt.setString(3,CID);

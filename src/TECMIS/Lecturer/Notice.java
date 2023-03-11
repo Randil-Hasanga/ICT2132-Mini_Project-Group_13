@@ -1,12 +1,17 @@
 package TECMIS.Lecturer;
 
+import TECMIS.MySqlCon;
+import TECMIS.User;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class Notice extends JFrame {
+public class Notice extends Lecturer {
+
+    Connection conn = MySqlCon.MysqlMethod();
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JPanel pnlLecNotice;
     private JTable tblLecNotice;
@@ -15,9 +20,9 @@ public class Notice extends JFrame {
     private String userId;
     private String acc;
 
-    public Notice(String userId, String acc) {
-        this.userId = this.userId;
-        this.acc = this.acc;
+    public void viewNotice() {
+        userId = User.getUserId();
+        acc = User.getAcc();
 
         add(pnlLecNotice);
         setSize(600, 600);
@@ -27,7 +32,6 @@ public class Notice extends JFrame {
 
         String LecNoticeQuery = "SELECT Notice.Notice_id,Notice.Subject_,Notice.Description_ FROM Notice,Lecturer_Notice,Lecturer WHERE (Notice.Notice_id = Lecturer_Notice.Notice_id) AND (Lecturer_Notice.Lecturer_id = Lecturer.User_id) AND Lecturer.User_id = ?";
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/LMSDB", "root", "")) {
             try (PreparedStatement pstmt2 = conn.prepareStatement(LecNoticeQuery)) {
 
                 pstmt2.setString(1,userId);
@@ -69,15 +73,14 @@ public class Notice extends JFrame {
                 throw new RuntimeException(e);
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Lecturer lecBack = new Lecturer(userId,acc);
+                Lecturer lecBack = new Lecturer();
                 lecBack.setVisible(true);
                 setVisible(false);
+                lecBack.methodLecturer();
+
             }
         });
     }

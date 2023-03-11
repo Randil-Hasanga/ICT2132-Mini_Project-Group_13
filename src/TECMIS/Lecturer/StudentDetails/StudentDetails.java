@@ -1,6 +1,8 @@
 package TECMIS.Lecturer.StudentDetails;
 
 import TECMIS.Lecturer.Lecturer;
+import TECMIS.MySqlCon;
+import TECMIS.User;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -8,8 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class StudentDetails extends JFrame{
+public class StudentDetails extends Lecturer{
 
+    Connection conn = MySqlCon.MysqlMethod();
     String sid;
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JTextField txtSID;
@@ -23,9 +26,9 @@ public class StudentDetails extends JFrame{
     private String acc;
 
 
-    public StudentDetails(String userId,String acc){
-        this.userId = userId;
-        this.acc = acc;
+    public void viewStudentDetails(){
+        userId = User.getUserId();
+        acc = User.getAcc();
 
         add(pnlStudentDetails);
         setSize(600, 600);
@@ -45,9 +48,10 @@ public class StudentDetails extends JFrame{
         btnBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Lecturer lecBack = new Lecturer(userId,acc);
+                Lecturer lecBack = new Lecturer();
                 lecBack.setVisible(true);
                 setVisible(false);
+                lecBack.methodLecturer();
             }
         });
 
@@ -60,7 +64,6 @@ public class StudentDetails extends JFrame{
                 sid = txtSID.getText();
                 String stdTable = "SELECT User_id,CONCAT(FName,' ',LName) AS Full_Name,Gender,CONCAT(Address_L1,' ',Address_L2) AS Address, DOB, Email, S_type AS Student_type,Lecturer_id AS LecturerId_mentor FROM Student WHERE User_Id = ?";
 
-                try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/LMSDB", "root", "")) {
                     try (PreparedStatement pstmt = conn.prepareStatement(stdTable)) {
                         pstmt.setString(1, sid);
                         ResultSet rs = pstmt.executeQuery();
@@ -90,9 +93,6 @@ public class StudentDetails extends JFrame{
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
-                } catch (SQLException ez) {
-                    throw new RuntimeException(ez);
-                }
             }
         });
     }
