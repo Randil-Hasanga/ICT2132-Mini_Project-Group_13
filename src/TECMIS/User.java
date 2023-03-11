@@ -10,7 +10,10 @@ import java.sql.*;
 
 public class User extends JFrame{
 
-    protected String userId;
+    Connection conn = MySqlCon.MysqlMethod();
+
+    private static String userId;
+    private static String acc;
 
 
 
@@ -21,7 +24,7 @@ public class User extends JFrame{
 
     String address_L1;
     String getAddress_L2;
-    String acc;
+
 
 
     private JComboBox<String> userDrop;
@@ -35,7 +38,21 @@ public class User extends JFrame{
     private JTextPane facultyOfTechnologyManagementTextPane;
     private JPanel pnlLogin;
 
+    public void setUserId(String userId){
+        this.userId = userId;
+    }
 
+    public static String getUserId(){
+        return userId;
+    }
+
+    public void setAcc(String acc){
+        this.acc = acc;
+    }
+
+    public static String getAcc(){
+        return acc;
+    }
     public void Login() {
         add(pnlLogin);
         setVisible(true);
@@ -65,8 +82,7 @@ public class User extends JFrame{
 
                 String sql = "SELECT Password FROM " + acc + " WHERE User_id = ?";
 
-                try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/LMSDB", "root", "");
-                     PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setString(1, userId);
                     ResultSet rs = pstmt.executeQuery();
                     while(rs.next()){
@@ -84,7 +100,10 @@ public class User extends JFrame{
 
                             loginDisplay.setText("Password correct");
 
-                            Lecturer lecturer = new Lecturer(userId,acc);
+                            Lecturer lecturer = new Lecturer();
+                            lecturer.setUserId(userId);
+                            lecturer.setAcc(acc);
+                            lecturer.methodLecturer();
                             lecturer.setVisible(true);
                             setVisible(false);
 

@@ -1,6 +1,8 @@
 package TECMIS.Lecturer.UploadCourseMaterials;
 
 import TECMIS.Lecturer.Lecturer;
+import TECMIS.MySqlCon;
+import TECMIS.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +13,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class UploadCourseMaterials extends JFrame{
+public class UploadCourseMaterials extends Lecturer{
+
+    Connection conn = MySqlCon.MysqlMethod();
     private JPanel pnlUploadCM;
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JTextField txtCName;
@@ -23,16 +27,16 @@ public class UploadCourseMaterials extends JFrame{
     private JTextField txtCID;
     private JLabel lblSuccess2;
 
-    private String userID;
+    private String userId;
     private String acc;
     private String CID;
     private String CourseName;
     private String AdminId;
     private int Credit;
 
-    public UploadCourseMaterials(String userID,String acc){
-        this.userID = userID;
-        this.acc = acc;
+    public void upCourseMaterials(){
+        userId = User.getUserId();
+        acc = User.getAcc();
 
         add(pnlUploadCM);
         setSize(700, 600);
@@ -52,9 +56,10 @@ public class UploadCourseMaterials extends JFrame{
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Lecturer lecBack = new Lecturer(userID,acc);
+                Lecturer lecBack = new Lecturer();
                 lecBack.setVisible(true);
                 setVisible(false);
+                lecBack.methodLecturer();
             }
         });
 
@@ -69,14 +74,13 @@ public class UploadCourseMaterials extends JFrame{
 
                 String upCD = "INSERT INTO Course_Detail (Course_id, Course_Name, Credit, Admin_id, Lecturer_id) VALUES (?,?,?,?,?)";
 
-                try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/LMSDB", "root", "");
-                    PreparedStatement stmt = conn.prepareStatement(upCD)){
+                try(PreparedStatement stmt = conn.prepareStatement(upCD)){
 
                     stmt.setString(1,CID);
                     stmt.setString(2,CourseName);
                     stmt.setInt(3,Credit);
                     stmt.setString(4,AdminId);
-                    stmt.setString(5,userID);
+                    stmt.setString(5,userId);
 
                     int rowsInserted = stmt.executeUpdate();
                     System.out.println(rowsInserted + "Rows inserted");
