@@ -1,5 +1,6 @@
 package TECMIS.Lecturer;
 
+import TECMIS.Lecturer.Medical.LecturerMedical;
 import TECMIS.Lecturer.StudentDetails.StudentDetails;
 import TECMIS.Lecturer.UploadCourseMaterials.UploadCourseMaterials;
 import TECMIS.MySqlCon;
@@ -101,5 +102,16 @@ public class Lecturer extends User {
                 setVisible(false);
             }
         });
+
+        medicalButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LecturerMedical lecMed = new LecturerMedical();
+                lecMed.viewMedicals();
+                lecMed.setVisible(true);
+                setVisible(false);
+            }
+        });
+
     }
 }

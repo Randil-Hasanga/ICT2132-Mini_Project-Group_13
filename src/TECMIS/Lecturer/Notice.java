@@ -39,12 +39,10 @@ public class Notice extends Lecturer {
 
                 DefaultTableModel tableModel2 = new DefaultTableModel();
                 tblLecNotice.setModel(tableModel2);
-/*
-                tableModel2.addColumn("");
-                tableModel2.addColumn("");
-*/
+
                 ResultSetMetaData rsmd2 = rs2.getMetaData();
                 int columntCount2 = rsmd2.getColumnCount();
+
                 for (int i = 1; i <= columntCount2; i++) {
                     tableModel2.addColumn(rsmd2.getColumnName(i));
                 }
@@ -56,18 +54,6 @@ public class Notice extends Lecturer {
                     }
                     tableModel2.addRow(rowData);
                 }
-/*
-                while (rs2.next()) {
-
-                    for (int i = 1; i <= columntCount2; i++) {
-                        Object[] rowData = new Object[2];
-                        rowData[0] = rsmd2.getColumnName(i);
-                        rowData[1] = rs2.getObject(i);
-                        tableModel2.addRow(rowData);
-                    }
-
-                }*/
-
 
             } catch (SQLException e) {
                 throw new RuntimeException(e);
