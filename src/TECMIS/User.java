@@ -35,8 +35,10 @@ public class User extends JFrame{
     private JLabel lblpwd;
     private JLabel lblemail;
     private JTextArea loginDisplay;
-    private JTextPane facultyOfTechnologyManagementTextPane;
     private JPanel pnlLogin;
+    private JTextArea facultyOfTechnologyManagementTextArea;
+    private JLabel icon;
+    private JLabel lblDisplay;
 
     public void setUserId(String userId){
         this.userId = userId;
@@ -55,8 +57,9 @@ public class User extends JFrame{
     }
     public void Login() {
         add(pnlLogin);
+        icon.setSize(100,100);
         setVisible(true);
-        setSize(1000,350);
+        setSize(500,500);
         setTitle("LMS Software");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -80,6 +83,10 @@ public class User extends JFrame{
                 pwd = String.valueOf(txtPwd.getPassword());
                 userId = txtUserId.getText();
 
+                if((userId.isEmpty()) || (pwd.isEmpty())){
+                    lblDisplay.setText("Fill all the fields to proceed !");
+                }
+
                 String sql = "SELECT Password FROM " + acc + " WHERE User_id = ?";
 
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -89,6 +96,8 @@ public class User extends JFrame{
                         DBpwd = rs.getString("password");
                     }
                     if(acc.equals("lecturer")){
+
+
                         if(DBpwd != null && DBpwd.equals(pwd)){
                             Statement stmt = conn.createStatement();
 
@@ -98,7 +107,7 @@ public class User extends JFrame{
                             stmt.executeUpdate(query1);
                             stmt.executeUpdate(query2);
 
-                            loginDisplay.setText("Password correct");
+                            lblDisplay.setText("Password correct");
 
                             Lecturer lecturer = new Lecturer();
                             lecturer.setUserId(userId);
@@ -108,7 +117,7 @@ public class User extends JFrame{
                             setVisible(false);
 
                         } else {
-                            loginDisplay.setText("Incorrect email or password");
+                            lblDisplay.setText("Incorrect email or password");
                         }
                     }
                 } catch (SQLException ex) {

@@ -1,14 +1,19 @@
 package TECMIS.Lecturer;
 
-import TECMIS.Lecturer.Medical.LecturerMedical;
+import TECMIS.Medical.Medical;
 import TECMIS.Lecturer.StudentDetails.StudentDetails;
 import TECMIS.Lecturer.UploadCourseMaterials.UploadCourseMaterials;
 import TECMIS.MySqlCon;
+import TECMIS.Notice;
 import TECMIS.User;
+import TECMIS.viewAttendance.ViewStudentAttendance;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
 import java.sql.*;
 
 public class Lecturer extends User {
@@ -30,34 +35,72 @@ public class Lecturer extends User {
     private JPanel pnlLecturer;
     private JLabel lblWelcome;
     private JTextArea facultyOfTechnologyManagementTextArea;
+    private JLabel lblPic;
+    private JPanel pnlPic;
 
     private String userId;
     private String acc;
     String Fname;
     String Lname;
 
+    private byte[] dImg;
+
+    public Lecturer() {
+
+    }
+
     public void methodLecturer() {
         userId = getUserId();
         acc = getAcc();
 
         add(pnlLecturer);
-        setSize(600, 600);
+        setSize(500, 500);
+        pnlPic.setSize(200,200);
         setTitle("Lecturer");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        String sql = "SELECT FName,LName FROM " + acc + " WHERE User_id = ?";
-
+        String sql = "SELECT FName,LName,Pro_pic FROM " + acc + " WHERE User_id = ?";
+        String dfIcon = "SELECT img FROM DefaulImg WHERE imgId = 1";
         ResultSet rs;
+        ResultSet rs2;
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt2 = conn.prepareStatement(dfIcon);
+            rs2 = pstmt2.executeQuery();
             pstmt.setString(1, userId);
             rs = pstmt.executeQuery();
+
+            while (rs2.next()){
+                dImg = rs2.getBytes("img");
+            }
 
             while (rs.next()) {
                 Fname = rs.getString("FName");
                 Lname = rs.getString("LName");
-            }
+                byte[] imageData = rs.getBytes("Pro_pic");
 
+                if(imageData == null){
+                    ImageIcon defaultIcon = new ImageIcon(dImg);
+                    Image image = defaultIcon.getImage();
+                    BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+                    Graphics2D g2 = bufferedImage.createGraphics();
+                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2.setClip(new Ellipse2D.Float(0,0, image.getWidth(null), image.getHeight(null)));
+                    g2.drawImage(image, 0, 0, null);
+                    lblPic.setIcon(new ImageIcon(bufferedImage));
+                }
+                else{
+                    ImageIcon icon = new ImageIcon(imageData);
+                    Image image = icon.getImage();
+                    BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+                    Graphics2D g2 = bufferedImage.createGraphics();
+                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2.setClip(new Ellipse2D.Float(0,0, image.getWidth(null), image.getHeight(null)));
+                    g2.drawImage(image, 0, 0, null);
+                    lblPic.setIcon(new ImageIcon(bufferedImage));
+                }
+
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -103,10 +146,20 @@ public class Lecturer extends User {
             }
         });
 
+        attendanceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ViewStudentAttendance vAttendance = new ViewStudentAttendance();
+                vAttendance.viewAttendance();
+                vAttendance.setVisible(true);
+                setVisible(false);
+            }
+        });
+
         medicalButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                LecturerMedical lecMed = new LecturerMedical();
+                Medical lecMed = new Medical();
                 lecMed.viewMedicals();
                 lecMed.setVisible(true);
                 setVisible(false);

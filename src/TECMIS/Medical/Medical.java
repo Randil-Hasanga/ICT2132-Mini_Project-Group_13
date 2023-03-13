@@ -1,4 +1,4 @@
-package TECMIS.Lecturer.Medical;
+package TECMIS.Medical;
 
 import TECMIS.Lecturer.Lecturer;
 import TECMIS.MySqlCon;
@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class LecturerMedical extends Lecturer {
+public class Medical extends Lecturer {
 
     Connection conn = MySqlCon.MysqlMethod();
     private JTextArea facultyOfTechnologyManagementTextArea;
