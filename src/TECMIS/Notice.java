@@ -1,5 +1,6 @@
-package TECMIS.Lecturer;
+package TECMIS;
 
+import TECMIS.Lecturer.Lecturer;
 import TECMIS.MySqlCon;
 import TECMIS.User;
 
@@ -9,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class Notice extends Lecturer {
+public class Notice extends JFrame {
 
     Connection conn = MySqlCon.MysqlMethod();
     private JTextArea facultyOfTechnologyManagementTextArea;
