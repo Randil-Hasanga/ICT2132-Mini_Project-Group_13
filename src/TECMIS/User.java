@@ -39,6 +39,7 @@ public class User extends JFrame{
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JLabel icon;
     private JLabel lblDisplay;
+    private JPanel pnl123;
 
     public void setUserId(String userId){
         this.userId = userId;
@@ -55,12 +56,15 @@ public class User extends JFrame{
     public static String getAcc(){
         return acc;
     }
+
+
     public void Login() {
         add(pnlLogin);
         icon.setSize(100,100);
         setVisible(true);
         setSize(500,500);
         setTitle("LMS Software");
+        lblDisplay.setVisible(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         btnClear.addActionListener(new ActionListener() {
@@ -68,7 +72,9 @@ public class User extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 txtUserId.setText("");
                 txtPwd.setText("");
-                loginDisplay.setText("");
+                if(loginDisplay != null) {
+                    loginDisplay.setText("");
+                }
             }
         });
         userDrop.addActionListener(new ActionListener() {
@@ -84,6 +90,7 @@ public class User extends JFrame{
                 userId = txtUserId.getText();
 
                 if((userId.isEmpty()) || (pwd.isEmpty())){
+                    lblDisplay.setVisible(true);
                     lblDisplay.setText("Fill all the fields to proceed !");
                 }
 
@@ -117,6 +124,7 @@ public class User extends JFrame{
                             setVisible(false);
 
                         } else {
+                            lblDisplay.setVisible(true);
                             lblDisplay.setText("Incorrect email or password");
                         }
                     }

@@ -57,7 +57,8 @@ VALUES
 ('S007','Piyumi','Kavindya', 'Female', 'Nugegoda', 'Colombo', '2000-09-15', 'kpiyumi@gmail.com', null, 'Undergraduate','3214','L003'),
 ('S008','Sineli','Gihansa', 'Female', 'Kiribathgoda', 'Colombo', '2000-03-19', 'sineli@gmail.com', null, 'Undergraduate','4236','L004'),
 ('S009','Parami','Basnayaka', 'Male', 'Kamburupitiya', 'Matara', '2000-08-13', 'basnayaka@gmail.com', null, 'Undergraduate','1586','L001'),
-('S010','Kasun','Bandara', 'Male', 'Yatiyana', 'Matara', '2000-04-25', 'kasun@gmail.com', null, 'Undergraduate','1796','L005');
+('S010','Kasun','Bandara', 'Male', 'Yatiyana', 'Matara', '2000-04-25', 'kasun@gmail.com', null, 'Undergraduate','1796','L005'),
+('S011','Kavindu','Nilshan', 'Male', 'Akuressa', 'Matara', '2000-08-25', 'kavindu@gmail.com', null, 'Undergraduate','1796','L005');
 
 
 -- lecturer table
@@ -149,7 +150,10 @@ VALUES
 ('ICT01','Data Structures and Algorithm',2,'A100','L001'),
 ('ICT02','E-Commerce',2,'A300','L002'),
 ('ICT03','Software Engineering',3,'A200','L003'),
-('ICT04','Object Oriented Programing',3,'A400','L004');
+('ICT04','Object Oriented Programing',3,'A400','L004'),
+('ICT05','Web technologies',3,'A300','L001'),
+('ICT06','Business economics',3,'A400','L002');
+
 
 -- timetable table
 
@@ -235,7 +239,7 @@ CREATE TABLE if not exists Attendance
     Date_ Date,
     Course_id VARCHAR(10) not null,
     Status_ Enum('Present','Absent'),
-    PRIMARY KEY(Attendance_id,Student_id,Course_id),
+    PRIMARY KEY(Attendance_id,Student_id,Course_id,Date_),
     FOREIGN KEY(Student_id) REFERENCES Student(User_id),
 	FOREIGN KEY(Course_id) REFERENCES Course_Detail(Course_id)
 );
@@ -311,36 +315,85 @@ CREATE TABLE if not exists Exam_mark
     Student_id VARCHAR(10) not null,
     Course_id VARCHAR(10) not null,
     Lecturer_id VARCHAR(10),
-    Eligibility VARCHAR(15),
     Assignment001 DECIMAL(5,2),
     Assignment002 DECIMAL(5,2),
-    Grade VARCHAR(6),
     QUIZ01 DECIMAL(5,2),
     QUIZ02 DECIMAL(5,2),
     QUIZ03 DECIMAL(5,2),
     MID DECIMAL(5,2),
-    SGPA DECIMAL(5,4),
-    CGPA DECIMAL(5,4),
-    FINAL_Practical DECIMAL(5,2),
     FINAL_Theory DECIMAL(5,2),
+    FINAL_Practical DECIMAL(5,2),
+    Quiz_final DECIMAL(5,2),
+    final_mark DECIMAL(5,2),
     FOREIGN KEY (Course_id) REFERENCES Course_Detail(Course_id),
     FOREIGN KEY (Student_id) REFERENCES Student(User_id),
     FOREIGN KEY (Lecturer_id) REFERENCES Lecturer(User_id)
 );
 
 INSERT INTO Exam_mark
-(Mark_id, Student_id,Course_id,Lecturer_id,Eligibility,Assignment001,Assignment002,Grade,QUIZ01,QUIZ02,QUIZ03,MID,SGPA,CGPA,FINAL_Practical,FINAL_Theory)
+(Mark_id, Student_id, Course_id, Lecturer_id, Assignment001, Assignment002,QUIZ01,QUIZ02,QUIZ03,MID,FINAL_Theory,FINAL_Practical,Quiz_final,final_mark)
 VALUES
-(1,'S001','ICT01','L001',null,25,20,null,7,7,8,18,null,null,30,50),
-(2,'S002','ICT01','L002',null,28,27,null,8,9,10,15,null,null,36,55),
-(3,'S003','ICT01','L003',null,20,25,null,5,8,9,12,null,null,35,51),
-(4,'S004','ICT01','L004',null,23,24,null,7,8,9,17,null,null,29,45),
-(5,'S005','ICT01','L005',null,29,27,null,9,10,10,20,null,null,38,59),
-(6,'S006','ICT01','L001',null,24,24,null,7,6,10,10,null,null,30,49),
-(7,'S007','ICT01','L004',null,26,27,null,8,7,9,13,null,null,33,50),
-(8,'S008','ICT01','L003',null,28,27,null,9,9,8,19,null,null,35,50),
-(9,'S009','ICT01','L001',null,19,27,null,6,6,7,9,null,null,25,38),
-(10,'S010','ICT01','L001',null,26,28,null,8,7,9,14,null,null,32,55);
+(1,'S001','ICT01','L001',null,null,7,7,8,18,30,25,null,null),
+(2,'S002','ICT01','L001',null,null,8,9,10,15,36,20,null,null),
+(3,'S003','ICT01','L001',null,null,5,8,9,12,35,21,null,null),
+(4,'S004','ICT01','L001',null,null,7,8,9,17,29,19,null,null),
+(5,'S005','ICT01','L001',null,null,9,10,10,20,38,20,null,null),
+(6,'S006','ICT01','L001',null,null,7,6,10,10,30,27,null,null),
+(7,'S007','ICT01','L001',null,null,8,7,9,13,33,28,null,null),
+(8,'S008','ICT01','L001',null,null,9,9,8,19,35,26,null,null),
+(9,'S009','ICT01','L001',null,null,6,6,7,9,25,19,null,null),
+(10,'S010','ICT01','L001',null,null,8,7,9,14,32,30,null,null),
+(11,'S001','ICT02','L002',7,6,7,9,8,18,30,null,null,null),
+(12,'S002','ICT02','L002',8,7,8,9,10,13,36,null,null,null),
+(13,'S003','ICT02','L002',4,4,5,8,9,11,35,null,null,null),
+(14,'S004','ICT02','L002',8,6,7,6,9,18,29,null,null,null),
+(15,'S005','ICT02','L002',9,8,9,10,10,12,38,null,null,null),
+(16,'S006','ICT02','L002',2,5,7,6,10,9,30,null,null,null),
+(17,'S007','ICT02','L002',4,8,7,7,9,14,33,null,null,null),
+(18,'S008','ICT02','L002',7,8,9,9,8,13,35,null,null,null),
+(19,'S009','ICT02','L002',7,5,6,6,7,19,25,null,null,null),
+(20,'S010','ICT02','L002',3,7,5,7,9,1,32,null,null,null),
+(21,'S001','ICT03','L003',8,2,7,9,8,null,30,20,null,null),
+(22,'S002','ICT03','L003',5,3,8,9,10,null,36,12,null,null),
+(23,'S003','ICT03','L003',7,7,5,8,9,null,35,15,null,null),
+(24,'S004','ICT03','L003',5,2,7,6,9,null,29,17,null,null),
+(25,'S005','ICT03','L003',7,8,9,10,10,null,38,25,null,null),
+(26,'S006','ICT03','L003',2,7,7,6,10,null,30,21,null,null),
+(27,'S007','ICT03','L003',4,4,7,7,9,null,33,19,null,null),
+(28,'S008','ICT03','L003',2,8,9,9,8,null,35,22,null,null),
+(29,'S009','ICT03','L003',7,7,6,6,7,null,25,29,null,null),
+(30,'S010','ICT03','L003',3,7,5,7,9,null,32,11,null,null),
+(31,'S001','ICT04','L004',7,2,4,9,10,null,30,35,null,null),
+(32,'S002','ICT04','L004',5,3,8,6,10,null,26,30,null,null),
+(33,'S003','ICT04','L004',9,7,1,7,9,null,19,18,null,null),
+(34,'S004','ICT04','L004',3,8,7,3,9,null,14,36,null,null),
+(35,'S005','ICT04','L004',7,2,4,10,10,null,23,34,null,null),
+(36,'S006','ICT04','L004',7,7,3,2,10,null,30,30,null,null),
+(37,'S007','ICT04','L004',6,4,0,7,9,null,15,32,null,null),
+(38,'S008','ICT04','L004',2,8,9,4,8,null,29,31,null,null),
+(39,'S009','ICT04','L004',4,7,0,6,7,null,27,15,null,null),
+(40,'S010','ICT04','L004',6,7,7,1,9,null,17,14,null,null),
+(41,'S001','ICT05','L001',null,null,6,2,8,15,35,25,null,null),
+(42,'S002','ICT05','L001',null,null,4,3,10,11,36,15,null,null),
+(43,'S003','ICT05','L001',null,null,6,5,9,14,35,21,null,null),
+(44,'S004','ICT05','L001',null,null,2,3,9,6,29,10,null,null),
+(45,'S005','ICT05','L001',null,null,6,6,10,19,38,20,null,null),
+(46,'S006','ICT05','L001',null,null,7,7,10,13,33,27,null,null),
+(47,'S007','ICT05','L001',null,null,3,2,9,3,33,28,null,null),
+(48,'S008','ICT05','L001',null,null,6,2,8,20,35,22,null,null),
+(49,'S009','ICT05','L001',null,null,8,7,7,11,25,19,null,null),
+(50,'S010','ICT05','L001',null,null,8,7,9,14,32,30,null,null),
+(51,'S001','ICT06','L002',5,5,4,3,8,18,20,null,null,null),
+(52,'S002','ICT06','L002',2,4,7,6,10,13,26,null,null,null),
+(53,'S003','ICT06','L002',7,6,3,3,9,11,25,null,null,null),
+(54,'S004','ICT06','L002',4,2,8,7,9,18,19,null,null,null),
+(55,'S005','ICT06','L002',8,4,4,10,10,12,28,null,null,null),
+(56,'S006','ICT06','L002',4,7,7,4,10,9,34,null,null,null),
+(57,'S007','ICT06','L002',9,3,8,7,9,14,33,null,null,null),
+(58,'S008','ICT06','L002',3,7,3,3,8,13,35,null,null,null),
+(59,'S009','ICT06','L002',7,3,6,6,7,19,22,null,null,null),
+(60,'S010','ICT06','L002',2,6,8,4,9,1,32,null,null,null);
+
 -- Student_CourseDetail table M-M
 CREATE TABLE if not exists Student_CourseDetail
 (
@@ -572,5 +625,21 @@ CREATE TABLE if not exists DefaulImg
 (
 	imgId int primary key,
     img blob
+);
+
+CREATE TABLE if not exists Student_Grades
+(
+    Student_id VARCHAR(10) not null primary key,
+    ICT01 DECIMAL(5,2),
+    ICT02 DECIMAL(5,2),
+    ICT03 DECIMAL(5,2),
+    ICT04 DECIMAL(5,2),
+    ICT05 DECIMAL(5,2),
+    ICT06 DECIMAL(5,2),
+    Grade VARCHAR(5),
+    SGPA Decimal(5,4),
+    CGPA DECIMAL(5,4),
+    FOREIGN KEY(Student_id) REFERENCES Student(User_id)
+    
 );
 

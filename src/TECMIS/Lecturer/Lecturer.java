@@ -1,5 +1,6 @@
 package TECMIS.Lecturer;
 
+import TECMIS.GradeAndGPA.ViewGradeGPA;
 import TECMIS.Medical.Medical;
 import TECMIS.Lecturer.StudentDetails.StudentDetails;
 import TECMIS.Lecturer.UploadCourseMaterials.UploadCourseMaterials;
@@ -26,8 +27,7 @@ public class Lecturer extends User {
     private JButton studentDetailsButton;
     private JButton studentEligibilityButton;
     private JButton marksButton;
-    private JButton gradeButton;
-    private JButton GPAButton;
+    private JButton gradesAndGPAButton;
     private JButton medicalButton;
     private JButton attendanceButton;
     private JButton noticeButton;
@@ -37,6 +37,7 @@ public class Lecturer extends User {
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JLabel lblPic;
     private JPanel pnlPic;
+    private JButton logOutButton;
 
     private String userId;
     private String acc;
@@ -46,6 +47,8 @@ public class Lecturer extends User {
     private byte[] dImg;
 
     public Lecturer() {
+
+
 
     }
 
@@ -60,7 +63,7 @@ public class Lecturer extends User {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         String sql = "SELECT FName,LName,Pro_pic FROM " + acc + " WHERE User_id = ?";
-        String dfIcon = "SELECT img FROM DefaulImg WHERE imgId = 1";
+        String dfIcon = "SELECT img FROM DefaulImg WHERE imgId = 0";
         ResultSet rs;
         ResultSet rs2;
 
@@ -107,6 +110,27 @@ public class Lecturer extends User {
         }
 
         lblWelcome.setText("Welcome Dr." + Fname + " " + Lname + "!");
+
+        gradesAndGPAButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ViewGradeGPA gp = new ViewGradeGPA();
+                gp.setVisible(true);
+                setVisible(false);
+                gp.viewGrades();
+
+            }
+        });
+
+        logOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User u1 = new User();
+                u1.setVisible(true);
+                setVisible(false);
+                u1.Login();
+            }
+        });
         studentDetailsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
