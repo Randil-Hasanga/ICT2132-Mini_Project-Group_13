@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="pnlAttendance" layout-manager="GridLayoutManager" row-count="2" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="5" left="5" bottom="5" right="5"/>
     <constraints>
-      <xy x="20" y="20" width="500" height="480"/>
+      <xy x="20" y="20" width="500" height="505"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -187,14 +187,6 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="308ae" class="javax.swing.JTable" binding="tblAttendance">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                        <preferred-size width="150" height="50"/>
-                      </grid>
-                    </constraints>
-                    <properties/>
-                  </component>
                   <grid id="5548a" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
@@ -218,6 +210,19 @@
                       </hspacer>
                     </children>
                   </grid>
+                  <scrollpane id="ba773">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="308ae" class="javax.swing.JTable" binding="tblAttendance">
+                        <constraints/>
+                        <properties/>
+                      </component>
+                    </children>
+                  </scrollpane>
                 </children>
               </grid>
             </children>
