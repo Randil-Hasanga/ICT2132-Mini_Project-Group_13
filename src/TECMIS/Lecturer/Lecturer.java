@@ -38,6 +38,7 @@ public class Lecturer extends User {
     private JLabel lblPic;
     private JPanel pnlPic;
     private JButton logOutButton;
+    private JButton updateMarks;
 
     private String userId;
     private String acc;

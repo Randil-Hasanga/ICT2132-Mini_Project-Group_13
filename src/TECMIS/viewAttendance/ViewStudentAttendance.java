@@ -42,6 +42,10 @@ public class ViewStudentAttendance extends JFrame {
     private String date;
 
 
+    public ViewStudentAttendance() {
+
+    }
+
     public void viewAttendance(){
         userId = User.getUserId();
         acc = User.getAcc();
@@ -144,12 +148,12 @@ public class ViewStudentAttendance extends JFrame {
                     }
 
                 }else if(radioBatch.isSelected()){
-                        String sql3 = "SELECT Attendance.Attendance_id,Student.User_id,CONCAT(Student.FName,' ',Student.LName) AS Name,Attendance.Date_,Attendance.Status_,Course_detail.Course_Name FROM Student,Course_detail,Attendance WHERE (Attendance.Student_id = Student.User_id) AND (Attendance.Course_id = Course_detail.Course_id) AND (Attendance.Date_ = ?) ORDER by Student.User_id";
+                        String sql3 = "SELECT Student.User_id,CONCAT(Student.FName,' ',Student.LName) AS Name,Attendance.Date_,Attendance.Status_,Course_detail.Course_Name FROM Student,Course_detail,Attendance WHERE (Attendance.Student_id = Student.User_id) AND (Attendance.Course_id = Course_detail.Course_id) AND (Attendance.Date_ = ?) ORDER by Student.User_id";
                         CID = txtCID.getText();
                         date = txtDate.getText();
 
-                    if(CID.isEmpty()){
-                        lblDisplay.setText("Please fill course id field");
+                    if(date.isEmpty()){
+                        lblDisplay.setText("Please fill date field");
                     }
 
                         try(PreparedStatement pstmt3 = conn.prepareStatement(sql3)){
@@ -175,7 +179,7 @@ public class ViewStudentAttendance extends JFrame {
                                 }
                                 tableModel3.addRow(rowData);
                             }
-
+                            lblDisplay.setText("Attendance details of all the student at "+ date);
 
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
