@@ -1,6 +1,6 @@
 package TECMIS.GradeAndGPA;
 
-import TECMIS.Lecturer.Lecturer;
+import TECMIS.Lecturer.UploadMarks;
 import TECMIS.MySqlCon;
 
 import javax.swing.*;
@@ -8,6 +8,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ViewGradeGPA extends JFrame{
 
@@ -24,17 +26,12 @@ public class ViewGradeGPA extends JFrame{
     private JTextField txtCID;
     private JLabel lblCID;
     private JButton clearButton;
-    private JComboBox dropGPA;
-    private JComboBox dropLEVEL;
-    private JComboBox dropSEM;
-    private JButton backButton;
 
     private String SID;
 
 
 
-    private String choice = "demo";
-    private String choice1 = "demo";
+    private String choice;
     private String CID;
 
     private double sub1_cr;
@@ -45,41 +42,20 @@ public class ViewGradeGPA extends JFrame{
     private double sub6_cr;
     private double total_cr;
 
-    private static int Current_level;
-    private static int Current_semester;
 
-    public ViewGradeGPA() {
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-            }
-        });
-    }
-
-    public static int getCurrent_level() {
-        return Current_level;
-    }
-
-    public static int getCurrent_semester(){
-        return Current_semester;
-    }
 
     public void viewGrades(){
 
         add(pnlGP);
-        setSize(750, 500);
+        setSize(500, 500);
         setTitle("Check grades and GPA");
         dropGrd1.setVisible(false);
-        dropGPA.setVisible(false);
         lblSID.setVisible(false);
         lblCID.setVisible(false);
         txtSID.setVisible(false);
         txtCID.setVisible(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-        Lecturer gp1 = new Lecturer();
-
 
         clearButton.addActionListener(new ActionListener() {
             @Override
@@ -90,26 +66,15 @@ public class ViewGradeGPA extends JFrame{
             }
         });
 
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Lecturer lecBack = new Lecturer();
-                lecBack.setVisible(true);
-                setVisible(false);
-                lecBack.methodLecturer();
-            }
-        });
-
         ActionListener listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(radioGrade.isSelected()){
                     dropGrd1.setVisible(true);
-                    dropGPA.setVisible(false);
                 }else if(radioGPA.isSelected()){
-                    dropGPA.setVisible(true);
-                    dropGrd1.setVisible(false);
+
                 }
+
 
             }
         };
@@ -145,40 +110,14 @@ public class ViewGradeGPA extends JFrame{
             });
 
 
-        dropGPA.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice1 = dropGPA.getSelectedItem().toString();
-                if(choice1.equals("View GPA for Student")) {
-                    txtSID.setVisible(true);
-                    lblSID.setVisible(true);
-                    lblCID.setVisible(false);
-                    txtCID.setVisible(false);
-
-                }else if(choice1.equals("View GPA for Batch")) {
-
-
-                    txtCID.setVisible(false);
-                    lblCID.setVisible(false);
-                    txtSID.setVisible(false);
-                    lblSID.setVisible(false);
-                }
-            }
-        });
-
-
 
                     searchButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            Current_level = dropLEVEL.getSelectedIndex();
-                            Current_semester = dropSEM.getSelectedIndex();
-                            if (choice.equals("View grades for Student") && (choice != null)) {
+                            if (choice.equals("View grades for Student")) {
 
-                                Lecturer up = new Lecturer();
+                                UploadMarks up = new UploadMarks();
                                 up.updateExamMarks();
-                                up.updateStudentGrades();
-                                up.CalculateGPA();
                                 SID = txtSID.getText();
                                 CID = (txtCID.getText().isEmpty() || txtCID.getText() == null) ? "" : txtCID.getText();
 
@@ -211,12 +150,100 @@ public class ViewGradeGPA extends JFrame{
                                     throw new RuntimeException(ex);
                                 }
 
+
+                                String sq = "INSERT INTO Student_Grades (Student_id) " +
+                                        "SELECT ? " +
+                                        "WHERE NOT EXISTS (" +
+                                        "SELECT Student_id FROM Student_Grades " +
+                                        "WHERE Student_id = ?)";
+
+                                String sql = "UPDATE Student_Grades SET ICT01 = (SELECT final_mark FROM Exam_mark WHERE (Student_id = ?) AND Course_id = 'ICT01' LIMIT 1), " +
+                                        "ICT02 = (SELECT final_mark FROM Exam_mark WHERE (Student_id = ?) AND Course_id = 'ICT02' LIMIT 1)," +
+                                        "ICT03 = (SELECT final_mark FROM Exam_mark WHERE (Student_id = ?) AND Course_id = 'ICT03' LIMIT 1)," +
+                                        "ICT04 = (SELECT final_mark FROM Exam_mark WHERE (Student_id = ?) AND Course_id = 'ICT04' LIMIT 1), " +
+                                        "ICT05 = (SELECT final_mark FROM Exam_mark WHERE (Student_id = ?) AND Course_id = 'ICT05' LIMIT 1), " +
+                                        "ICT06 = (SELECT final_mark FROM Exam_mark WHERE (Student_id = ?) AND Course_id = 'ICT06' LIMIT 1)" +
+                                        "WHERE Student_id = ?";
+
+                                try (PreparedStatement pstmt2 = conn.prepareStatement(sq)) {
+                                    pstmt2.setString(1, SID);
+                                    pstmt2.setString(2, SID);
+                                    pstmt2.executeUpdate();
+                                } catch (SQLException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+
+
+                                try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                                    pstmt.setString(1, SID);
+                                    pstmt.setString(2, SID);
+                                    pstmt.setString(3, SID);
+                                    pstmt.setString(4, SID);
+                                    pstmt.setString(5, SID);
+                                    pstmt.setString(6, SID);
+                                    pstmt.setString(7, SID);
+
+                                    pstmt.executeUpdate();
+
+
+                                } catch (SQLException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+
+
+                                // get gained credits values from exam_marks table
+
+                                String totalCredits = "SELECT Credit_gained FROM Exam_mark WHERE Student_id = ?";
+                                List<Double> credits = new ArrayList<>();
+
+                                try (PreparedStatement tc = conn.prepareStatement(totalCredits)) {
+                                    tc.setString(1, SID);
+
+                                    try (ResultSet RC = tc.executeQuery()) {
+                                        while (RC.next()) {
+                                            credits.add(RC.getDouble("Credit_gained"));
+                                        }
+                                    }
+
+                                    if (credits.size() >= 6) {
+                                        sub1_cr = credits.get(0);
+                                        sub2_cr = credits.get(1);
+                                        sub3_cr = credits.get(2);
+                                        sub4_cr = credits.get(3);
+                                        sub5_cr = credits.get(4);
+                                        sub6_cr = credits.get(5);
+                                    }
+
+                                    total_cr = credits.stream().mapToDouble(Double::doubleValue).sum();
+                                } catch (SQLException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+
+
+                                // Update total credits of each student to student_grades table
+                                String ttC = "UPDATE Student_Grades SET Total_credits = ? WHERE Student_id = ?";
+
+                                try (PreparedStatement pstmt5 = conn.prepareStatement(ttC)) {
+                                    pstmt5.setDouble(1, total_cr);
+                                    pstmt5.setString(2, SID);
+                                    pstmt5.executeUpdate();
+                                } catch (SQLException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+
+                                String sgp = "UPDATE Student_Grades SET SGPA = (Total_credits/16) WHERE Student_id = ?";
+                                try (PreparedStatement pstmtGPA = conn.prepareStatement(sgp)) {
+
+                                    pstmtGPA.setString(1, SID);
+                                    pstmtGPA.executeUpdate();
+
+                                } catch (SQLException ex) {
+                                    throw new RuntimeException(ex);
+                                }
                             }else if (choice.equals("View grades for Subject")) {
 
-                                Lecturer up = new Lecturer();
+                                UploadMarks up = new UploadMarks();
                                 up.updateExamMarks();
-                                up.updateStudentGrades();
-                                up.CalculateGPA();
 
                                 CID = txtCID.getText();
                                 SID = (txtSID.getText().isEmpty() || txtSID.getText() == null) ? "" : txtSID.getText();
@@ -252,11 +279,8 @@ public class ViewGradeGPA extends JFrame{
 
                             } else if (choice.equals("View grades for Batch")) {
 
-                                Lecturer up = new Lecturer();
+                                UploadMarks up = new UploadMarks();
                                 up.updateExamMarks();
-                                up.updateStudentGrades();
-                                up.CalculateGPA();
-
                                 CID = (txtCID.getText().isEmpty() || txtCID.getText() == null) ? "" : txtCID.getText();
                                 SID = (txtSID.getText().isEmpty() || txtSID.getText() == null) ? "" : txtSID.getText();
 
@@ -287,88 +311,6 @@ public class ViewGradeGPA extends JFrame{
                                 } catch (SQLException ex) {
                                     throw new RuntimeException(ex);
                                 }
-                            }
-
-                            if(choice1.equals("View GPA for Student")){
-
-                                Lecturer up = new Lecturer();
-                                up.updateExamMarks();
-                                up.updateStudentGrades();
-                                up.CalculateGPA();
-                                SID = txtSID.getText();
-                                CID = (txtCID.getText().isEmpty() || txtCID.getText() == null) ? "" : txtCID.getText();
-
-
-                                String ssgpa = "SELECT CONCAT(Student.FName,' ',Student.LName) AS Name, Student_Grades.SGPA, Student_Grades.CGPA  FROM Student_Grades,Exam_mark,Student " +
-                                        "WHERE (Student_Grades.Student_id = Exam_mark.Student_id) AND (Student.User_id = Exam_mark.Student_id) AND Student_Grades.Student_id = ? LIMIT 1";
-
-                                try (PreparedStatement getSGPA = conn.prepareStatement(ssgpa)) {
-
-                                    getSGPA.setString(1,SID);
-                                    ResultSet result = getSGPA.executeQuery();
-
-                                    ResultSetMetaData rsmd9 = result.getMetaData();
-                                    int columntCount9 = rsmd9.getColumnCount();
-
-                                    DefaultTableModel tableModel3 = new DefaultTableModel();
-                                    tblGrade.setModel(tableModel3);
-
-                                    for (int i = 1; i <= columntCount9; i++) {
-                                        tableModel3.addColumn(rsmd9.getColumnName(i));
-                                    }
-                                    tableModel3.setRowCount(0);
-                                    while (result.next()) {
-                                        Object[] rowData = new Object[columntCount9];
-                                        for (int i = 1; i <= columntCount9; i++) {
-                                            rowData[i - 1] = result.getObject(i);
-                                        }
-                                        tableModel3.addRow(rowData);
-                                    }
-                                } catch (SQLException ex) {
-                                    throw new RuntimeException(ex);
-                                }
-                            }if(choice1.equals("View GPA for Batch")){
-
-                                Lecturer up = new Lecturer();
-                                up.updateExamMarks();
-                                up.updateStudentGrades();
-                                up.CalculateGPA();
-
-                                CID = (txtCID.getText().isEmpty() || txtCID.getText() == null) ? "" : txtCID.getText();
-                                SID = (txtSID.getText().isEmpty() || txtSID.getText() == null) ? "" : txtSID.getText();
-
-                                String GpaBtc = "SELECT Student.User_id AS 'User id', CONCAT(Student.FName,' ',Student.LName) AS Name, Student_Grades.SGPA , Student_Grades.CGPA " +
-                                        "FROM Student,Exam_mark,Student_Grades " +
-                                        "WHERE (Student.User_id = Exam_mark.Student_id) AND (Exam_mark.Student_id = Student_Grades.Student_id) GROUP BY Student.User_id";
-
-                                try(Statement showSGPA = conn.createStatement()){
-                                    ResultSet rsGP = showSGPA.executeQuery(GpaBtc);
-
-                                    ResultSetMetaData rsmd8 = rsGP.getMetaData();
-                                    int columntCount8 = rsmd8.getColumnCount();
-
-                                    DefaultTableModel tableModel3 = new DefaultTableModel();
-                                    tblGrade.setModel(tableModel3);
-
-                                    for (int i = 1; i <= columntCount8; i++) {
-                                        tableModel3.addColumn(rsmd8.getColumnName(i));
-                                    }
-                                    tableModel3.setRowCount(0);
-                                    while (rsGP.next()) {
-                                        Object[] rowData = new Object[columntCount8];
-                                        for (int i = 1; i <= columntCount8; i++) {
-                                            rowData[i - 1] = rsGP.getObject(i);
-                                        }
-                                        tableModel3.addRow(rowData);
-                                    }
-
-
-
-                                } catch (SQLException ex) {
-                                    throw new RuntimeException(ex);
-                                }
-
-
                             }
                         }
         });
