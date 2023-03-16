@@ -772,53 +772,6 @@ CREATE TABLE if not exists Student_Grades
     
 );
 
-DROP PROCEDURE IF EXISTS UpdateTotalCredits;
-
-DELIMITER //
-CREATE PROCEDURE UpdateTotalCredits()
-BEGIN
-    DECLARE total DECIMAL(10,2);
-    SET total = (SELECT SUM(CASE 
-        WHEN COLUMN_NAME NOT IN ('Student_id', 'Grade', 'Total_credits', 'SGPA','CGPA') 
-        THEN CAST(CAST(COLUMN_NAME AS DECIMAL(10,2)) AS DECIMAL(10,2))
-        ELSE 0
-        END) 
-    FROM INFORMATION_SCHEMA.COLUMNS
-    WHERE TABLE_NAME = 'Student_Grades');
-    UPDATE Student_Grades SET Total_credits = total;
-END //
-DELIMITER ;
-
-
-DELIMITER //
-CREATE PROCEDURE UpdateTotalCredits()
-BEGIN
-    DECLARE total DECIMAL(10,2);
-    SET total = (SELECT SUM(CASE 
-        WHEN COLUMN_NAME NOT IN ('Student_id', 'Grade', 'Total_credits', 'SGPA', 'CGPA') 
-        THEN CAST(COLUMN_NAME AS DECIMAL(10,2))
-        ELSE 0
-        END) 
-    FROM INFORMATION_SCHEMA.COLUMNS
-    WHERE TABLE_NAME = 'Student_Grades');
-    UPDATE Student_Grades SET Total_credits = total;
-END //
-DELIMITER ;
-
-DELIMITER //
-CREATE PROCEDURE UpdateTotalCredits()
-BEGIN
-    DECLARE total DECIMAL(10,2);
-    SET total = (SELECT SUM(CASE 
-        WHEN COLUMN_NAME NOT IN ('Student_id', 'Grade', 'Total_credits', 'SGPA') 
-        THEN COALESCE(CAST(`Student_Grades`.`COLUMN_NAME` AS DECIMAL(10,2)), 0)
-        ELSE 0
-        END) 
-    FROM INFORMATION_SCHEMA.COLUMNS 
-    WHERE TABLE_NAME = 'Student_Grades' AND TABLE_SCHEMA = 'LMSDB');
-    UPDATE `Student_Grades` SET `Total_credits` = total;
-END //
-DELIMITER ;
 
 
 
