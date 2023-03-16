@@ -138,6 +138,8 @@ CREATE TABLE if not exists Course_Detail
 	Course_id VARCHAR(10) NOT NULL PRIMARY KEY,
     Course_Name VARCHAR(30),
     Credit int,
+    Level int,
+    Semester int,
     Admin_id VARCHAR(10) not null,
     Lecturer_id VARCHAR(10) not null,
     foreign key (admin_id) references Addmin (User_id),
@@ -145,14 +147,14 @@ CREATE TABLE if not exists Course_Detail
 );
 
 INSERT INTO Course_Detail
-(Course_id, Course_Name, Credit, Admin_id, Lecturer_id)
+(Course_id, Course_Name, Credit, Admin_id, Lecturer_id,Level,Semester)
 VALUES
-('ICT01','Data Structures and Algorithm',2,'A100','L001'),
-('ICT02','E-Commerce',2,'A300','L002'),
-('ICT03','Software Engineering',3,'A200','L003'),
-('ICT04','Object Oriented Programing',3,'A400','L004'),
-('ICT05','Web technologies',3,'A300','L001'),
-('ICT06','Business economics',3,'A400','L002');
+('ICT01','Data Structures and Algorithm',2,'A100','L001',1,1),
+('ICT02','E-Commerce',2,'A300','L002',1,1),
+('ICT03','Software Engineering',3,'A200','L003',1,1),
+('ICT04','Object Oriented Programing',3,'A400','L004',1,1),
+('ICT05','Web technologies',3,'A300','L001',1,1),
+('ICT06','Business economics',3,'A400','L002',1,1);
 
 
 -- timetable table
@@ -756,12 +758,12 @@ CREATE TABLE if not exists DefaulImg
 CREATE TABLE if not exists Student_Grades
 (
     Student_id VARCHAR(10) not null primary key,
-    ICT01 DECIMAL(5,2),
-    ICT02 DECIMAL(5,2),
-    ICT03 DECIMAL(5,2),
-    ICT04 DECIMAL(5,2),
-    ICT05 DECIMAL(5,2),
-    ICT06 DECIMAL(5,2),
+    ICT01 DECIMAL(5,3),
+    ICT02 DECIMAL(5,3),
+    ICT03 DECIMAL(5,3),
+    ICT04 DECIMAL(5,3),
+    ICT05 DECIMAL(5,3),
+    ICT06 DECIMAL(5,3),
     Grade VARCHAR(5),
     Total_credits DECIMAL(5,3),
     SGPA Decimal(5,4),
@@ -769,4 +771,57 @@ CREATE TABLE if not exists Student_Grades
     FOREIGN KEY(Student_id) REFERENCES Exam_mark(Student_id)
     
 );
+
+DROP PROCEDURE IF EXISTS UpdateTotalCredits;
+
+DELIMITER //
+CREATE PROCEDURE UpdateTotalCredits()
+BEGIN
+    DECLARE total DECIMAL(10,2);
+    SET total = (SELECT SUM(CASE 
+        WHEN COLUMN_NAME NOT IN ('Student_id', 'Grade', 'Total_credits', 'SGPA','CGPA') 
+        THEN CAST(CAST(COLUMN_NAME AS DECIMAL(10,2)) AS DECIMAL(10,2))
+        ELSE 0
+        END) 
+    FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_NAME = 'Student_Grades');
+    UPDATE Student_Grades SET Total_credits = total;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE UpdateTotalCredits()
+BEGIN
+    DECLARE total DECIMAL(10,2);
+    SET total = (SELECT SUM(CASE 
+        WHEN COLUMN_NAME NOT IN ('Student_id', 'Grade', 'Total_credits', 'SGPA', 'CGPA') 
+        THEN CAST(COLUMN_NAME AS DECIMAL(10,2))
+        ELSE 0
+        END) 
+    FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_NAME = 'Student_Grades');
+    UPDATE Student_Grades SET Total_credits = total;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE UpdateTotalCredits()
+BEGIN
+    DECLARE total DECIMAL(10,2);
+    SET total = (SELECT SUM(CASE 
+        WHEN COLUMN_NAME NOT IN ('Student_id', 'Grade', 'Total_credits', 'SGPA') 
+        THEN COALESCE(CAST(`Student_Grades`.`COLUMN_NAME` AS DECIMAL(10,2)), 0)
+        ELSE 0
+        END) 
+    FROM INFORMATION_SCHEMA.COLUMNS 
+    WHERE TABLE_NAME = 'Student_Grades' AND TABLE_SCHEMA = 'LMSDB');
+    UPDATE `Student_Grades` SET `Total_credits` = total;
+END //
+DELIMITER ;
+
+
+
+
+
 
