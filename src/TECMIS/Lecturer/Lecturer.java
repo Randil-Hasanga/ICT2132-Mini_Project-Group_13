@@ -1,13 +1,16 @@
 package TECMIS.Lecturer;
 
-import TECMIS.GradeAndGPA.ViewGradeGPA;
-import TECMIS.Medical.Medical;
+import TECMIS.Common_classes.ViewGradeGPA;
+import TECMIS.Common_classes.Medical.Medical;
 import TECMIS.Lecturer.StudentDetails.StudentDetails;
+import TECMIS.Lecturer.UpdateCourses.UpdateCourseMaterials;
+import TECMIS.Lecturer.UpdateMarks.UpdateMarks;
+import TECMIS.Lecturer.UpdateProfile.UpdateProfileLecturer;
 import TECMIS.Lecturer.UploadCourseMaterials.UploadCourseMaterials;
 import TECMIS.MySqlCon;
 import TECMIS.Notice;
 import TECMIS.User;
-import TECMIS.viewAttendance.ViewStudentAttendance;
+import TECMIS.Common_classes.viewAttendance.ViewStudentAttendance;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,8 +24,8 @@ public class Lecturer extends User {
 
     Connection conn = MySqlCon.MysqlMethod();
     private JButton profileButton;
-    private JButton courceMaterialsButton;
-    private JButton courseMaterialsButton;
+    private JButton UpdateCM;
+    private JButton RemoveCM;
     private JButton uploadMarksButton;
     private JButton studentDetailsButton;
     private JButton studentEligibilityButton;
@@ -31,7 +34,7 @@ public class Lecturer extends User {
     private JButton medicalButton;
     private JButton attendanceButton;
     private JButton noticeButton;
-    private JButton courseMaterialsButton1;
+    private JButton AddCM;
     private JPanel pnlLecturer;
     private JLabel lblWelcome;
     private JTextArea facultyOfTechnologyManagementTextArea;
@@ -54,6 +57,16 @@ public class Lecturer extends User {
     private double totalSum;
     private double column;
 
+
+    public Lecturer() {
+
+        profileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+    }
 
     public void methodLecturer() {
         userId = getUserId();
@@ -114,6 +127,27 @@ public class Lecturer extends User {
 
         lblWelcome.setText("Welcome Dr." + Fname + " " + Lname + "!");
 
+        profileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UpdateProfileLecturer upLec = new UpdateProfileLecturer();
+                upLec.setVisible(true);
+                setVisible(false);
+                upLec.UpdateProfile();
+            }
+        });
+
+        updateMarks.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UpdateMarks um = new UpdateMarks();
+                um.setVisible(true);
+                setVisible(false);
+                um.UpdateMarks();
+
+            }
+        });
+
         gradesAndGPAButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -124,6 +158,18 @@ public class Lecturer extends User {
 
             }
         });
+
+        UpdateCM.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UpdateCourseMaterials UCM = new UpdateCourseMaterials();
+                UCM.setVisible(true);
+                setVisible(false);
+                UCM.UpdateCourse();
+
+            }
+        });
+
 
         logOutButton.addActionListener(new ActionListener() {
             @Override
@@ -163,7 +209,7 @@ public class Lecturer extends User {
                 setVisible(false);
             }
         });
-        courseMaterialsButton1.addActionListener(new ActionListener() {
+        AddCM.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 UploadCourseMaterials upCourse = new UploadCourseMaterials();

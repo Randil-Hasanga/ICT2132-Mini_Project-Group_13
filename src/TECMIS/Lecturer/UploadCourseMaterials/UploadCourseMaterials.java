@@ -5,11 +5,9 @@ import TECMIS.MySqlCon;
 import TECMIS.User;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -26,6 +24,8 @@ public class UploadCourseMaterials extends Lecturer{
     private JButton clearButton;
     private JTextField txtCID;
     private JLabel lblSuccess2;
+    private JTextField txtLevel;
+    private JTextField txtSem;
 
     private String userId;
     private String acc;
@@ -72,7 +72,7 @@ public class UploadCourseMaterials extends Lecturer{
                 AdminId = txtAdminId.getText();
                 CourseName = txtCName.getText();
 
-                String upCD = "INSERT INTO Course_Detail (Course_id, Course_Name, Credit, Admin_id, Lecturer_id) VALUES (?,?,?,?,?)";
+                String upCD = "INSERT INTO Course_Detail (Course_id, Course_Name, Credit, Admin_id, Lecturer_id, Level, Semester) VALUES (?,?,?,?,?)";
 
                 try(PreparedStatement stmt = conn.prepareStatement(upCD)){
 

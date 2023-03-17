@@ -42,22 +42,19 @@ public class UploadMarks extends Lecturer{
     private String userId;
     private String acc;
 
-    String SID;
-    String CID;
-    double Q1;
-    double Q2;
-    double Q3;
-    double MID;
-    double F_Theory;
-    double F_Practical;
+    private String SID;
+    private String CID;
+    private double Q1;
+    private double Q2;
+    private double Q3;
+    private double MID;
+    private double F_Theory;
+    private double F_Practical;
 
 
     double A1;
     double A2;
     private String selected;
-
-
-
 
 
     public void upMarks(){

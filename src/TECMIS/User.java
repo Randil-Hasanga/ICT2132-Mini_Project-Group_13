@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 
+
 public class User extends JFrame{
 
     Connection conn = MySqlCon.MysqlMethod();
@@ -64,6 +65,7 @@ public class User extends JFrame{
         setVisible(true);
         setSize(500,500);
         setTitle("LMS Software");
+        setLocationRelativeTo(null);
         lblDisplay.setVisible(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
