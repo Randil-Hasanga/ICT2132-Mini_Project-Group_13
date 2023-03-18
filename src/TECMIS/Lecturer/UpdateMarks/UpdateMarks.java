@@ -53,17 +53,12 @@ public class UpdateMarks extends JFrame{
     private double F_Practical;
 
 
-public UpdateMarks() {
-
-
-
-}
-
     public void UpdateMarks(){
 
         add(pnlUpdateMarks);
         setSize(750, 500);
         setTitle("Update Marks");
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     marksDrop.addActionListener(new ActionListener() {
         @Override
@@ -192,7 +187,7 @@ public UpdateMarks() {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Lecturer newLec = new Lecturer();
+                Lecturer up = new Lecturer();
 
 
                 if((CID.equals("ICT01")) || (CID.equals("ICT05"))) {
@@ -221,9 +216,14 @@ public UpdateMarks() {
                         pst.setString(8,SID);
                         int rowsAffected = pst.executeUpdate();
                         lblSuccess.setText("Success! " + rowsAffected + " row(s) updated.");
-                        newLec.updateExamMarks();
-                        newLec.updateStudentGrades();
-                        newLec.CalculateGPA();
+
+                        up.updateExamMarks();
+                        up.updateCreditGained();
+                        up.updateLetterGrade();
+                        up.updateStudentGrades();
+                        up.sumCredit();
+                        up.totalCredit();
+                        up.CalculateGPA();
 
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
@@ -245,9 +245,14 @@ public UpdateMarks() {
                         pst.setString(9,SID);
                         int rowsAffected = pst.executeUpdate();
                         lblSuccess.setText("Success! " + rowsAffected + " row(s) updated.");
-                        newLec.updateExamMarks();
-                        newLec.updateStudentGrades();
-                        newLec.CalculateGPA();
+
+                        up.updateExamMarks();
+                        up.updateCreditGained();
+                        up.updateLetterGrade();
+                        up.updateStudentGrades();
+                        up.sumCredit();
+                        up.totalCredit();
+                        up.CalculateGPA();
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                 }
@@ -269,9 +274,14 @@ public UpdateMarks() {
                         pst.setString(9,SID);
                         int rowsAffected = pst.executeUpdate();
                         lblSuccess.setText("Success! " + rowsAffected + " row(s) updated.");
-                        newLec.updateExamMarks();
-                        newLec.updateStudentGrades();
-                        newLec.CalculateGPA();
+
+                        up.updateExamMarks();
+                        up.updateCreditGained();
+                        up.updateLetterGrade();
+                        up.updateStudentGrades();
+                        up.sumCredit();
+                        up.totalCredit();
+                        up.CalculateGPA();
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -292,9 +302,14 @@ public UpdateMarks() {
                         pst.setString(9,SID);
                         int rowsAffected = pst.executeUpdate();
                         lblSuccess.setText("Success! " + rowsAffected + " row(s) updated.");
-                        newLec.updateExamMarks();
-                        newLec.updateStudentGrades();
-                        newLec.CalculateGPA();
+
+                        up.updateExamMarks();
+                        up.updateCreditGained();
+                        up.updateLetterGrade();
+                        up.updateStudentGrades();
+                        up.sumCredit();
+                        up.totalCredit();
+                        up.CalculateGPA();
 
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);

@@ -4,12 +4,18 @@ import TECMIS.Lecturer.Lecturer;
 import TECMIS.MySqlCon;
 import TECMIS.User;
 import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ViewStudentAttendance extends JFrame {
 
@@ -29,6 +35,7 @@ public class ViewStudentAttendance extends JFrame {
     private JLabel lblSid;
     private JLabel lblDate;
     private JLabel lblCid;
+    private JButton chooseDateButton;
     private JCalendar JCalendar1;
 
     private String userId;
@@ -39,21 +46,51 @@ public class ViewStudentAttendance extends JFrame {
     private String Lname;
     private String subject;
     private String date;
+    private String formattedDate;
+    private Date selectedDate;
 
 
-    public ViewStudentAttendance() {
-
-    }
 
     public void viewAttendance(){
         userId = User.getUserId();
         acc = User.getAcc();
 
         add(pnlAttendance);
-        setSize(600, 600);
+        setSize(750, 500);
         setTitle("Student Attendance");
+        setLocationRelativeTo(null);
         tblAttendance.setEnabled(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        chooseDateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("Choose Date");
+                JDateChooser dateChooser = new JDateChooser();
+                frame.add(dateChooser);
+                frame.setType(Window.Type.UTILITY);
+                frame.pack();
+                frame.setLocationRelativeTo(null); // Center the frame on the screen
+                frame.setVisible(true);
+
+                dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if (evt.getPropertyName().equals("date")) {
+                            selectedDate = dateChooser.getDate(); // get selected date
+
+                            // Format the selected date as YYYY-MM-DD
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            date = sdf.format(selectedDate);
+                            System.out.println(selectedDate);
+                            System.out.println(formattedDate);
+                            frame.dispose(); // Close the frame after selecting the date
+                        }
+                    }
+                });
+            }
+        });
+
 
 
         ActionListener listener = new ActionListener() {
@@ -147,13 +184,13 @@ public class ViewStudentAttendance extends JFrame {
                     }
 
                 }else if(radioBatch.isSelected()){
-                        String sql3 = "SELECT Student.User_id,CONCAT(Student.FName,' ',Student.LName) AS Name,Attendance.Date_,Attendance.Status_,Course_detail.Course_Name FROM Student,Course_detail,Attendance WHERE (Attendance.Student_id = Student.User_id) AND (Attendance.Course_id = Course_detail.Course_id) AND (Attendance.Date_ = ?) ORDER by Student.User_id";
-                        CID = txtCID.getText();
-                        date = txtDate.getText();
+                        String sql3 = "SELECT Student.User_id,CONCAT(Student.FName,' ',Student.LName) AS Name,Attendance.Date_,Attendance.Status_,Course_detail.Course_Name " +
+                                "FROM Student,Course_detail,Attendance " +
+                                "WHERE (Attendance.Student_id = Student.User_id) AND (Attendance.Course_id = Course_detail.Course_id) AND (Attendance.Date_ = ?) " +
+                                "ORDER by Student.User_id";
 
-                    if(date.isEmpty()){
-                        lblDisplay.setText("Please fill date field");
-                    }
+                        CID = txtCID.getText();
+
 
                         try(PreparedStatement pstmt3 = conn.prepareStatement(sql3)){
                             pstmt3.setString(1,date);
@@ -193,7 +230,6 @@ public class ViewStudentAttendance extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 txtSID.setText("");
                 txtCID.setText("");
-                txtDate.setText("");
                 tblAttendance.setVisible(false);
             }
         });

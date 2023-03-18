@@ -32,26 +32,11 @@ public class UpdateCourseMaterials extends JFrame{
     private int semester;
     private int Credit;
 
-    public UpdateCourseMaterials() {
-        updateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-    }
-
     public void UpdateCourse(){
         add(pnlUploadCM);
         setSize(750, 500);
         setTitle("Update Course Materials");
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         updateButton.addActionListener(new ActionListener() {

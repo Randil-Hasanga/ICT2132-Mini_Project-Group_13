@@ -19,19 +19,22 @@ public class Medical extends Lecturer {
     private JPanel pnlLecMedical;
     private JTextField txtSID;
     private JButton searchButton;
+    private JButton clearButton;
 
     private String userId;
     private String acc;
     private String SID;
+
 
     public void viewMedicals(){
         acc = User.getAcc();
         userId = User.getUserId();
 
         add(pnlLecMedical);
-        setSize(600, 600);
+        setSize(750, 500);
         setTitle("Medicals");
         tblLecMedical.setEnabled(false);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         searchButton.addActionListener(new ActionListener() {
@@ -77,6 +80,13 @@ public class Medical extends Lecturer {
                 lecBack.setVisible(true);
                 setVisible(false);
                 lecBack.methodLecturer();
+            }
+        });
+
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtSID.setText("");
             }
         });
 
