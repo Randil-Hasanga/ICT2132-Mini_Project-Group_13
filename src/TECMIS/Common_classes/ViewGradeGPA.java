@@ -70,6 +70,7 @@ public class ViewGradeGPA extends JFrame{
         add(pnlGP);
         setSize(750, 500);
         setTitle("Check grades and GPA");
+        setLocationRelativeTo(null);
         dropGrd1.setVisible(false);
         dropGPA.setVisible(false);
         lblSID.setVisible(false);
@@ -166,8 +167,6 @@ public class ViewGradeGPA extends JFrame{
             }
         });
 
-
-
                     searchButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -177,8 +176,12 @@ public class ViewGradeGPA extends JFrame{
 
                                 Lecturer up = new Lecturer();
                                 up.updateExamMarks();
+                                up.updateCreditGained();
+                                up.updateLetterGrade();
                                 up.updateStudentGrades();
-                                up.CalculateGPA();
+                                up.sumCredit();
+                                up.totalCredit();
+                                up.CalculateGPA();;
                                 SID = txtSID.getText();
                                 CID = (txtCID.getText().isEmpty() || txtCID.getText() == null) ? "" : txtCID.getText();
 
@@ -215,7 +218,11 @@ public class ViewGradeGPA extends JFrame{
 
                                 Lecturer up = new Lecturer();
                                 up.updateExamMarks();
+                                up.updateCreditGained();
+                                up.updateLetterGrade();
                                 up.updateStudentGrades();
+                                up.sumCredit();
+                                up.totalCredit();
                                 up.CalculateGPA();
 
                                 CID = txtCID.getText();
@@ -254,7 +261,11 @@ public class ViewGradeGPA extends JFrame{
 
                                 Lecturer up = new Lecturer();
                                 up.updateExamMarks();
+                                up.updateCreditGained();
+                                up.updateLetterGrade();
                                 up.updateStudentGrades();
+                                up.sumCredit();
+                                up.totalCredit();
                                 up.CalculateGPA();
 
                                 CID = (txtCID.getText().isEmpty() || txtCID.getText() == null) ? "" : txtCID.getText();
@@ -293,7 +304,11 @@ public class ViewGradeGPA extends JFrame{
 
                                 Lecturer up = new Lecturer();
                                 up.updateExamMarks();
+                                up.updateCreditGained();
+                                up.updateLetterGrade();
                                 up.updateStudentGrades();
+                                up.sumCredit();
+                                up.totalCredit();
                                 up.CalculateGPA();
                                 SID = txtSID.getText();
                                 CID = (txtCID.getText().isEmpty() || txtCID.getText() == null) ? "" : txtCID.getText();
@@ -331,7 +346,11 @@ public class ViewGradeGPA extends JFrame{
 
                                 Lecturer up = new Lecturer();
                                 up.updateExamMarks();
+                                up.updateCreditGained();
+                                up.updateLetterGrade();
                                 up.updateStudentGrades();
+                                up.sumCredit();
+                                up.totalCredit();
                                 up.CalculateGPA();
 
                                 CID = (txtCID.getText().isEmpty() || txtCID.getText() == null) ? "" : txtCID.getText();

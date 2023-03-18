@@ -54,6 +54,7 @@ public class UpdateProfileLecturer extends JFrame{
     private String acc = Lecturer.getAcc();
     private String email;
 
+
     public void UpdateProfile(){
         add(pnlUpdateProfile);
         setSize(750, 500);
@@ -64,6 +65,19 @@ public class UpdateProfileLecturer extends JFrame{
 
 
         JFileChooser picOpen = new JFileChooser();
+
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtFname.setText("");
+                txtLname.setText("");
+                txtAD1.setText("");
+                txtAd2.setText("");
+                txtPOS.setText("");
+                txtEmail.setText("");
+
+            }
+        });
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -120,43 +134,6 @@ public class UpdateProfileLecturer extends JFrame{
                         });
                     }
                 });
-
-                /*try{
-                    JFrame frame = new JFrame("JCalendar");
-                    JCalendar calendar = new JCalendar();
-                    frame.add(calendar);
-                    frame.setType(Window.Type.UTILITY);
-                    frame.pack();
-                    frame.setLocationRelativeTo(null); // Center the frame on the screen
-                    frame.setVisible(true);
-
-                    calendar.addPropertyChangeListener("calendar", new PropertyChangeListener() {
-                        @Override
-                        public void propertyChange(PropertyChangeEvent evt) {
-                            if (evt.getPropertyName().equals("calendar")) {
-                                selectedDate = ((Calendar) evt.getNewValue()).getTime(); // convert to Date object
-
-                                // Format the selected date as YYYY-MM-DD
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                                formattedDate = sdf.format(selectedDate);
-                                System.out.println(selectedDate);
-                                System.out.println(formattedDate);
-                                frame.dispose(); // Close the frame after selecting the date
-                            }
-                        }
-                    });
-
-
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-
-
-            }*/
-
-
-
-
 
         ActionListener listener = new ActionListener() {
             @Override

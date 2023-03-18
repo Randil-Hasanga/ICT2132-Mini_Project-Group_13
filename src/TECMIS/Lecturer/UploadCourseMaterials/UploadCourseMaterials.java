@@ -33,14 +33,17 @@ public class UploadCourseMaterials extends Lecturer{
     private String CourseName;
     private String AdminId;
     private int Credit;
+    private int level;
+    private int semester;
 
     public void upCourseMaterials(){
         userId = User.getUserId();
         acc = User.getAcc();
 
         add(pnlUploadCM);
-        setSize(700, 600);
+        setSize(750, 500);
         setTitle("Upload Course Materials");
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         clearButton.addActionListener(new ActionListener() {
             @Override
@@ -49,6 +52,9 @@ public class UploadCourseMaterials extends Lecturer{
                 txtAdminId.setText("");
                 txtCredit.setText("");
                 txtCName.setText("");
+                txtLevel.setText("");
+                txtCredit.setText("");
+                txtSem.setText("");
             }
         });
 
@@ -71,8 +77,11 @@ public class UploadCourseMaterials extends Lecturer{
                 Credit = Integer.parseInt(txtCredit.getText());
                 AdminId = txtAdminId.getText();
                 CourseName = txtCName.getText();
+                level = Integer.parseInt(txtLevel.getText());
+                semester = Integer.parseInt(txtSem.getText());
 
-                String upCD = "INSERT INTO Course_Detail (Course_id, Course_Name, Credit, Admin_id, Lecturer_id, Level, Semester) VALUES (?,?,?,?,?)";
+
+                String upCD = "INSERT INTO Course_Detail (Course_id, Course_Name, Credit, Admin_id, Lecturer_id, Level, Semester) VALUES (?,?,?,?,?,?,?)";
 
                 try(PreparedStatement stmt = conn.prepareStatement(upCD)){
 
@@ -81,9 +90,19 @@ public class UploadCourseMaterials extends Lecturer{
                     stmt.setInt(3,Credit);
                     stmt.setString(4,AdminId);
                     stmt.setString(5,userId);
+                    stmt.setInt(6,level);
+                    stmt.setInt(7,semester);
 
                     int rowsInserted = stmt.executeUpdate();
                     System.out.println(rowsInserted + "Rows inserted");
+
+                    // create a new column in Student_Grades for new subject
+
+                    String updColumn = "ALTER TABLE Student_Grades ADD " +CID+ " DECIMAL(5,3)";
+
+                    try(PreparedStatement pstmt2 = conn.prepareStatement(updColumn)){
+                        pstmt2.executeUpdate();
+                    }
 
                     lblSuccess2.setText(" New course material successfully added to database ! ");
 

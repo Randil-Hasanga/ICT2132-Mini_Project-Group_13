@@ -26,8 +26,9 @@ public class Notice extends JFrame {
         acc = User.getAcc();
 
         add(pnlLecNotice);
-        setSize(600, 600);
+        setSize(750, 500);
         setTitle("Lecturer notices");
+        setLocationRelativeTo(null);
         tblLecNotice.setEnabled(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 

@@ -39,7 +39,7 @@ CREATE TABLE if not exists Student
     DOB DATE,
     Email VARCHAR(50),
     Pro_pic blob,
-    S_type VARCHAR(10),
+    S_type VARCHAR(20),
     Password VARCHAR(20),
     Lecturer_id VARCHAR(10),
     FOREIGN KEY (Lecturer_id) REFERENCES Lecturer(User_id)
@@ -142,7 +142,7 @@ CREATE TABLE if not exists Course_Detail
     Semester int,
     Admin_id VARCHAR(10) not null,
     Lecturer_id VARCHAR(10) not null,
-    foreign key (admin_id) references Addmin (User_id),
+    foreign key (admin_id) references Admin (User_id),
     foreign key (Lecturer_id) references Lecturer (User_id)
 );
 
@@ -168,7 +168,7 @@ CREATE TABLE if not exists TimeTable
     Dep_id VARCHAR(10),
     Location VARCHAR (15),
     Admin_id VARCHAR(10) not null,
-    foreign key (admin_id) references Addmin (User_id),
+    foreign key (admin_id) references Admin (User_id),
     foreign key (Dep_id) references Department (Dep_id)
 );
 
@@ -195,7 +195,7 @@ CREATE TABLE if not exists Notice
     Subject_ VARCHAR(30),
     Description_ VARCHAR(1000),
     Admin_id VARCHAR(10) not null,
-    foreign key (admin_id) references Addmin (User_id)
+    foreign key (admin_id) references Admin (User_id)
 );
 
 INSERT INTO Notice
@@ -771,11 +771,3 @@ CREATE TABLE if not exists Student_Grades
     FOREIGN KEY(Student_id) REFERENCES Exam_mark(Student_id)
     
 );
-
-
-
-
-
-
-
-
