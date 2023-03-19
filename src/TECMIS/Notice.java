@@ -33,32 +33,32 @@ public class Notice extends JFrame {
 
         String LecNoticeQuery = "SELECT Notice.Notice_id,Notice.Subject_,Notice.Description_ FROM Notice,Lecturer_Notice,Lecturer WHERE (Notice.Notice_id = Lecturer_Notice.Notice_id) AND (Lecturer_Notice.Lecturer_id = Lecturer.User_id) AND Lecturer.User_id = ?";
 
-            try (PreparedStatement pstmt2 = conn.prepareStatement(LecNoticeQuery)) {
+        try (PreparedStatement pstmt2 = conn.prepareStatement(LecNoticeQuery)) {
 
-                pstmt2.setString(1,userId);
-                ResultSet rs2 = pstmt2.executeQuery();
+            pstmt2.setString(1, userId);
+            ResultSet rs2 = pstmt2.executeQuery();
 
-                DefaultTableModel tableModel2 = new DefaultTableModel();
-                tblLecNotice.setModel(tableModel2);
+            DefaultTableModel tableModel2 = new DefaultTableModel();
+            tblLecNotice.setModel(tableModel2);
 
-                ResultSetMetaData rsmd2 = rs2.getMetaData();
-                int columntCount2 = rsmd2.getColumnCount();
+            ResultSetMetaData rsmd2 = rs2.getMetaData();
+            int columntCount2 = rsmd2.getColumnCount();
 
-                for (int i = 1; i <= columntCount2; i++) {
-                    tableModel2.addColumn(rsmd2.getColumnName(i));
-                }
-
-                while (rs2.next()) {
-                    Object[] rowData = new Object[columntCount2];
-                    for (int i = 1; i <= columntCount2; i++) {
-                        rowData[i-1] = rs2.getObject(i);
-                    }
-                    tableModel2.addRow(rowData);
-                }
-
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            for (int i = 1; i <= columntCount2; i++) {
+                tableModel2.addColumn(rsmd2.getColumnName(i));
             }
+
+            while (rs2.next()) {
+                Object[] rowData = new Object[columntCount2];
+                for (int i = 1; i <= columntCount2; i++) {
+                    rowData[i - 1] = rs2.getObject(i);
+                }
+                tableModel2.addRow(rowData);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -71,4 +71,7 @@ public class Notice extends JFrame {
             }
         });
     }
+
+
+
 }
