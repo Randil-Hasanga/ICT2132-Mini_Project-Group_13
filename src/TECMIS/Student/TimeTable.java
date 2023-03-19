@@ -1,5 +1,6 @@
 package TECMIS.Student;
 
+import TECMIS.MySqlCon;
 import TECMIS.User;
 
 import javax.swing.*;
@@ -10,11 +11,7 @@ import java.sql.*;
 
 public class TimeTable extends Student{
 
-    Connection conn;
-
-    {
-        conn = MySqlCon.MysqlMethod();
-    }
+    Connection conn = MySqlCon.MysqlMethod();
 
     private JPanel pnlTimeTable;
     private JComboBox subDrop;

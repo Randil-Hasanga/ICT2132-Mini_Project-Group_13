@@ -1,6 +1,7 @@
 package TECMIS.Common_classes.Medical;
 
 import TECMIS.Lecturer.Lecturer;
+import TECMIS.MySqlCon;
 import TECMIS.User;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.sql.*;
 
 public class Medical extends Lecturer {
 
-    Connection conn = MySqlCon.MysqlMethod();
+    Connection conn =MySqlCon.MysqlMethod();
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JTable tblLecMedical;
     private JButton backButton;

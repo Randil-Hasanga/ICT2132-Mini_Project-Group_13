@@ -1,5 +1,6 @@
 package TECMIS.Student;
 
+import TECMIS.MySqlCon;
 import TECMIS.User;
 
 
@@ -13,12 +14,7 @@ import java.sql.*;
 
 public class StudentNotice extends Student{
 
-    Connection conn;
-
-    {
-        Object MySqlCon = new Object();
-        conn = MySqlCon.MysqlMethod();
-    }
+    Connection conn = MySqlCon.MysqlMethod();
 
     private JPanel pnlStuNotice;
     private JTable tblstuNotice;
