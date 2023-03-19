@@ -37,6 +37,7 @@ public class UploadAttendenceDetails extends TechnicalOfficer {
     private JPanel pnlUploadAttendenceDetails;
     private JButton ButnClear;
     private JDateChooser JDateChooser1;
+    private JTextArea facultyOfTechnologyManagementTextArea;
 
 
     private String userId;

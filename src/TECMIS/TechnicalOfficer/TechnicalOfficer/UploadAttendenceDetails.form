@@ -154,11 +154,6 @@
               <text value=" Course ID"/>
             </properties>
           </component>
-          <component id="ff4a5" class="com.toedter.calendar.JDateChooser" binding="JDateChooser1" custom-create="true" default-binding="true">
-            <constraints>
-              <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </component>
         </children>
       </grid>
       <grid id="a48a4" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

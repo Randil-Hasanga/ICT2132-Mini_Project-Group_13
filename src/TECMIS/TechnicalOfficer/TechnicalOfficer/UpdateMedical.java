@@ -31,6 +31,7 @@ public class UpdateMedical extends TechnicalOfficer {
     private JButton btnBack;
     private JButton btnUpdate;
     private JButton btnClr;
+    private JTextArea facultyOfTechnologyManagementTextArea;
     private JDateChooser JDateChooser1;
     private JDateChooser JDateChooser2;
 

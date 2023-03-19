@@ -31,6 +31,7 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
     private JButton BtnUpdate;
     private JButton BtnClear;
     private JLabel LblSuccess;
+    private JTextArea facultyOfTechnologyManagementTextArea;
     private JDateChooser JDateChooser2;
 
 

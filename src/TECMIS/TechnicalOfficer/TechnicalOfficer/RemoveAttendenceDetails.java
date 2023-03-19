@@ -22,6 +22,7 @@ public class RemoveAttendenceDetails extends TechnicalOfficer {
     private JButton btnBack;
     private JButton btnRemove;
     private JButton btnClr;
+    private JTextArea facultyOfTechnologyManagementTextArea;
 
 
     private String userId;

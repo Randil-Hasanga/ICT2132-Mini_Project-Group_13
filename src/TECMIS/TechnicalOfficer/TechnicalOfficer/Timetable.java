@@ -19,6 +19,7 @@ public class Timetable extends TechnicalOfficer {
     private JPanel PnlTimetable;
     private JTextField txtDepID;
     private JLabel lblDepID;
+    private JTextArea facultyOfTechnologyManagementTextArea;
 
     private int T_table_ID;
     private int DepID;

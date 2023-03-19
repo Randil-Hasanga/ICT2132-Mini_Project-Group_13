@@ -96,16 +96,6 @@
               <text value=" End_Date"/>
             </properties>
           </component>
-          <component id="34596" class="com.toedter.calendar.JDateChooser" binding="JDateChooserStartDate" custom-create="true">
-            <constraints>
-              <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </component>
-          <component id="198a5" class="com.toedter.calendar.JDateChooser" binding="JDateChooserEndDate" custom-create="true">
-            <constraints>
-              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </component>
           <component id="baab6" class="javax.swing.JLabel" binding="lblSID">
             <constraints>
               <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
