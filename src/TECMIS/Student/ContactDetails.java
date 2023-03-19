@@ -3,6 +3,7 @@ package TECMIS.Student;
 import javax.swing.*;
 
 
+import TECMIS.MySqlCon;
 import TECMIS.User;
 
 import java.awt.event.ActionEvent;

@@ -2,8 +2,6 @@ package TECMIS;
 
 import java.sql.*;
 
-
-
 public class MySqlCon {
     public static void main(String[] args) {
         MySqlCon x = new MySqlCon();

@@ -1,6 +1,7 @@
 package TECMIS.Lecturer.StudentDetails;
 
 import TECMIS.Lecturer.Lecturer;
+import TECMIS.MySqlCon;
 import TECMIS.User;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.sql.*;
 
 public class StudentDetails extends Lecturer{
 
-    Connection conn = MySqlCon.MysqlMethod();
+    Connection conn = TECMIS.MySqlCon.MysqlMethod();
     String sid;
     private JTextField txtSID;
     private JButton btnSearch;

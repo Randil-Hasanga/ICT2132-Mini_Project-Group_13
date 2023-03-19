@@ -1,6 +1,7 @@
 package TECMIS.Common_classes;
 
 import TECMIS.Lecturer.Lecturer;
+import TECMIS.MySqlCon;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

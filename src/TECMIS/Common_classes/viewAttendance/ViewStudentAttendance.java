@@ -1,6 +1,7 @@
 package TECMIS.Common_classes.viewAttendance;
 
 import TECMIS.Lecturer.Lecturer;
+import TECMIS.MySqlCon;
 import TECMIS.User;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
@@ -20,7 +21,6 @@ import java.util.Date;
 
 public class ViewStudentAttendance extends JFrame {
 
-    private Object MySqlCon;
     Connection conn = MySqlCon.MysqlMethod();
     private JPanel pnlAttendance;
     private JTextField txtDate;

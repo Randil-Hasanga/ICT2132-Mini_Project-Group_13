@@ -1,5 +1,6 @@
 package TECMIS.Lecturer;
 
+import TECMIS.MySqlCon;
 import TECMIS.User;
 
 import javax.swing.*;

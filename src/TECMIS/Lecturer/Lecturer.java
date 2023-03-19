@@ -27,7 +27,7 @@ import java.sql.*;
 public class Lecturer extends User {
 
     private Object MySqlCon;
-    Connection conn = MySqlCon.MysqlMethod();
+    Connection conn = TECMIS.MySqlCon.MysqlMethod();
     private JButton profileButton;
     private JButton UpdateCM;
     private JButton RemoveCM;

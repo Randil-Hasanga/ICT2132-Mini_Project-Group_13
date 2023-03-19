@@ -1,9 +1,10 @@
 package TECMIS.Student;
 
-import TECMIS.GradeAndGPA.ViewGradeGPA;
-import TECMIS.Medical.Medical;
+import TECMIS.Common_classes.ViewGradeGPA;
+import TECMIS.Common_classes.Medical.Medical;
+import TECMIS.MySqlCon;
 import TECMIS.User;
-import TECMIS.viewAttendance.ViewStudentAttendance;
+import TECMIS.Common_classes.viewAttendance.ViewStudentAttendance;
 
 import javax.swing.*;
 import java.awt.*;
