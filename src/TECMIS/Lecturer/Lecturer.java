@@ -1,17 +1,25 @@
 package TECMIS.Lecturer;
 
-import TECMIS.GradeAndGPA.ViewGradeGPA;
-import TECMIS.Medical.Medical;
+import TECMIS.Common_classes.RemoveCourse.RemoveCourseMaterial;
+import TECMIS.Common_classes.ViewGradeGPA;
+import TECMIS.Common_classes.Medical.Medical;
 import TECMIS.Lecturer.StudentDetails.StudentDetails;
+import TECMIS.Lecturer.StudentEligibility.viewStudentEligibility;
+import TECMIS.Lecturer.UpdateCourses.UpdateCourseMaterials;
+import TECMIS.Lecturer.UpdateMarks.UpdateMarks;
+import TECMIS.Lecturer.UpdateProfile.UpdateProfileLecturer;
 import TECMIS.Lecturer.UploadCourseMaterials.UploadCourseMaterials;
+import TECMIS.Lecturer.ViewMarks.ViewMarks;
+import TECMIS.MySqlCon;
 import TECMIS.Notice;
 import TECMIS.User;
-import TECMIS.viewAttendance.ViewStudentAttendance;
+import TECMIS.Common_classes.viewAttendance.ViewStudentAttendance;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.sql.*;
@@ -21,17 +29,17 @@ public class Lecturer extends User {
     private Object MySqlCon;
     Connection conn = MySqlCon.MysqlMethod();
     private JButton profileButton;
-    private JButton courceMaterialsButton;
-    private JButton courseMaterialsButton;
+    private JButton UpdateCM;
+    private JButton RemoveCM;
     private JButton uploadMarksButton;
     private JButton studentDetailsButton;
     private JButton studentEligibilityButton;
-    private JButton marksButton;
+    private JButton viewmarksButton;
     private JButton gradesAndGPAButton;
     private JButton medicalButton;
     private JButton attendanceButton;
     private JButton noticeButton;
-    private JButton courseMaterialsButton1;
+    private JButton AddCM;
     private JPanel pnlLecturer;
     private JLabel lblWelcome;
     private JTextArea facultyOfTechnologyManagementTextArea;
@@ -55,6 +63,14 @@ public class Lecturer extends User {
     private double column;
 
 
+    public Lecturer() {
+
+        viewmarksButton.addMouseListener(new MouseAdapter() {
+        });
+
+
+    }
+
     public void methodLecturer() {
         userId = getUserId();
         acc = getAcc();
@@ -62,6 +78,7 @@ public class Lecturer extends User {
         add(pnlLecturer);
         setSize(750, 500);
         pnlPic.setSize(200,200);
+        setLocationRelativeTo(null);
         setTitle("Lecturer");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -114,6 +131,61 @@ public class Lecturer extends User {
 
         lblWelcome.setText("Welcome Dr." + Fname + " " + Lname + "!");
 
+        studentEligibilityButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                viewStudentEligibility eg = new viewStudentEligibility();
+                eg.setVisible(true);
+                setVisible(false);
+                eg.viewEligibility();
+
+            }
+        });
+
+        RemoveCM.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                RemoveCourseMaterial RCM = new RemoveCourseMaterial();
+                RCM.setVisible(true);
+                setVisible(false);
+                RCM.RemoveCourse();
+
+            }
+        });
+
+        viewmarksButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ViewMarks newUM = new ViewMarks();
+                newUM.setVisible(true);
+                setVisible(false);
+                newUM.viewStudentMarks();
+
+            }
+        });
+
+        profileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UpdateProfileLecturer upLec = new UpdateProfileLecturer();
+                upLec.setVisible(true);
+                setVisible(false);
+                upLec.UpdateProfile();
+            }
+        });
+
+        updateMarks.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UpdateMarks um = new UpdateMarks();
+                um.setVisible(true);
+                setVisible(false);
+                um.UpdateMarks();
+
+            }
+        });
+
         gradesAndGPAButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -124,6 +196,18 @@ public class Lecturer extends User {
 
             }
         });
+
+        UpdateCM.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UpdateCourseMaterials UCM = new UpdateCourseMaterials();
+                UCM.setVisible(true);
+                setVisible(false);
+                UCM.UpdateCourse();
+
+            }
+        });
+
 
         logOutButton.addActionListener(new ActionListener() {
             @Override
@@ -163,7 +247,7 @@ public class Lecturer extends User {
                 setVisible(false);
             }
         });
-        courseMaterialsButton1.addActionListener(new ActionListener() {
+        AddCM.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 UploadCourseMaterials upCourse = new UploadCourseMaterials();
@@ -322,7 +406,26 @@ public class Lecturer extends User {
             throw new RuntimeException(ex);
         }
 
+    }
 
+    public void updateCreditGained(){
+        String credit2 = "UPDATE Exam_Mark SET Credit_gained = Grade*2.0 WHERE (Course_id = 'ICT01') || (Course_id = 'ICT02')";
+        String credit3 = "UPDATE Exam_Mark SET Credit_gained = Grade*3.0 WHERE (Course_id = 'ICT03') || (Course_id = 'ICT04') || (Course_id = 'ICT05') || (Course_id = 'ICT06')";
+
+        try (Statement c2 = conn.createStatement()){
+            c2.executeUpdate(credit2);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        try(Statement c3 = conn.createStatement()){
+            c3.executeUpdate(credit3);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public void updateLetterGrade(){
         String grade = "UPDATE Exam_mark SET Letter_Grade = " +
                 "CASE " +
                 "WHEN final_mark >= 90 THEN 'A+' " +
@@ -362,21 +465,6 @@ public class Lecturer extends User {
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
-
-        String credit2 = "UPDATE Exam_Mark SET Credit_gained = Grade*2.0 WHERE (Course_id = 'ICT01') || (Course_id = 'ICT02')";
-        String credit3 = "UPDATE Exam_Mark SET Credit_gained = Grade*3.0 WHERE (Course_id = 'ICT03') || (Course_id = 'ICT04') || (Course_id = 'ICT05') || (Course_id = 'ICT06')";
-
-        try (Statement c2 = conn.createStatement()){
-            c2.executeUpdate(credit2);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        try(Statement c3 = conn.createStatement()){
-            c3.executeUpdate(credit3);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
     }
 
     public void updateStudentGrades(){
@@ -412,7 +500,8 @@ public class Lecturer extends User {
 
     }
 
-    public void CalculateGPA(){
+    public void sumCredit(){
+
         // Update total credits of each student to student_grades table
         level = ViewGradeGPA.getCurrent_level();
         semester = ViewGradeGPA.getCurrent_semester();
@@ -453,7 +542,9 @@ public class Lecturer extends User {
             throw new RuntimeException(e);
         }
 
+    }
 
+    public void totalCredit(){
         String tc = "UPDATE Student_Grades SET Total_credits = ICT01 + ICT02 + ICT03 + ICT04 + ICT05 + ICT06";
 
         try(Statement upTC = conn.createStatement()){
@@ -461,7 +552,9 @@ public class Lecturer extends User {
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+    }
 
+    public void CalculateGPA(){
 
         //calculateSGpa
 

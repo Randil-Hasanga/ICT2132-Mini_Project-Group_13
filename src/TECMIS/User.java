@@ -1,5 +1,6 @@
 package TECMIS;
 
+import TECMIS.Admin.DashBord.Dashbord;
 import TECMIS.Lecturer.Lecturer;
 import TECMIS.Student.Student;
 
@@ -7,6 +8,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+
 
 
 public class User extends JFrame{
@@ -35,13 +37,13 @@ public class User extends JFrame{
     private JComboBox<String> userDrop;
     private JTextField txtUserId;
     private JPasswordField txtPwd;
-    private JButton btnClear;
+    private JButton ClearButton;
     private JButton btnOK;
     private JLabel lblpwd;
     private JLabel lblemail;
     private JTextArea loginDisplay;
     private JPanel pnlLogin;
-    private JTextArea facultyOfTechnologyManagementTextArea;
+    private JTextArea facultyOfTechnologyManagementTextarea;
     private JLabel icon;
     private JLabel lblDisplay;
     private JPanel pnl123;
@@ -67,12 +69,13 @@ public class User extends JFrame{
         add(pnlLogin);
         icon.setSize(100,100);
         setVisible(true);
-        setSize(500,500);
+        setSize(750,500);
         setTitle("LMS Software");
+        setLocationRelativeTo(null);
         lblDisplay.setVisible(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        btnClear.addActionListener(new ActionListener() {
+        ClearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 txtUserId.setText("");
@@ -107,6 +110,7 @@ public class User extends JFrame{
                     while(rs.next()){
                         DBpwd = rs.getString("password");
                     }
+
                     if(acc.equals("lecturer")){
 
 
@@ -132,6 +136,7 @@ public class User extends JFrame{
                             lblDisplay.setVisible(true);
                             lblDisplay.setText("Incorrect email or password");
                         }
+
                     }else if (acc.equals("Student")){
 
                         if (DBpwd != null && DBpwd.equals(pwd)){
@@ -153,6 +158,30 @@ public class User extends JFrame{
                             setVisible(false);
                         }
 
+
+                    }else if(acc.equals("admin")){
+
+                        if(DBpwd !=null && DBpwd.equals(pwd)){
+                            Statement stmt = conn.createStatement();
+
+                            String query3 = "CREATE USER IF NOT EXISTS 'admin'@'localhost' IDENTIFIED BY 'admin123'";
+                            String query4 = "GRANT ALL PRIVILEGES ON LMSDB.Admin TO 'admin'@'localhost'";
+
+                            stmt.executeUpdate(query3);
+                            stmt.executeUpdate(query4);
+
+                            lblDisplay.setText("Password correct");
+
+                            Dashbord admin= new Dashbord();
+                            admin.setUserId(userId);
+                            admin.setAcc(acc);
+                            admin.methodAdmin();
+                            admin.setVisible(true);
+                            setVisible(false);
+                        }else{
+                            lblDisplay.setVisible(true);
+                            lblDisplay.setText("Incorrect email or password");
+                        }
                     }
                 }catch (SQLException ex) {
                     System.out.println("Connection failed !");
@@ -161,5 +190,6 @@ public class User extends JFrame{
             }
         });
     }
+
 
 }
