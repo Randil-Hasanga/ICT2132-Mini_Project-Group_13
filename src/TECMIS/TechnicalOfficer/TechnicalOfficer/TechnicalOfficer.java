@@ -38,7 +38,7 @@ public class TechnicalOfficer extends User {
 
     private byte[] dImg;
     private JLabel lblPic;
-
+    private JTextArea facultyOfTechnologyManagementTextArea;
 
 
     public void methodTechnicalOfficer() {

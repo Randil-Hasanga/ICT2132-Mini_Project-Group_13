@@ -22,6 +22,7 @@ public class RemoveMedical extends TechnicalOfficer{
     private JButton btnBack;
     private JButton btnRemove;
     private JButton btnClear;
+    private JTextArea facultyOfTechnologyManagementTextArea;
 
 
     private String userId;
