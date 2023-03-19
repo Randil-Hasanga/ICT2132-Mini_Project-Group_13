@@ -1,7 +1,6 @@
 package TECMIS.Lecturer.UploadCourseMaterials;
 
 import TECMIS.Lecturer.Lecturer;
-import TECMIS.MySqlCon;
 import TECMIS.User;
 
 import javax.swing.*;
@@ -45,6 +44,8 @@ public class UploadCourseMaterials extends Lecturer{
         setTitle("Upload Course Materials");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -1,6 +1,5 @@
 package TECMIS.Lecturer;
 
-import TECMIS.MySqlCon;
 import TECMIS.User;
 
 import javax.swing.*;
@@ -47,6 +46,7 @@ public class UploadMarks extends Lecturer{
 
     private String userId;
     private String acc;
+
 
     private String SID;
     private String CID;

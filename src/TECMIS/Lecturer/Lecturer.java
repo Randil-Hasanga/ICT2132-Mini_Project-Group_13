@@ -26,6 +26,7 @@ import java.sql.*;
 
 public class Lecturer extends User {
 
+    private Object MySqlCon;
     Connection conn = MySqlCon.MysqlMethod();
     private JButton profileButton;
     private JButton UpdateCM;
