@@ -228,7 +228,7 @@ public class ViewGradeGPA extends JFrame{
                                 CID = txtCID.getText();
                                 SID = (txtSID.getText().isEmpty() || txtSID.getText() == null) ? "" : txtSID.getText();
 
-                                String grdd = "SELECT Student.User_id,CONCAT(Student.FName,' ',Student.LName), Exam_mark.Letter_Grade FROM Course_Detail,Student,Exam_mark " +
+                                String grdd = "SELECT Student.User_id,CONCAT(Student.FName,' ',Student.LName) AS Name, Exam_mark.Letter_Grade FROM Course_Detail,Student,Exam_mark " +
                                         "WHERE (Student.User_id = Exam_mark.Student_id) AND (Course_Detail.Course_id = Exam_mark.Course_id) AND Exam_mark.Course_id = ? ";
 
                                 try (PreparedStatement gr = conn.prepareStatement(grdd)) {

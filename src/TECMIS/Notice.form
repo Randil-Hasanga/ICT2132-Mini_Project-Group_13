@@ -67,21 +67,11 @@
             </constraints>
             <properties>
               <font size="14" style="2"/>
-              <text value="Welcome to Notices !"/>
+              <text value="Welcome to Notices ! The are the  notices assigned to you !"/>
             </properties>
           </component>
         </children>
       </grid>
-      <component id="aebf2" class="javax.swing.JTable" binding="tblLecNotice">
-        <constraints>
-          <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
-        </constraints>
-        <properties>
-          <autoCreateRowSorter value="true"/>
-        </properties>
-      </component>
       <vspacer id="67155">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
@@ -110,6 +100,21 @@
           </hspacer>
         </children>
       </grid>
+      <scrollpane id="d7c5e">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="aebf2" class="javax.swing.JTable" binding="tblLecNotice">
+            <constraints/>
+            <properties>
+              <autoCreateRowSorter value="true"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
     </children>
   </grid>
 </form>
