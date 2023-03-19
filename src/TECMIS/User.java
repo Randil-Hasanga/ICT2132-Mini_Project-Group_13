@@ -31,13 +31,13 @@ public class User extends JFrame{
     private JComboBox<String> userDrop;
     private JTextField txtUserId;
     private JPasswordField txtPwd;
-    private JButton btnClear;
+    private JButton ClearButton;
     private JButton btnOK;
     private JLabel lblpwd;
     private JLabel lblemail;
     private JTextArea loginDisplay;
     private JPanel pnlLogin;
-    private JTextArea facultyOfTechnologyManagementTextArea;
+    private JTextArea facultyOfTechnologyManagementTextarea;
     private JLabel icon;
     private JLabel lblDisplay;
     private JPanel pnl123;
@@ -69,7 +69,7 @@ public class User extends JFrame{
         lblDisplay.setVisible(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        btnClear.addActionListener(new ActionListener() {
+        ClearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 txtUserId.setText("");
