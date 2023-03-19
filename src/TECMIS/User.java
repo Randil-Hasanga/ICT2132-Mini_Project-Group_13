@@ -1,6 +1,7 @@
 package TECMIS;
 
 import TECMIS.Lecturer.Lecturer;
+import TECMIS.Student.Student;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +11,11 @@ import java.sql.*;
 
 public class User extends JFrame{
 
-    Connection conn = MySqlCon.MysqlMethod();
+    Connection conn;
+
+    {
+        conn = MySqlCon.MysqlMethod();
+    }
 
     private static String userId;
     private static String acc;
@@ -127,8 +132,29 @@ public class User extends JFrame{
                             lblDisplay.setVisible(true);
                             lblDisplay.setText("Incorrect email or password");
                         }
+                    }else if (acc.equals("Student")){
+
+                        if (DBpwd != null && DBpwd.equals(pwd)){
+                            Statement stmt = conn.createStatement();
+
+                            String query5 = "CREATE USER IF NOT EXISTS 'student'@'localhost' IDENTIFIED BY 'student123'";
+                            String query6 = "GRANT SELECT,INSERT,UPDATE (User_id,FName,LName,Gender,Address_L1, Address_L2,DOB, Email,Pro_pic,S_type) ON LMSDB.Student TO 'student'@'localhost'";
+
+                            stmt.executeUpdate(query5);
+                            stmt.executeUpdate(query6);
+
+                            lblDisplay.setText("Password correct");
+
+                            Student student = new Student();
+                            student.setUserId(userId);
+                            student.setAcc(acc);
+                            student.methodStudent();
+                            student.setVisible(true);
+                            setVisible(false);
+                        }
+
                     }
-                } catch (SQLException ex) {
+                }catch (SQLException ex) {
                     System.out.println("Connection failed !");
                     ex.printStackTrace();
                 }

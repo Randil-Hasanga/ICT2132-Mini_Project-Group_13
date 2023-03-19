@@ -1,7 +1,6 @@
 package TECMIS.Medical;
 
 import TECMIS.Lecturer.Lecturer;
-import TECMIS.MySqlCon;
 import TECMIS.User;
 
 import javax.swing.*;

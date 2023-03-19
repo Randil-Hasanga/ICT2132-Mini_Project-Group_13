@@ -4,7 +4,6 @@ import TECMIS.GradeAndGPA.ViewGradeGPA;
 import TECMIS.Medical.Medical;
 import TECMIS.Lecturer.StudentDetails.StudentDetails;
 import TECMIS.Lecturer.UploadCourseMaterials.UploadCourseMaterials;
-import TECMIS.MySqlCon;
 import TECMIS.Notice;
 import TECMIS.User;
 import TECMIS.viewAttendance.ViewStudentAttendance;
@@ -19,6 +18,7 @@ import java.sql.*;
 
 public class Lecturer extends User {
 
+    private Object MySqlCon;
     Connection conn = MySqlCon.MysqlMethod();
     private JButton profileButton;
     private JButton courceMaterialsButton;

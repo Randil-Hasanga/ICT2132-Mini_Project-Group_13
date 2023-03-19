@@ -1,15 +1,12 @@
 package TECMIS.Lecturer.UploadCourseMaterials;
 
 import TECMIS.Lecturer.Lecturer;
-import TECMIS.MySqlCon;
 import TECMIS.User;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -42,6 +39,8 @@ public class UploadCourseMaterials extends Lecturer{
         setSize(700, 600);
         setTitle("Upload Course Materials");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

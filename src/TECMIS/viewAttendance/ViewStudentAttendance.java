@@ -1,7 +1,6 @@
 package TECMIS.viewAttendance;
 
 import TECMIS.Lecturer.Lecturer;
-import TECMIS.MySqlCon;
 import TECMIS.User;
 import com.toedter.calendar.JCalendar;
 
@@ -9,11 +8,11 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
 import java.sql.*;
 
 public class ViewStudentAttendance extends JFrame {
 
+    private Object MySqlCon;
     Connection conn = MySqlCon.MysqlMethod();
     private JPanel pnlAttendance;
     private JTextField txtDate;
@@ -30,7 +29,7 @@ public class ViewStudentAttendance extends JFrame {
     private JLabel lblSid;
     private JLabel lblDate;
     private JLabel lblCid;
-    private JCalendar JCalendar1;
+    private JCalender JCalendar1;
 
     private String userId;
     private String acc;
@@ -212,4 +211,6 @@ public class ViewStudentAttendance extends JFrame {
 
     }
 
+    public static class JCalender {
+    }
 }
