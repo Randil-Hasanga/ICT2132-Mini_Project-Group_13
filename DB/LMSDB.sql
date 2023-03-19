@@ -39,7 +39,7 @@ CREATE TABLE if not exists Student
     DOB DATE,
     Email VARCHAR(50),
     Pro_pic blob,
-    S_type VARCHAR(10),
+    S_type VARCHAR(20),
     Password VARCHAR(20),
     Lecturer_id VARCHAR(10),
     FOREIGN KEY (Lecturer_id) REFERENCES Lecturer(User_id)
@@ -142,8 +142,8 @@ CREATE TABLE if not exists Course_Detail
     Semester int,
     Admin_id VARCHAR(10) not null,
     Lecturer_id VARCHAR(10) not null,
-    foreign key (admin_id) references Addmin (User_id),
-    foreign key (Lecturer_id) references Lecturer (User_id)
+    foreign key (admin_id) references Admin (User_id),
+    foreign key (Lecturer_id) references lecturer (User_id)
 );
 
 INSERT INTO Course_Detail
@@ -163,28 +163,28 @@ CREATE TABLE if not exists TimeTable
 (
 	T_table_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Subject_name VARCHAR (50), 
-    Start_Time TIME,
-	End_Time TIME,
+    Start_Time VARCHAR(10),
+	End_Time VARCHAR(10),
     Dep_id VARCHAR(10),
     Location VARCHAR (15),
     Admin_id VARCHAR(10) not null,
-    foreign key (admin_id) references Addmin (User_id),
+    foreign key (admin_id) references Admin (User_id),
     foreign key (Dep_id) references Department (Dep_id)
 );
 
 INSERT INTO TimeTable
-(T_Table_ID, Subject_name, Start_Time, End_Time, Dep_id, Location )
+(T_Table_ID, Subject_name, Start_Time, End_Time, Dep_id, Location,Admin_id )
 VALUES
-(01,'Data Structures and Algorithms','10:00 AM','12:00 PM','DEP01','LAB11'),
-(02,'Cloud Computing','08:00 AM','10:00 PM','DEP01','LAB11'),
-(03,'Data Base Management Systems','10:00 AM','12:00 PM','DEP01','LAB11'),
-(04,'Fundamental of Management','10:00 AM','12:00 PM','DEP04','NBLLT'),
-(05,'Nano Technology','12:00 AM','2:00 PM','DEP03','LAB04'),
-(06,'Objet Oriented Analysis and Design','10:00 AM','12:00 PM','DEP01','LAB11'),
-(07,'Polymer Materials','10:00 AM','12:00 PM','DEP02','LAB8'),
-(08,'C Programming','08:00 AM','10:00 PM','DEP01','LAB11'),
-(09,'Mechatronics control and Technologists','1:00 AM','3:00 PM','DEP02','LAB8'),
-(10,'Gene Technology','10:00 AM','12:00 PM','DEP03','LAB4');
+(01,'Data Structures and Algorithms','10:00 AM','12:00 PM','DEP01','LAB11','A100'),
+(02,'Cloud Computing','08:00 AM','10:00 PM','DEP01','LAB11','A200'),
+(03,'Data Base Management Systems','10:00 AM','12:00 PM','DEP01','LAB11','A200'),
+(04,'Fundamental of Management','10:00 AM','12:00 PM','DEP04','NBLLT','A300'),
+(05,'Nano Technology','12:00 AM','2:00 PM','DEP03','LAB04','A400'),
+(06,'Objet Oriented Analysis and Design','10:00 AM','12:00 PM','DEP01','LAB11','A100'),
+(07,'Polymer Materials','10:00 AM','12:00 PM','DEP02','LAB8','A200'),
+(08,'C Programming','08:00 AM','10:00 PM','DEP01','LAB11','A300'),
+(09,'Mechatronics control and Technologists','1:00 AM','3:00 PM','DEP02','LAB8','A100'),
+(10,'Gene Technology','10:00 AM','12:00 PM','DEP03','LAB4','A100');
 
 
 -- Notice table
@@ -195,7 +195,7 @@ CREATE TABLE if not exists Notice
     Subject_ VARCHAR(30),
     Description_ VARCHAR(1000),
     Admin_id VARCHAR(10) not null,
-    foreign key (admin_id) references Addmin (User_id)
+    foreign key (admin_id) references Admin (User_id)
 );
 
 INSERT INTO Notice
@@ -319,7 +319,6 @@ VALUES
 (28,'S008','2023-03-08','ICT01','Present'),
 (20,'S009','2023-03-08','ICT01','Present'),
 (20,'S010','2023-03-08','ICT01','Absent'),
-(20,'S001','2023-03-09','ICT02','Absent'),
 (20,'S002','2023-03-09','ICT02','present'),
 (20,'S003','2023-03-09','ICT02','present'),
 (22,'S004','2023-03-09','ICT02','Present'),
@@ -529,7 +528,7 @@ CREATE TABLE if not exists Student_CourseDetail
     Course_id VARCHAR(10) not null,
     PRIMARY KEY (Student_id,Course_id),
     FOREIGN KEY (Student_id) REFERENCES Student(User_id),
-    FOREIGN KEY (Course_id) REFERENCES  Course_Detail(User_id)
+    FOREIGN KEY (Course_id) REFERENCES  Course_Detail(Course_id)
 );
 
 INSERT INTO Student_CourseDetail
@@ -771,6 +770,15 @@ CREATE TABLE if not exists Student_Grades
     FOREIGN KEY(Student_id) REFERENCES Exam_mark(Student_id)
     
 );
+
+CREATE TABLE if not exists T_Table
+(
+	TT_id VARCHAR(10) primary key not null,
+    Level_and_Semester VARCHAR(30),
+    TT_pdf longblob
+);
+
+drop table T_Table;
 
 
 
