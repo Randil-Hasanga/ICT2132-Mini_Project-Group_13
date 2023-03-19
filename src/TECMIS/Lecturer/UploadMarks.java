@@ -56,6 +56,11 @@ public class UploadMarks extends Lecturer{
     private double MID;
     private double F_Theory;
     private double F_Practical;
+    private String p40 = "40%";
+    private String p30 = "30%";
+    private String p60 = "60%";
+    private String p20 = "20%";
+    private String p10 = "10%";
 
 
     double A1;
@@ -141,6 +146,12 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(true);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+                    txtQ1.setText(p10);
+                    txtQ2.setText(p10);
+                    txtQ3.setText(p10);
+                    txtMid.setText(p20);
+                    txtFinalTheory.setText(p40);
+                    txtFinalPractical.setText(p30);
                 }else if(selected.equals("Style 2")){
                     txtQ1.setVisible(true);
                     txtQ2.setVisible(true);
@@ -160,6 +171,13 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(false);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+                    txtQ1.setText(p10);
+                    txtQ2.setText(p10);
+                    txtA2.setText(p10);
+                    txtA1.setText(p10);
+                    txtQ3.setText(p10);
+                    txtMid.setText(p20);
+                    txtFinalTheory.setText(p60);
 
                 }else if(selected.equals("Style 3")){
                     txtQ1.setVisible(true);
@@ -181,6 +199,15 @@ public class UploadMarks extends Lecturer{
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
 
+                    txtQ1.setText(p10);
+                    txtQ2.setText(p10);
+                    txtA2.setText(p10);
+                    txtA1.setText(p10);
+                    txtQ3.setText(p10);
+                    txtMid.setText(p20);
+                    txtFinalTheory.setText(p40);
+                    txtFinalPractical.setText(p30);
+
                 }else if(selected.equals("Style 4")){
                     txtQ1.setVisible(true);
                     txtQ2.setVisible(true);
@@ -200,6 +227,15 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(true);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+
+                    txtQ1.setText(p10);
+                    txtQ2.setText(p10);
+                    txtA2.setText(p10);
+                    txtA1.setText(p10);
+                    txtQ3.setText(p10);
+                    txtMid.setText(p20);
+                    txtFinalTheory.setText(p30);
+                    txtFinalPractical.setText(p40);
                 }
 
 
@@ -232,6 +268,13 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(true);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+
+                    txtQ1.setText(p10);
+                    txtQ2.setText(p10);
+                    txtQ3.setText(p10);
+                    txtMid.setText(p20);
+                    txtFinalTheory.setText(p40);
+                    txtFinalPractical.setText(p30);
                 }else if(selected.equals("ICT02")){
                     CID = "ICT02";
                     txtQ1.setVisible(true);
@@ -252,6 +295,14 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(false);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+
+                    txtQ1.setText(p10);
+                    txtQ2.setText(p10);
+                    txtA2.setText(p10);
+                    txtA1.setText(p10);
+                    txtQ3.setText(p10);
+                    txtMid.setText(p20);
+                    txtFinalTheory.setText(p60);
                 }else if(selected.equals("ICT03")) {
                     CID = "ICT03";
                     txtQ1.setVisible(true);
@@ -272,6 +323,15 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(true);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+
+                    txtQ1.setText(p10);
+                    txtQ2.setText(p10);
+                    txtA2.setText(p10);
+                    txtA1.setText(p10);
+                    txtQ3.setText(p10);
+                    txtMid.setText(p20);
+                    txtFinalTheory.setText(p40);
+                    txtFinalPractical.setText(p30);
                 }else if(selected.equals("ICT04")){
                     CID = "ICT04";
                     txtQ1.setVisible(true);
@@ -292,6 +352,15 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(true);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+
+                    txtQ1.setText(p10);
+                    txtQ2.setText(p10);
+                    txtA2.setText(p10);
+                    txtA1.setText(p10);
+                    txtQ3.setText(p10);
+                    txtMid.setText(p20);
+                    txtFinalTheory.setText(p30);
+                    txtFinalPractical.setText(p40);
                 }
                 else if(selected.equals("ICT05")){
                     CID = "ICT05";
@@ -313,6 +382,13 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(true);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+
+                    txtQ1.setText(p10);
+                    txtQ2.setText(p10);
+                    txtQ3.setText(p10);
+                    txtMid.setText(p20);
+                    txtFinalTheory.setText(p40);
+                    txtFinalPractical.setText(p30);
                 }else if(selected.equals("ICT06")) {
                     CID = "ICT06";
 
@@ -334,6 +410,14 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(false);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+
+                    txtQ1.setText(p10);
+                    txtQ2.setText(p10);
+                    txtA2.setText(p10);
+                    txtA1.setText(p10);
+                    txtQ3.setText(p10);
+                    txtMid.setText(p20);
+                    txtFinalTheory.setText(p60);
                 }
             }
         });

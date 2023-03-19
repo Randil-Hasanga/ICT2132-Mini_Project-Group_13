@@ -60,6 +60,14 @@ public class ViewStudentAttendance extends JFrame {
         setTitle("Student Attendance");
         setLocationRelativeTo(null);
         tblAttendance.setEnabled(false);
+        chooseDateButton.setVisible(false);
+        lblSid.setVisible(false);
+        txtSID.setVisible(false);
+        txtCID.setVisible(false);
+        lblCid.setVisible(false);
+        lblDate.setVisible(false);
+        searchButton.setVisible(false);
+        clearButton.setVisible(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         chooseDateButton.addActionListener(new ActionListener() {
@@ -99,17 +107,21 @@ public class ViewStudentAttendance extends JFrame {
                 if(radioIndividual.isSelected()){
                     lblSid.setVisible(true);
                     txtSID.setVisible(true);
-                    lblDate.setVisible(false);
-                    txtDate.setVisible(false);
                     txtCID.setVisible(true);
                     lblCid.setVisible(true);
+                    chooseDateButton.setVisible(false);
+                    lblDate.setVisible(false);
+                    searchButton.setVisible(true);
+                    clearButton.setVisible(true);
                 }else if(radioBatch.isSelected()){
                     lblSid.setVisible(false);
                     txtSID.setVisible(false);
-                    lblDate.setVisible(true);
-                    txtDate.setVisible(true);
                     txtCID.setVisible(false);
                     lblCid.setVisible(false);
+                    lblDate.setVisible(true);
+                    chooseDateButton.setVisible(true);
+                    searchButton.setVisible(true);
+                    clearButton.setVisible(true);
                 }
             }
         };
