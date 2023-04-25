@@ -2,6 +2,8 @@ package TECMIS.Common_classes;
 
 import TECMIS.Lecturer.Lecturer;
 import TECMIS.MySqlCon;
+import TECMIS.Student.Student;
+import TECMIS.User;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -47,15 +49,10 @@ public class ViewGradeGPA extends JFrame{
 
     private static int Current_level;
     private static int Current_semester;
+    private String acc;
+    private String user;
 
-    public ViewGradeGPA() {
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-            }
-        });
-    }
 
     public static int getCurrent_level() {
         return Current_level;
@@ -66,6 +63,9 @@ public class ViewGradeGPA extends JFrame{
     }
 
     public void viewGrades(){
+
+        acc = User.getAcc();
+        user = User.getUserId();
 
         add(pnlGP);
         setSize(750, 500);
@@ -94,10 +94,18 @@ public class ViewGradeGPA extends JFrame{
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Lecturer lecBack = new Lecturer();
-                lecBack.setVisible(true);
-                setVisible(false);
-                lecBack.methodLecturer();
+                if (acc.equals("lecturer")) {
+                    Lecturer lecBack = new Lecturer();
+                    lecBack.setVisible(true);
+                    setVisible(false);
+                    lecBack.methodLecturer();
+                }
+                else if(acc.equals("student")){
+                    Student stuBack = new Student();
+                    stuBack.setVisible(true);
+                    setVisible(false);
+                    stuBack.methodStudent();
+                }
             }
         });
 
@@ -185,7 +193,7 @@ public class ViewGradeGPA extends JFrame{
                                 SID = txtSID.getText();
                                 CID = (txtCID.getText().isEmpty() || txtCID.getText() == null) ? "" : txtCID.getText();
 
-                                String grd = "SELECT Student.User_id,CONCAT(Student.FName,' ',Student.LName) AS Name, Exam_mark.Letter_Grade FROM Course_Detail,Student,Exam_mark " +
+                                String grd = "SELECT Student.User_id,CONCAT(Student.FName,' ',Student.LName) AS Name,Course_Detail.Course_Name, Exam_mark.Letter_Grade FROM Course_Detail,Student,Exam_mark " +
                                         "WHERE (Student.User_id = Exam_mark.Student_id) AND (Course_Detail.Course_id = Exam_mark.Course_id) AND Exam_mark.Student_id = ? ";
 
                                 try (PreparedStatement gr = conn.prepareStatement(grd)) {

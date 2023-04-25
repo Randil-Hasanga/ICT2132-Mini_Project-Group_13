@@ -2,6 +2,7 @@ package TECMIS.Common_classes.viewAttendance;
 
 import TECMIS.Lecturer.Lecturer;
 import TECMIS.MySqlCon;
+import TECMIS.Student.Student;
 import TECMIS.User;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
@@ -252,10 +253,18 @@ public class ViewStudentAttendance extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Lecturer lecBack = new Lecturer();
-                lecBack.setVisible(true);
-                setVisible(false);
-                lecBack.methodLecturer();
+                if (acc.equals("lecturer")) {
+                    Lecturer lecBack = new Lecturer();
+                    lecBack.setVisible(true);
+                    setVisible(false);
+                    lecBack.methodLecturer();
+                }
+                else if(acc.equals("student")){
+                    Student stuBack = new Student();
+                    stuBack.setVisible(true);
+                    setVisible(false);
+                    stuBack.methodStudent();
+                }
             }
         });
 
