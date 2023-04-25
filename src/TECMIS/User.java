@@ -137,7 +137,7 @@ public class User extends JFrame{
                             lblDisplay.setText("Incorrect email or password");
                         }
 
-                    }else if (acc.equals("Student")){
+                    }else if (acc.equals("student")){
 
                         if (DBpwd != null && DBpwd.equals(pwd)){
                             Statement stmt = conn.createStatement();

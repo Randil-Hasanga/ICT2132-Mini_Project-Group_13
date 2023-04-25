@@ -135,7 +135,7 @@
                     <item value="admin"/>
                     <item value="lecturer"/>
                     <item value="student"/>
-                    <item value="technical officer"/>
+                    <item value="technical_officer"/>
                   </model>
                 </properties>
               </component>
