@@ -1,6 +1,7 @@
 package TECMIS.Admin.DashBord;
 
 import TECMIS.Admin.DashBord.Course.CreateCourse;
+import TECMIS.Admin.DashBord.Course.RemoveCourse;
 import TECMIS.Admin.DashBord.Course.UpdateCouse;
 import TECMIS.Admin.DashBord.Notice.UpdateNotice;
 import TECMIS.Admin.DashBord.Notice.createNotice;
@@ -48,6 +49,8 @@ public class Dashbord extends User {
     private byte[] dImg;
     private String Fname;
     private String Lname;
+
+
 
 
     public void methodAdmin(){
@@ -197,6 +200,17 @@ public class Dashbord extends User {
                 RemoveUserDashbord RemoveUser= new RemoveUserDashbord();
                 RemoveUser.RemoveUserMethod();
                 RemoveUser.setVisible(true);
+                setVisible(false);
+            }
+        });
+
+
+        RemoveCourseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RemoveCourse RemCou = new RemoveCourse();
+                RemCou.RemoveCourseDetails();
+                RemCou.setVisible(true);
                 setVisible(false);
             }
         });
