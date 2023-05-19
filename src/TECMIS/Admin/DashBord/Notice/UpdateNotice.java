@@ -1,5 +1,6 @@
 package TECMIS.Admin.DashBord.Notice;
 
+import TECMIS.Admin.DashBord.Dashbord;
 import TECMIS.Admin.DashBord.UpdateUser.UpdateUserDashbord;
 import TECMIS.MySqlCon;
 
@@ -102,10 +103,10 @@ public class UpdateNotice extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                UpdateUserDashbord back = new UpdateUserDashbord();
+                Dashbord back = new Dashbord();
                 back.setVisible(true);
                 setVisible(false);
-                back.UpdateUserMethod();
+                back.methodAdmin();
             }
         });
 
