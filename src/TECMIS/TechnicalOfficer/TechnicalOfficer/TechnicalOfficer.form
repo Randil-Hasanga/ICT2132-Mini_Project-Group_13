@@ -218,7 +218,7 @@
               <background color="-5574447"/>
               <foreground color="-16777216"/>
             </properties>
-            <border type="none" title="Add"/>
+            <border type="none" title="Upload"/>
             <children>
               <component id="71662" class="javax.swing.JButton" binding="AddBtnMedical">
                 <constraints>
