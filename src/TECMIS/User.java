@@ -3,6 +3,7 @@ package TECMIS;
 import TECMIS.Admin.DashBord.Dashbord;
 import TECMIS.Lecturer.Lecturer;
 import TECMIS.Student.Student;
+import TECMIS.TechnicalOfficer.TechnicalOfficer.TechnicalOfficer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -137,7 +138,35 @@ public class User extends JFrame{
                             lblDisplay.setText("Incorrect email or password");
                         }
 
-                    }else if (acc.equals("student")){
+
+
+                    }else if (acc.equals("technical_officer")){
+
+                        if (DBpwd != null && DBpwd.equals(pwd)){
+                            Statement stmt = conn.createStatement();
+
+                            String query7 = "CREATE USER IF NOT EXISTS 'technical_officer'@'localhost' IDENTIFIED BY 'technical_officer123'";
+                            String query8 = "GRANT SELECT,INSERT,UPDATE (User_id,FName,LName,Gender,Address_L1, Address_L2,DOB, Email,Pro_pic) ON LMSDB.Technical_officer TO 'technical_officer'@'localhost'";
+
+                            stmt.executeUpdate(query7);
+                            stmt.executeUpdate(query8);
+
+                            lblDisplay.setText("Password correct");
+
+                            TechnicalOfficer technicalOfficer = new TechnicalOfficer();
+                            technicalOfficer.setUserId(userId);
+                            technicalOfficer.setAcc(acc);
+                            technicalOfficer.methodTechnicalOfficer();
+                            technicalOfficer.setVisible(true);
+                            setVisible(false);
+                        }else {
+                            lblDisplay.setVisible(true);
+                            lblDisplay.setText(" Incorrect email or password ");
+                        }
+
+
+                    }
+                    else if (acc.equals("student")){
 
                         if (DBpwd != null && DBpwd.equals(pwd)){
                             Statement stmt = conn.createStatement();
@@ -159,7 +188,8 @@ public class User extends JFrame{
                         }
 
 
-                    }else if(acc.equals("admin")){
+                    }
+                    else if(acc.equals("admin")){
 
                         if(DBpwd !=null && DBpwd.equals(pwd)){
                             Statement stmt = conn.createStatement();
