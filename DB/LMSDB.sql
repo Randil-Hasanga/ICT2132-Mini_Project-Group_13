@@ -26,6 +26,32 @@ VALUES
 ('A300','Nilantha','Bandara','Male','Palmadulla','Rathnapura','1984-05-17','nilantha@gmail.com',null,'3345'),
 ('A400','Vinod','Deshan','Male','Malawa','Kuruwita','1985-02-18','deshan@gmail.com',null,'2667');
 
+-- lecturer table
+
+CREATE TABLE if not exists Lecturer
+(
+	User_id VARCHAR(10) NOT NULL PRIMARY KEY,
+    FName VARCHAR(15),
+    LName VARCHAR(15),
+	Gender ENUM('Male','Female'),
+	Address_L1 VARCHAR(50),
+    Address_L2 VARCHAR(50),
+    DOB DATE,
+    Email VARCHAR(50),
+    Pro_pic longblob,
+    Password VARCHAR(20),
+    Position VARCHAR(20)
+);
+
+INSERT INTO Lecturer
+(User_id,FName,LName,Gender,Address_L1,Address_L2,DOB,Email,Pro_pic,Password,Position)
+VALUES
+('L001','Saman','Perera','Male','Akuressa','Matara','1989-04-05','sperera@gmail.com',null,'asd123','Professor'),
+('L002','Kumari','Lanka','Female','Eheliyagoda','Rathnapura','1993-05-24','kumarilanka@gmail.com',null,'75qw6','Senior Professor'),
+('L003','Sandya','Gunathilaka','Female','Kamburupitiya','Matara','1982-08-12','sgunathilaka@gmail.com',null,'hrq456','Senoir Lecturer'),
+('L004','Gihan','Fernando','Male','Kekanadura','Matara','1995-01-01','gihan123@gmail.com',null,'201mnb','Professor'),
+('L005','Lalin','Perera','Male','Deniyaya','Matara','1990-12-19','lalinperera@gmail.com',null,'qwe412','Senior Lecturer');
+
 
 -- student table
 CREATE TABLE if not exists Student
@@ -60,37 +86,26 @@ VALUES
 ('S010','Kasun','Bandara', 'Male', 'Yatiyana', 'Matara', '2000-04-25', 'kasun@gmail.com', null, 'Undergraduate','1796','L005'),
 ('S011','Kavindu','Nilshan', 'Male', 'Akuressa', 'Matara', '2000-08-25', 'kavindu@gmail.com', null, 'Undergraduate','1796','L005');
 
-
--- lecturer table
-
-CREATE TABLE if not exists Lecturer
+-- department table
+CREATE TABLE if not exists Department
 (
-	User_id VARCHAR(10) NOT NULL PRIMARY KEY,
-    FName VARCHAR(15),
-    LName VARCHAR(15),
-	Gender ENUM('Male','Female'),
-	Address_L1 VARCHAR(50),
-    Address_L2 VARCHAR(50),
-    DOB DATE,
-    Email VARCHAR(50),
-    Pro_pic longblob,
-    Password VARCHAR(20),
-    Position VARCHAR(20)
+	Dep_id VARCHAR(10) NOT NULL  PRIMARY KEY,
+    Dep_Name VARCHAR(30)
+    
 );
 
-INSERT INTO Lecturer
-(User_id,FName,LName,Gender,Address_L1,Address_L2,DOB,Email,Pro_pic,Password,Position)
+INSERT INTO Department
+(Dep_id, Dep_name)
 VALUES
-('L001','Saman','Perera','Male','Akuressa','Matara','1989-04-05','sperera@gmail.com',null,'asd123','Professor'),
-('L002','Kumari','Lanka','Female','Eheliyagoda','Rathnapura','1993-05-24','kumarilanka@gmail.com',null,'75qw6','Senior Professor'),
-('L003','Sandya','Gunathilaka','Female','Kamburupitiya','Matara','1982-08-12','sgunathilaka@gmail.com',null,'hrq456','Senoir Lecturer'),
-('L004','Gihan','Fernando','Male','Kekanadura','Matara','1995-01-01','gihan123@gmail.com',null,'201mnb','Professor'),
-('L005','Lalin','Perera','Male','Deniyaya','Matara','1990-12-19','lalinperera@gmail.com',null,'qwe412','Senior Lecturer');
+('DEP01','ICT'),
+('DEP02','ET'),
+('DEP03','BST'),
+('DEP04','Multi diciplinary');
 
 -- Technical_officer table
 CREATE TABLE if not exists Technical_officer
 (
-	User_id VARCHAR(10)  NOT NULL PRIMARY KEY,
+	User_id VARCHAR(10) NOT NULL PRIMARY KEY,
     Dep_id VARCHAR(10) not null,
     FName VARCHAR(15),
     LName VARCHAR(15),
@@ -113,22 +128,6 @@ VALUES
 ('TO004','DEP04','Gihan','Bandara','Male','Dikwella','Mathara','1979-09-12','gihanbandara@gmail.com',null,'@12az'),
 ('TO005','DEP02','Supun','Malinga','Male','Pelmadulla','Rathnapura','1980-10-18','smalinga@gmail.com',null,'01@abc');
 
-
--- department table
-CREATE TABLE if not exists Department
-(
-	Dep_id VARCHAR(10) NOT NULL  PRIMARY KEY,
-    Dep_Name VARCHAR(30)
-    
-);
-
-INSERT INTO Department
-(Dep_id, Dep_name)
-VALUES
-('DEP01','ICT'),
-('DEP02','ET'),
-('DEP03','BST'),
-('DEP04','Multi diciplinary');
 
 
 -- course details table
@@ -229,8 +228,10 @@ INSERT INTO Medical
 (Medical_id, Student_id, Start_Date,End_Date, Medical_Condition)
 VALUES
 ('M01','S001','2023-02-05','2023-02-19','Approved'),
-('M02','S001','2023-02-10','2023-02-24','Approved'),
-('M03','S001','2023-03-01','2023-03-15','Reject');
+('M02','S002','2023-02-10','2023-02-24','Approved'),
+('M03','S003','2023-03-12','2023-03-15','Reject'),
+('M04','S004','2023-03-02','2023-03-04','Reject'),
+('M05','S005','2023-02-05','2023-03-07','Reject');
 
 -- Attendance table ***WEAK***
 
@@ -249,185 +250,185 @@ CREATE TABLE if not exists Attendance
 INSERT INTO Attendance
 (Attendance_id,Student_id,Date_,Course_id,Status_ )
 VALUES
-(20,'S001','2023-03-01','ICT01','Absent'),
-(20,'S002','2023-03-01','ICT01','present'),
-(20,'S003','2023-03-01','ICT01','present'),
-(22,'S004','2023-03-01','ICT01','Present'),
-(22,'S005','2023-03-01','ICT01','Present'),
-(22,'S006','2023-03-01','ICT01','Present'),
-(25,'S007','2023-03-01','ICT01','Present'),
-(25,'S008','2023-03-01','ICT01','Absent'),
-(25,'S009','2023-03-01','ICT01','Absent'),
-(25,'S010','2023-03-01','ICT01','Present'),
-(30,'S001','2023-03-02','ICT02','Present'),
-(30,'S002','2023-03-02','ICT02','Present'),
-(30,'S003','2023-03-02','ICT02','Present'),
-(30,'S004','2023-03-02','ICT02','Present'),
-(33,'S005','2023-03-02','ICT02','Present'),
-(33,'S006','2023-03-02','ICT02','Absent'),
-(33,'S007','2023-03-02','ICT02','Absent'),
-(33,'S008','2023-03-02','ICT02','Absent'),
-(33,'S009','2023-03-02','ICT02','Absent'),
-(25,'S010','2023-03-02','ICT02','Present'),
-(25,'S001','2023-03-03','ICT03','Present'),
-(25,'S002','2023-03-03','ICT03','Present'),
-(12,'S003','2023-03-03','ICT03','Present'),
-(12,'S004','2023-03-03','ICT03','Present'),
-(23,'S005','2023-03-03','ICT03','Present'),
-(23,'S006','2023-03-03','ICT03','Present'),
-(28,'S007','2023-03-03','ICT03','Present'),
-(28,'S008','2023-03-03','ICT03','Present'),
-(14,'S009','2023-03-03','ICT03','Present'),
-(14,'S010','2023-03-03','ICT03','Present'),
-(14,'S001','2023-03-04','ICT04','Present'),
-(15,'S002','2023-03-04','ICT04','Absent'),
-(15,'S003','2023-03-04','ICT04','Absent'),
-(32,'S004','2023-03-04','ICT04','Present'),
-(32,'S005','2023-03-04','ICT04','Present'),
-(17,'S006','2023-03-04','ICT04','Present'),
-(17,'S007','2023-03-04','ICT04','Present'),
-(19,'S008','2023-03-04','ICT04','Present'),
-(19,'S009','2023-03-04','ICT04','Present'),
-(19,'S010','2023-03-04','ICT04','Absent'),
-(21,'S001','2023-03-05','ICT05','Present'),
-(21,'S002','2023-03-05','ICT05','Present'),
-(32,'S003','2023-03-05','ICT05','Present'),
-(32,'S004','2023-03-05','ICT05','Present'),
-(35,'S005','2023-03-05','ICT05','Present'),
-(35,'S006','2023-03-05','ICT05','Present'),
-(15,'S007','2023-03-05','ICT05','Present'),
-(16,'S008','2023-03-05','ICT05','Present'),
-(21,'S009','2023-03-05','ICT05','Present'),
-(15,'S010','2023-03-05','ICT05','Present'),
-(21,'S001','2023-03-05','ICT06','Present'),
-(21,'S002','2023-03-05','ICT06','Present'),
-(32,'S003','2023-03-05','ICT06','Present'),
-(32,'S004','2023-03-05','ICT06','Present'),
-(35,'S005','2023-03-05','ICT06','Present'),
-(35,'S006','2023-03-05','ICT06','Present'),
-(15,'S007','2023-03-05','ICT06','Present'),
-(16,'S008','2023-03-05','ICT06','Present'),
-(21,'S009','2023-03-05','ICT06','Present'),
-(15,'S010','2023-03-05','ICT06','Present'),
-(20,'S001','2023-03-08','ICT01','Present'),
-(20,'S002','2023-03-08','ICT01','Present'),
-(23,'S003','2023-03-08','ICT01','Present'),
-(26,'S004','2023-03-08','ICT01','Present'),
-(25,'S005','2023-03-08','ICT01','Present'),
-(14,'S006','2023-03-08','ICT01','Present'),
-(13,'S007','2023-03-08','ICT01','Present'),
-(28,'S008','2023-03-08','ICT01','Present'),
-(20,'S009','2023-03-08','ICT01','Present'),
-(20,'S010','2023-03-08','ICT01','Absent'),
-(20,'S002','2023-03-09','ICT02','present'),
-(20,'S003','2023-03-09','ICT02','present'),
-(22,'S004','2023-03-09','ICT02','Present'),
-(22,'S005','2023-03-09','ICT02','Present'),
-(22,'S006','2023-03-09','ICT02','Present'),
-(25,'S007','2023-03-09','ICT02','Present'),
-(25,'S008','2023-03-09','ICT02','Absent'),
-(25,'S009','2023-03-09','ICT02','Absent'),
-(25,'S010','2023-03-09','ICT02','Present'),
-(25,'S001','2023-03-10','ICT03','Present'),
-(25,'S002','2023-03-10','ICT03','Present'),
-(12,'S003','2023-03-10','ICT03','Present'),
-(12,'S004','2023-03-10','ICT03','Present'),
-(23,'S005','2023-03-10','ICT03','Present'),
-(23,'S006','2023-03-10','ICT03','Present'),
-(28,'S007','2023-03-10','ICT03','Present'),
-(28,'S008','2023-03-10','ICT03','Present'),
-(14,'S009','2023-03-10','ICT03','Present'),
-(14,'S010','2023-03-10','ICT03','Present'),
-(14,'S001','2023-03-11','ICT04','Present'),
-(15,'S002','2023-03-11','ICT04','Absent'),
-(15,'S003','2023-03-11','ICT04','Absent'),
-(32,'S004','2023-03-11','ICT04','Present'),
-(32,'S005','2023-03-11','ICT04','Present'),
-(17,'S006','2023-03-11','ICT04','Present'),
-(17,'S007','2023-03-11','ICT04','Present'),
-(19,'S008','2023-03-11','ICT04','Present'),
-(19,'S009','2023-03-11','ICT04','Present'),
-(19,'S010','2023-03-11','ICT04','Absent'),
-(14,'S001','2023-03-12','ICT05','Present'),
-(15,'S002','2023-03-12','ICT05','Absent'),
-(15,'S003','2023-03-12','ICT05','Absent'),
-(32,'S004','2023-03-12','ICT05','Present'),
-(32,'S005','2023-03-12','ICT05','Present'),
-(17,'S006','2023-03-12','ICT05','Present'),
-(17,'S007','2023-03-12','ICT05','Present'),
-(19,'S008','2023-03-12','ICT05','Present'),
-(19,'S009','2023-03-12','ICT05','Present'),
-(19,'S010','2023-03-12','ICT05','Absent'),
-(21,'S001','2023-03-12','ICT06','Present'),
-(21,'S002','2023-03-12','ICT06','Present'),
-(32,'S003','2023-03-12','ICT06','Present'),
-(32,'S004','2023-03-12','ICT06','Present'),
-(35,'S005','2023-03-12','ICT06','Present'),
-(35,'S006','2023-03-12','ICT06','Present'),
-(15,'S007','2023-03-12','ICT06','Present'),
-(16,'S008','2023-03-12','ICT06','Present'),
-(21,'S009','2023-03-12','ICT06','Present'),
-(15,'S010','2023-03-12','ICT06','Present'),
-(20,'S001','2023-03-15','ICT01','Present'),
-(20,'S002','2023-03-15','ICT01','Present'),
-(23,'S003','2023-03-15','ICT01','Present'),
-(26,'S004','2023-03-15','ICT01','Present'),
-(25,'S005','2023-03-15','ICT01','Present'),
-(14,'S006','2023-03-15','ICT01','Present'),
+(01,'S001','2023-03-01','ICT01','Absent'),
+(01,'S002','2023-03-01','ICT01','present'),
+(01,'S003','2023-03-01','ICT01','present'),
+(01,'S004','2023-03-01','ICT01','Present'),
+(01,'S005','2023-03-01','ICT01','Present'),
+(01,'S006','2023-03-01','ICT01','Present'),
+(01,'S007','2023-03-01','ICT01','Present'),
+(01,'S008','2023-03-01','ICT01','Absent'),
+(01,'S009','2023-03-01','ICT01','Absent'),
+(01,'S010','2023-03-01','ICT01','Present'),
+(02,'S001','2023-03-02','ICT02','Present'),
+(02,'S002','2023-03-02','ICT02','Present'),
+(02,'S003','2023-03-02','ICT02','Present'),
+(02,'S004','2023-03-02','ICT02','Present'),
+(02,'S005','2023-03-02','ICT02','Present'),
+(02,'S006','2023-03-02','ICT02','Absent'),
+(02,'S007','2023-03-02','ICT02','Absent'),
+(02,'S008','2023-03-02','ICT02','Absent'),
+(02,'S009','2023-03-02','ICT02','Absent'),
+(02,'S010','2023-03-02','ICT02','Present'),
+(03,'S001','2023-03-03','ICT03','Present'),
+(03,'S002','2023-03-03','ICT03','Present'),
+(03,'S003','2023-03-03','ICT03','Present'),
+(03,'S004','2023-03-03','ICT03','Present'),
+(03,'S005','2023-03-03','ICT03','Present'),
+(03,'S006','2023-03-03','ICT03','Present'),
+(03,'S007','2023-03-03','ICT03','Present'),
+(03,'S008','2023-03-03','ICT03','Present'),
+(03,'S009','2023-03-03','ICT03','Present'),
+(03,'S010','2023-03-03','ICT03','Present'),
+(04,'S001','2023-03-04','ICT04','Present'),
+(04,'S002','2023-03-04','ICT04','Absent'),
+(04,'S003','2023-03-04','ICT04','Absent'),
+(04,'S004','2023-03-04','ICT04','Present'),
+(04,'S005','2023-03-04','ICT04','Present'),
+(04,'S006','2023-03-04','ICT04','Present'),
+(04,'S007','2023-03-04','ICT04','Present'),
+(04,'S008','2023-03-04','ICT04','Present'),
+(04,'S009','2023-03-04','ICT04','Present'),
+(04,'S010','2023-03-04','ICT04','Absent'),
+(05,'S001','2023-03-05','ICT05','Present'),
+(05,'S002','2023-03-05','ICT05','Present'),
+(05,'S003','2023-03-05','ICT05','Present'),
+(05,'S004','2023-03-05','ICT05','Present'),
+(05,'S005','2023-03-05','ICT05','Present'),
+(05,'S006','2023-03-05','ICT05','Present'),
+(05,'S007','2023-03-05','ICT05','Present'),
+(05,'S008','2023-03-05','ICT05','Present'),
+(05,'S009','2023-03-05','ICT05','Present'),
+(05,'S010','2023-03-05','ICT05','Present'),
+(06,'S001','2023-03-05','ICT06','Present'),
+(06,'S002','2023-03-05','ICT06','Present'),
+(06,'S003','2023-03-05','ICT06','Present'),
+(06,'S004','2023-03-05','ICT06','Present'),
+(06,'S005','2023-03-05','ICT06','Present'),
+(06,'S006','2023-03-05','ICT06','Present'),
+(06,'S007','2023-03-05','ICT06','Present'),
+(06,'S008','2023-03-05','ICT06','Present'),
+(06,'S009','2023-03-05','ICT06','Present'),
+(06,'S010','2023-03-05','ICT06','Present'),
+(07,'S001','2023-03-08','ICT01','Present'),
+(07,'S002','2023-03-08','ICT01','Present'),
+(07,'S003','2023-03-08','ICT01','Present'),
+(07,'S004','2023-03-08','ICT01','Present'),
+(07,'S005','2023-03-08','ICT01','Present'),
+(07,'S006','2023-03-08','ICT01','Present'),
+(07,'S007','2023-03-08','ICT01','Present'),
+(07,'S008','2023-03-08','ICT01','Present'),
+(07,'S009','2023-03-08','ICT01','Present'),
+(07,'S010','2023-03-08','ICT01','Absent'),
+(08,'S002','2023-03-09','ICT02','present'),
+(08,'S003','2023-03-09','ICT02','present'),
+(08,'S004','2023-03-09','ICT02','Present'),
+(08,'S005','2023-03-09','ICT02','Present'),
+(08,'S006','2023-03-09','ICT02','Present'),
+(08,'S007','2023-03-09','ICT02','Present'),
+(08,'S008','2023-03-09','ICT02','Absent'),
+(08,'S009','2023-03-09','ICT02','Absent'),
+(08,'S010','2023-03-09','ICT02','Present'),
+(09,'S001','2023-03-10','ICT03','Present'),
+(09,'S002','2023-03-10','ICT03','Present'),
+(09,'S003','2023-03-10','ICT03','Present'),
+(09,'S004','2023-03-10','ICT03','Present'),
+(09,'S005','2023-03-10','ICT03','Present'),
+(09,'S006','2023-03-10','ICT03','Present'),
+(09,'S007','2023-03-10','ICT03','Present'),
+(09,'S008','2023-03-10','ICT03','Present'),
+(09,'S009','2023-03-10','ICT03','Present'),
+(09,'S010','2023-03-10','ICT03','Present'),
+(10,'S001','2023-03-11','ICT04','Present'),
+(10,'S002','2023-03-11','ICT04','Absent'),
+(10,'S003','2023-03-11','ICT04','Absent'),
+(10,'S004','2023-03-11','ICT04','Present'),
+(10,'S005','2023-03-11','ICT04','Present'),
+(10,'S006','2023-03-11','ICT04','Present'),
+(10,'S007','2023-03-11','ICT04','Present'),
+(10,'S008','2023-03-11','ICT04','Present'),
+(10,'S009','2023-03-11','ICT04','Present'),
+(10,'S010','2023-03-11','ICT04','Absent'),
+(11,'S001','2023-03-12','ICT05','Present'),
+(11,'S002','2023-03-12','ICT05','Absent'),
+(11,'S003','2023-03-12','ICT05','Absent'),
+(11,'S004','2023-03-12','ICT05','Present'),
+(11,'S005','2023-03-12','ICT05','Present'),
+(11,'S006','2023-03-12','ICT05','Present'),
+(11,'S007','2023-03-12','ICT05','Present'),
+(11,'S008','2023-03-12','ICT05','Present'),
+(11,'S009','2023-03-12','ICT05','Present'),
+(11,'S010','2023-03-12','ICT05','Absent'),
+(12,'S001','2023-03-12','ICT06','Present'),
+(12,'S002','2023-03-12','ICT06','Present'),
+(12,'S003','2023-03-12','ICT06','Present'),
+(12,'S004','2023-03-12','ICT06','Present'),
+(12,'S005','2023-03-12','ICT06','Present'),
+(12,'S006','2023-03-12','ICT06','Present'),
+(12,'S007','2023-03-12','ICT06','Present'),
+(12,'S008','2023-03-12','ICT06','Present'),
+(12,'S009','2023-03-12','ICT06','Present'),
+(12,'S010','2023-03-12','ICT06','Present'),
+(13,'S001','2023-03-15','ICT01','Present'),
+(13,'S002','2023-03-15','ICT01','Present'),
+(13,'S003','2023-03-15','ICT01','Present'),
+(13,'S004','2023-03-15','ICT01','Present'),
+(13,'S005','2023-03-15','ICT01','Present'),
+(13,'S006','2023-03-15','ICT01','Present'),
 (13,'S007','2023-03-15','ICT01','Present'),
-(28,'S008','2023-03-15','ICT01','Present'),
-(20,'S009','2023-03-15','ICT01','Present'),
-(20,'S010','2023-03-15','ICT01','Absent'),
+(13,'S008','2023-03-15','ICT01','Present'),
+(13,'S009','2023-03-15','ICT01','Present'),
+(13,'S010','2023-03-15','ICT01','Absent'),
 (14,'S001','2023-03-16','ICT02','Present'),
-(15,'S002','2023-03-16','ICT02','Absent'),
-(15,'S003','2023-03-16','ICT02','Absent'),
-(32,'S004','2023-03-16','ICT02','Present'),
-(32,'S005','2023-03-16','ICT02','Present'),
-(17,'S006','2023-03-16','ICT02','Present'),
-(17,'S007','2023-03-16','ICT02','Present'),
-(19,'S008','2023-03-16','ICT02','Present'),
-(19,'S009','2023-03-16','ICT02','Present'),
-(19,'S010','2023-03-16','ICT02','Absent'),
-(21,'S001','2023-03-17','ICT03','Present'),
-(21,'S002','2023-03-17','ICT03','Present'),
-(32,'S003','2023-03-17','ICT03','Present'),
-(32,'S004','2023-03-17','ICT03','Present'),
-(35,'S005','2023-03-17','ICT03','Present'),
-(35,'S006','2023-03-17','ICT03','Present'),
+(14,'S002','2023-03-16','ICT02','Absent'),
+(14,'S003','2023-03-16','ICT02','Absent'),
+(14,'S004','2023-03-16','ICT02','Present'),
+(14,'S005','2023-03-16','ICT02','Present'),
+(14,'S006','2023-03-16','ICT02','Present'),
+(14,'S007','2023-03-16','ICT02','Present'),
+(14,'S008','2023-03-16','ICT02','Present'),
+(14,'S009','2023-03-16','ICT02','Present'),
+(14,'S010','2023-03-16','ICT02','Absent'),
+(15,'S001','2023-03-17','ICT03','Present'),
+(15,'S002','2023-03-17','ICT03','Present'),
+(15,'S003','2023-03-17','ICT03','Present'),
+(15,'S004','2023-03-17','ICT03','Present'),
+(15,'S005','2023-03-17','ICT03','Present'),
+(15,'S006','2023-03-17','ICT03','Present'),
 (15,'S007','2023-03-17','ICT03','Present'),
-(16,'S008','2023-03-17','ICT03','Present'),
-(21,'S009','2023-03-17','ICT03','Present'),
+(15,'S008','2023-03-17','ICT03','Present'),
+(15,'S009','2023-03-17','ICT03','Present'),
 (15,'S010','2023-03-17','ICT03','Present'),
-(20,'S001','2023-03-18','ICT04','Present'),
-(20,'S002','2023-03-18','ICT04','Present'),
-(23,'S003','2023-03-18','ICT04','Present'),
-(26,'S004','2023-03-18','ICT04','Present'),
-(25,'S005','2023-03-18','ICT04','Present'),
-(14,'S006','2023-03-18','ICT04','Present'),
-(13,'S007','2023-03-18','ICT04','Present'),
-(28,'S008','2023-03-18','ICT04','Present'),
-(20,'S009','2023-03-18','ICT04','Present'),
-(20,'S010','2023-03-18','ICT04','Absent'),
-(14,'S001','2023-03-19','ICT05','Present'),
-(15,'S002','2023-03-19','ICT05','Absent'),
-(15,'S003','2023-03-19','ICT05','Absent'),
-(32,'S004','2023-03-19','ICT05','Present'),
-(32,'S005','2023-03-19','ICT05','Present'),
+(16,'S001','2023-03-18','ICT04','Present'),
+(16,'S002','2023-03-18','ICT04','Present'),
+(16,'S003','2023-03-18','ICT04','Present'),
+(16,'S004','2023-03-18','ICT04','Present'),
+(16,'S005','2023-03-18','ICT04','Present'),
+(16,'S006','2023-03-18','ICT04','Present'),
+(16,'S007','2023-03-18','ICT04','Present'),
+(16,'S008','2023-03-18','ICT04','Present'),
+(16,'S009','2023-03-18','ICT04','Present'),
+(16,'S010','2023-03-18','ICT04','Absent'),
+(17,'S001','2023-03-19','ICT05','Present'),
+(17,'S002','2023-03-19','ICT05','Absent'),
+(17,'S003','2023-03-19','ICT05','Absent'),
+(17,'S004','2023-03-19','ICT05','Present'),
+(17,'S005','2023-03-19','ICT05','Present'),
 (17,'S006','2023-03-19','ICT05','Present'),
 (17,'S007','2023-03-19','ICT05','Present'),
-(19,'S008','2023-03-19','ICT05','Present'),
-(19,'S009','2023-03-19','ICT05','Present'),
-(19,'S010','2023-03-19','ICT05','Absent'),
-(21,'S001','2023-03-19','ICT06','Present'),
-(21,'S002','2023-03-19','ICT06','Present'),
-(32,'S003','2023-03-19','ICT06','Present'),
-(32,'S004','2023-03-19','ICT06','Present'),
-(35,'S005','2023-03-19','ICT06','Absent'),
-(35,'S006','2023-03-19','ICT06','Present'),
-(15,'S007','2023-03-19','ICT06','Present'),
-(16,'S008','2023-03-19','ICT06','Present'),
-(21,'S009','2023-03-19','ICT06','Present'),
-(15,'S010','2023-03-1','ICT06','Present');
+(17,'S008','2023-03-19','ICT05','Present'),
+(17,'S009','2023-03-19','ICT05','Present'),
+(17,'S010','2023-03-19','ICT05','Absent'),
+(18,'S001','2023-03-19','ICT06','Present'),
+(18,'S002','2023-03-19','ICT06','Present'),
+(18,'S003','2023-03-19','ICT06','Present'),
+(18,'S004','2023-03-19','ICT06','Present'),
+(18,'S005','2023-03-19','ICT06','Absent'),
+(18,'S006','2023-03-19','ICT06','Present'),
+(18,'S007','2023-03-19','ICT06','Present'),
+(18,'S008','2023-03-19','ICT06','Present'),
+(18,'S009','2023-03-19','ICT06','Present'),
+(18,'S010','2023-03-1','ICT06','Present');
 
 
 -- Exam_mark table
@@ -528,22 +529,24 @@ CREATE TABLE if not exists Student_CourseDetail
     Course_id VARCHAR(10) not null,
     PRIMARY KEY (Student_id,Course_id),
     FOREIGN KEY (Student_id) REFERENCES Student(User_id),
-    FOREIGN KEY (Course_id) REFERENCES  Course_Detail(Course_id)
+    FOREIGN KEY (Course_id) REFERENCES Course_Detail(Course_id)
 );
+
+
 
 INSERT INTO Student_CourseDetail
 (Student_id,Course_id)
 VALUES
-('S001','CD001'),
-('S002','CD002'),
-('S003','CD003'),
-('S004','CD004'),
-('S005','CD002'),
-('S006','CD001'),
-('S007','CD003'),
-('S008','CD004'),
-('S009','CD002'),
-('S010','CD003');
+('S001','ICT01'),
+('S002','ICT02'),
+('S003','ICT03'),
+('S004','ICT04'),
+('S005','ICT02'),
+('S006','ICT01'),
+('S007','ICT03'),
+('S008','ICT04'),
+('S009','ICT02'),
+('S010','ICT03');
 
 -- Student_Notice table M-M
 CREATE TABLE if not exists Student_Notice
@@ -629,21 +632,24 @@ CREATE TABLE if not exists LectureAttendance
 INSERT INTO LectureAttendance
 (Lecturer_id, Attendance_id)
 VALUES
-('L001',20),
-('L002',30),
-('L003',12),
-('L004',25),
-('L005',18),
-('L001',23),
-('L002',32),
-('L003',17),
-('L004',19),
-('L005',35),
-('L001',14),
-('L002',21),
-('L003',16),
-('L004',26),
-('L005',14);
+('L001',01),
+('L001',05),
+('L001',07),
+('L001',11),
+('L001',13),
+('L001',17),
+('L002',02),
+('L002',06),
+('L002',08),
+('L002',12),
+('L002',14),
+('L002',18),
+('L003',03),
+('L003',09),
+('L003',15),
+('L004',04),
+('L004',10),
+('L004',16);
 
 
 
@@ -655,7 +661,7 @@ CREATE TABLE if not exists Tech_OfficerNotice
     Notice_id VARCHAR(10) not null,
     primary key (T_Officer_id, Notice_id),
     foreign key (T_Officer_Id) references Technical_officer(User_id),
-    foreign key (Notice_id) references Technical_officer(User_id)
+    foreign key (Notice_id) references Notice(Notice_id)
 );
 
 INSERT INTO Tech_OfficerNotice
@@ -670,7 +676,7 @@ VALUES
 ('TO002','N007'),
 ('TO003','N008'),
 ('TO004','N009'),
-('TO005','N0010');
+('TO005','N010');
 
 
 
@@ -698,37 +704,6 @@ VALUES
 ('TO003',08),
 ('TO004',09),
 ('TO005',10);
-
-
--- T_Officer_Attendance table M-M
-
-CREATE TABLE if not exists T_Officer_Attendance
-(
-	T_Officer_ID VARCHAR(10) not null,
-    Attendance_id int,
-    primary key (T_Officer_ID, Attendance_id),
-    foreign key (T_Officer_ID) references Technical_officer(User_id),
-    foreign key (Attendance_id) references Attendance (Attendance_id)
-);
-
-INSERT INTO T_Officer_Attendance
-(T_Officer_ID, Attendance_id)
-VALUES
-('TO001',12),
-('TO002',15),
-('TO003',17),
-('TO004',16),
-('TO005',20),
-('TO001',22),
-('TO002',23),
-('TO003',25),
-('TO004',27),
-('TO005',28),
-('TO002',26),
-('TO003',30),
-('TO004',32),
-('TO005',35);
-
 
 -- T_Officer_Medical table M-M
 
@@ -778,7 +753,7 @@ CREATE TABLE if not exists T_Table
     TT_pdf longblob
 );
 
-drop table T_Table;
+
 
 
 
