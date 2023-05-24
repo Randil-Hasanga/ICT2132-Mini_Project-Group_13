@@ -8,15 +8,6 @@
     <content url="jar://$MODULE_DIR$/src/TECMIS/viewAttendance/jcalendar-1.4.jar!/" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/mysql-connector-j-8.0.32.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="library" name="api" level="project" />
     <orderEntry type="module-library" exported="">
       <library>

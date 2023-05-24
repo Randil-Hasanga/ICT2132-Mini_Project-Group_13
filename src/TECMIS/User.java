@@ -141,9 +141,6 @@ public class User extends JFrame{
                             lblDisplay.setText("Incorrect email or password");
                         }
 
-
-                    }else if (acc.equals("student")){
-
                     }else if (acc.equals("technical_officer")){
 
                         if (DBpwd != null && DBpwd.equals(pwd)){
@@ -188,10 +185,6 @@ public class User extends JFrame{
                             student.setVisible(true);
                             setVisible(false);
                         }
-
-
-                    }else if(acc.equals("admin")){
-
                     }
                     else if(acc.equals("admin")){
 
