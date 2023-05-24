@@ -5,36 +5,25 @@ import TECMIS.Lecturer.Lecturer;
 import TECMIS.Student.Student;
 import TECMIS.TechnicalOfficer.TechnicalOfficer.TechnicalOfficer;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-
+import java.util.Base64;
 
 
 public class User extends JFrame{
 
-    Connection conn;
-
+    private Connection conn;
     {
         conn = MySqlCon.MysqlMethod();
     }
-
     private static String userId;
     private static String acc;
-
-
-
-    String pwd;
-    String DBpwd;
-    Date DOB;
-
-
-    String address_L1;
-    String getAddress_L2;
-
-
-
+    private String pwd;
+    private String DBpwd;
     private JComboBox<String> userDrop;
     private JTextField txtUserId;
     private JPasswordField txtPwd;
@@ -103,6 +92,22 @@ public class User extends JFrame{
                     lblDisplay.setText("Fill all the fields to proceed !");
                 }
 
+                // password encryption
+                String EncryptedPwd = null;
+                String secretKey = "ThisIsASecretKey";
+
+                try {
+                    SecretKeySpec keySpec = new SecretKeySpec(secretKey.getBytes(),"AES");
+                    Cipher cipher = Cipher.getInstance("AES");
+                    cipher.init(Cipher.ENCRYPT_MODE, keySpec);
+
+                    byte[] encryptedBytes = cipher.doFinal(pwd.getBytes());
+                    EncryptedPwd = Base64.getEncoder().encodeToString(encryptedBytes);
+
+                } catch (Exception ex){
+                    ex.printStackTrace();
+                }
+
                 String sql = "SELECT Password FROM " + acc + " WHERE User_id = ?";
 
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -113,9 +118,7 @@ public class User extends JFrame{
                     }
 
                     if(acc.equals("lecturer")){
-
-
-                        if(DBpwd != null && DBpwd.equals(pwd)){
+                        if(DBpwd != null && DBpwd.equals(EncryptedPwd)){
                             Statement stmt = conn.createStatement();
 
                             String query1 = "CREATE USER IF NOT EXISTS 'lecturer'@'localhost' IDENTIFIED BY 'lecturer123'";
@@ -137,8 +140,6 @@ public class User extends JFrame{
                             lblDisplay.setVisible(true);
                             lblDisplay.setText("Incorrect email or password");
                         }
-
-
 
                     }else if (acc.equals("technical_officer")){
 
@@ -163,8 +164,6 @@ public class User extends JFrame{
                             lblDisplay.setVisible(true);
                             lblDisplay.setText(" Incorrect email or password ");
                         }
-
-
                     }
                     else if (acc.equals("student")){
 
@@ -186,8 +185,6 @@ public class User extends JFrame{
                             student.setVisible(true);
                             setVisible(false);
                         }
-
-
                     }
                     else if(acc.equals("admin")){
 
@@ -220,6 +217,4 @@ public class User extends JFrame{
             }
         });
     }
-
-
 }

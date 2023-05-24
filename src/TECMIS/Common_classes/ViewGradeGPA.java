@@ -79,8 +79,15 @@ public class ViewGradeGPA extends JFrame{
         txtCID.setVisible(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        Lecturer gp1 = new Lecturer();
 
+        Lecturer up = new Lecturer();
+        up.updateExamMarks();
+        up.updateCreditGained();
+        up.updateLetterGrade();
+        up.updateStudentGrades();
+        up.sumCredit();
+        up.totalCredit();
+        up.CalculateGPA();
 
         clearButton.addActionListener(new ActionListener() {
             @Override
@@ -180,6 +187,7 @@ public class ViewGradeGPA extends JFrame{
                         public void actionPerformed(ActionEvent e) {
                             Current_level = dropLEVEL.getSelectedIndex();
                             Current_semester = dropSEM.getSelectedIndex();
+
                             if (choice.equals("View grades for Student") && (choice != null)) {
 
                                 Lecturer up = new Lecturer();
@@ -189,7 +197,8 @@ public class ViewGradeGPA extends JFrame{
                                 up.updateStudentGrades();
                                 up.sumCredit();
                                 up.totalCredit();
-                                up.CalculateGPA();;
+                                up.CalculateGPA();
+
                                 SID = txtSID.getText();
                                 CID = (txtCID.getText().isEmpty() || txtCID.getText() == null) ? "" : txtCID.getText();
 

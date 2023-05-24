@@ -12,8 +12,8 @@ import java.sql.*;
 
 public class StudentDetails extends Lecturer{
 
-    Connection conn = TECMIS.MySqlCon.MysqlMethod();
-    String sid;
+    private Connection conn = TECMIS.MySqlCon.MysqlMethod();
+    private String sid;
     private JTextField txtSID;
     private JButton btnSearch;
     private JTable tblStudentDetails;
@@ -54,11 +54,14 @@ public class StudentDetails extends Lecturer{
                 lecBack.setVisible(true);
                 setVisible(false);
                 lecBack.methodLecturer();
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
-
-
-
 
         btnSearch.addActionListener(new ActionListener() {
             @Override
@@ -89,9 +92,6 @@ public class StudentDetails extends Lecturer{
                             }
                         }
                         rs.close();
-                        pstmt.close();
-                        conn.close();
-
 
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);

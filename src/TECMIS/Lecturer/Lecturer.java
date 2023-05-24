@@ -26,8 +26,7 @@ import java.sql.*;
 
 public class Lecturer extends User {
 
-    private Object MySqlCon;
-    Connection conn = TECMIS.MySqlCon.MysqlMethod();
+    private Connection conn = MySqlCon.MysqlMethod();
     private JButton profileButton;
     private JButton UpdateCM;
     private JButton RemoveCM;
@@ -47,29 +46,15 @@ public class Lecturer extends User {
     private JPanel pnlPic;
     private JButton logOutButton;
     private JButton updateMarks;
-
     private String userId;
     private String acc;
-    String Fname;
-    String Lname;
+    private String Fname;
+    private String Lname;
     private int SumCreditSGPA;
     private int SumCreditCGPA;
-
-
     private byte[] dImg;
     private int level;
     private int semester;
-    private double totalSum;
-    private double column;
-
-
-    public Lecturer() {
-
-        viewmarksButton.addMouseListener(new MouseAdapter() {
-        });
-
-
-    }
 
     public void methodLecturer() {
         userId = getUserId();
@@ -216,6 +201,12 @@ public class Lecturer extends User {
                 u1.setVisible(true);
                 setVisible(false);
                 u1.Login();
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         studentDetailsButton.addActionListener(new ActionListener() {

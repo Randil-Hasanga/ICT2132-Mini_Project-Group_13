@@ -9,8 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class viewStudentEligibility extends JFrame {
-    Connection conn = MySqlCon.MysqlMethod();
+public class viewStudentEligibility extends Lecturer {
+    private Connection conn = MySqlCon.MysqlMethod();
 
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JTextField txtSID;
@@ -24,11 +24,6 @@ public class viewStudentEligibility extends JFrame {
 
     private String SID;
 
-
-    public viewStudentEligibility() {
-
-
-    }
 
     public void viewEligibility(){
         add(pnlEG);
@@ -54,7 +49,14 @@ public class viewStudentEligibility extends JFrame {
                 lecBack.setVisible(true);
                 setVisible(false);
                 lecBack.methodLecturer();
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
+
         });
 
         searchButton.addActionListener(new ActionListener() {
