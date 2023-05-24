@@ -9,8 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class ViewMarks extends JFrame{
-    Connection conn = MySqlCon.MysqlMethod();
+public class ViewMarks extends Lecturer{
+    private Connection conn = MySqlCon.MysqlMethod();
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JTextField txtCID;
     private JButton searchButton;
@@ -20,9 +20,7 @@ public class ViewMarks extends JFrame{
     private JScrollPane pnlScroll;
     private JButton backButton;
     private JButton clearButton;
-
     private String CID;
-
 
 
     public void viewStudentMarks(){
@@ -43,6 +41,12 @@ public class ViewMarks extends JFrame{
                 lecBack.setVisible(true);
                 setVisible(false);
                 lecBack.methodLecturer();
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         clearButton.addActionListener(new ActionListener() {

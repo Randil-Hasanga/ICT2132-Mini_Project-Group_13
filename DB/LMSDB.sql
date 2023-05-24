@@ -15,7 +15,7 @@ CREATE TABLE if not exists Admin
     DOB DATE,
     Email VARCHAR(50),
     Pro_pic blob,
-    Password VARCHAR(20)
+    Password VARCHAR(500)
 );
 
 INSERT INTO Admin
@@ -26,6 +26,31 @@ VALUES
 ('A300','Nilantha','Bandara','Male','Palmadulla','Rathnapura','1984-05-17','nilantha@gmail.com',null,'3345'),
 ('A400','Vinod','Deshan','Male','Malawa','Kuruwita','1985-02-18','deshan@gmail.com',null,'2667');
 
+-- lecturer table
+
+CREATE TABLE if not exists Lecturer
+(
+	User_id VARCHAR(10) NOT NULL PRIMARY KEY,
+    FName VARCHAR(15),
+    LName VARCHAR(15),
+	Gender ENUM('Male','Female'),
+	Address_L1 VARCHAR(50),
+    Address_L2 VARCHAR(50),
+    DOB DATE,
+    Email VARCHAR(50),
+    Pro_pic longblob,
+    Password VARCHAR(500),
+    Position VARCHAR(20)
+);
+
+INSERT INTO Lecturer
+(User_id,FName,LName,Gender,Address_L1,Address_L2,DOB,Email,Pro_pic,Password,Position)
+VALUES
+('L001','Saman','Perera','Male','Akuressa','Matara','1989-04-05','sperera@gmail.com',null,'Fv8I3RoTOs9/psCbK5afpQ==','Professor'),
+('L002','Kumari','Lanka','Female','Eheliyagoda','Rathnapura','1993-05-24','kumarilanka@gmail.com',null,'+tIaS0rJex1GnK/rCSAUfg==','Senior Professor'),
+('L003','Sandya','Gunathilaka','Female','Kamburupitiya','Matara','1982-08-12','sgunathilaka@gmail.com',null,'n6CZ9J0FsCbRCuug8lEwsQ==','Senoir Lecturer'),
+('L004','Gihan','Fernando','Male','Kekanadura','Matara','1995-01-01','gihan123@gmail.com',null,'1rvy9AC72pz5JnpfASW+oA==','Professor'),
+('L005','Lalin','Perera','Male','Deniyaya','Matara','1990-12-19','lalinperera@gmail.com',null,'XoOawABgtQOMNn4lERvHDw==','Senior Lecturer');
 
 -- student table
 CREATE TABLE if not exists Student
@@ -40,7 +65,7 @@ CREATE TABLE if not exists Student
     Email VARCHAR(50),
     Pro_pic blob,
     S_type VARCHAR(20),
-    Password VARCHAR(20),
+    Password VARCHAR(500),
     Lecturer_id VARCHAR(10),
     FOREIGN KEY (Lecturer_id) REFERENCES Lecturer(User_id)
 );
@@ -100,7 +125,7 @@ CREATE TABLE if not exists Technical_officer
     DOB DATE,
     Email VARCHAR(50),
     Pro_pic blob,
-    Password VARCHAR(20),
+    Password VARCHAR(500),
     foreign key (Dep_id) references Department (Dep_id)
 );
 
@@ -778,7 +803,8 @@ CREATE TABLE if not exists T_Table
     TT_pdf longblob
 );
 
-drop table T_Table;
+
+
 
 
 

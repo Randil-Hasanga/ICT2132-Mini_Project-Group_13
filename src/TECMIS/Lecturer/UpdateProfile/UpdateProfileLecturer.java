@@ -21,9 +21,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 
-public class UpdateProfileLecturer extends JFrame{
+public class UpdateProfileLecturer extends Lecturer{
 
-    Connection conn = MySqlCon.MysqlMethod();
+    private Connection conn = MySqlCon.MysqlMethod();
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JTextField txtFname;
     private JTextField txtLname;
@@ -63,9 +63,6 @@ public class UpdateProfileLecturer extends JFrame{
         lblDisplay.setVisible(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-
-        JFileChooser picOpen = new JFileChooser();
-
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -86,6 +83,12 @@ public class UpdateProfileLecturer extends JFrame{
                 lecBack.setVisible(true);
                 setVisible(false);
                 lecBack.methodLecturer();
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
@@ -198,7 +201,5 @@ public class UpdateProfileLecturer extends JFrame{
 
             }
         });
-
-
     }
 }

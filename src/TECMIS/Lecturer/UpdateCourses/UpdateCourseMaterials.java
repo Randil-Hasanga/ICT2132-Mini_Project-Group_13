@@ -10,8 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class UpdateCourseMaterials extends JFrame{
-    Connection conn = MySqlCon.MysqlMethod();
+public class UpdateCourseMaterials extends Lecturer{
+    private Connection conn = MySqlCon.MysqlMethod();
     private JPanel pnlUploadCM;
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JTextField txtCName;
@@ -24,7 +24,6 @@ public class UpdateCourseMaterials extends JFrame{
     private JLabel lblSuccess2;
     private JTextField txtLevel;
     private JTextField txtSem;
-
     private String CID;
     private String CourseName;
     private String AdminId;
@@ -97,6 +96,12 @@ public class UpdateCourseMaterials extends JFrame{
                 lecBack.setVisible(true);
                 setVisible(false);
                 lecBack.methodLecturer();
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
 
             }
         });

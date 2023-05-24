@@ -2,6 +2,8 @@ package TECMIS.Common_classes.RemoveCourse;
 
 import TECMIS.Lecturer.Lecturer;
 import TECMIS.MySqlCon;
+import TECMIS.Student.Student;
+import TECMIS.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class RemoveCourseMaterial extends JFrame{
+public class RemoveCourseMaterial extends User{
 
     Connection conn = MySqlCon.MysqlMethod();
     private JTextArea facultyOfTechnologyManagementTextArea;
@@ -21,9 +23,14 @@ public class RemoveCourseMaterial extends JFrame{
     private JPanel pnlRemoveCourse;
     private JLabel lblDisplay;
     private String CID;
+    private String acc;
+    private String User;
 
 
     public void RemoveCourse(){
+
+        acc = getAcc();
+        User = getUserId();
 
         add(pnlRemoveCourse);
         setSize(750, 500);
@@ -58,10 +65,18 @@ public class RemoveCourseMaterial extends JFrame{
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Lecturer lecBack = new Lecturer();
-                lecBack.setVisible(true);
-                setVisible(false);
-                lecBack.methodLecturer();
+                if (acc.equals("lecturer")) {
+                    Lecturer lecBack = new Lecturer();
+                    lecBack.setVisible(true);
+                    setVisible(false);
+                    lecBack.methodLecturer();
+                }
+                else if(acc.equals("student")){
+                    Student stuBack = new Student();
+                    stuBack.setVisible(true);
+                    setVisible(false);
+                    stuBack.methodStudent();
+                }
             }
         });
 

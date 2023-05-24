@@ -10,7 +10,7 @@ import java.sql.*;
 
 public class UploadMarks extends Lecturer{
 
-    Connection conn = MySqlCon.MysqlMethod();
+    private Connection conn = MySqlCon.MysqlMethod();
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JTextField txtSID;
     private JTextField txtA1;
@@ -43,12 +43,8 @@ public class UploadMarks extends Lecturer{
     private JComboBox style;
     private JLabel lblCID;
     private JComboBox dropCourse;
-
-
     private String userId;
     private String acc;
-
-
     private String SID;
     private String CID;
     private double Q1;
@@ -62,12 +58,9 @@ public class UploadMarks extends Lecturer{
     private String p60 = "60%";
     private String p20 = "20%";
     private String p10 = "10%";
-
-
-    double A1;
-    double A2;
+    private double A1;
+    private double A2;
     private String selected;
-
     private int newCredit;
 
     public void upMarks(){
@@ -448,6 +441,12 @@ public class UploadMarks extends Lecturer{
                 lecBack.setVisible(true);
                 setVisible(false);
                 lecBack.methodLecturer();
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         uploadButton.addActionListener(new ActionListener() {

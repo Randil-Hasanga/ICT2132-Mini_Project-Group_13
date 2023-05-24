@@ -10,9 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class UpdateMarks extends JFrame{
+public class UpdateMarks extends Lecturer{
 
-    Connection conn = MySqlCon.MysqlMethod();
+    private Connection conn = MySqlCon.MysqlMethod();
     private JPanel pnlUpdateMarks;
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JLabel lvlSID;
@@ -38,10 +38,8 @@ public class UpdateMarks extends JFrame{
     private JButton clearButton;
     private JLabel lblSuccess;
     private JComboBox marksDrop;
-
     private String CID;
     private String selected;
-
     private String SID;
     private double Q1;
     private double Q2;
@@ -341,6 +339,12 @@ public class UpdateMarks extends JFrame{
                 lecBack.setVisible(true);
                 setVisible(false);
                 lecBack.methodLecturer();
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 

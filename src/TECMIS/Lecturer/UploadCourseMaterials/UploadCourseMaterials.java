@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 public class UploadCourseMaterials extends Lecturer{
 
-    Connection conn = MySqlCon.MysqlMethod();
+    private Connection conn = MySqlCon.MysqlMethod();
     private JPanel pnlUploadCM;
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JTextField txtCName;
@@ -26,7 +26,6 @@ public class UploadCourseMaterials extends Lecturer{
     private JLabel lblSuccess2;
     private JTextField txtLevel;
     private JTextField txtSem;
-
     private String userId;
     private String acc;
     private String CID;
@@ -68,6 +67,12 @@ public class UploadCourseMaterials extends Lecturer{
                 lecBack.setVisible(true);
                 setVisible(false);
                 lecBack.methodLecturer();
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
