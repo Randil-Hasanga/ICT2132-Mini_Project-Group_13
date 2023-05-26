@@ -1,5 +1,4 @@
-import TECMIS.MySqlCon;
-import TECMIS.User;
+import Com.TECMIS.User;
 
 public class Main {
     public static void main(String[] args) {
