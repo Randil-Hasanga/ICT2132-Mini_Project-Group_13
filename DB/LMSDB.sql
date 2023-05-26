@@ -15,7 +15,7 @@ CREATE TABLE if not exists Admin
     DOB DATE,
     Email VARCHAR(50),
     Pro_pic blob,
-    Password VARCHAR(20)
+    Password VARCHAR(500)
 );
 
 INSERT INTO Admin
@@ -39,19 +39,18 @@ CREATE TABLE if not exists Lecturer
     DOB DATE,
     Email VARCHAR(50),
     Pro_pic longblob,
-    Password VARCHAR(20),
+    Password VARCHAR(500),
     Position VARCHAR(20)
 );
 
 INSERT INTO Lecturer
 (User_id,FName,LName,Gender,Address_L1,Address_L2,DOB,Email,Pro_pic,Password,Position)
 VALUES
-('L001','Saman','Perera','Male','Akuressa','Matara','1989-04-05','sperera@gmail.com',null,'asd123','Professor'),
-('L002','Kumari','Lanka','Female','Eheliyagoda','Rathnapura','1993-05-24','kumarilanka@gmail.com',null,'75qw6','Senior Professor'),
-('L003','Sandya','Gunathilaka','Female','Kamburupitiya','Matara','1982-08-12','sgunathilaka@gmail.com',null,'hrq456','Senoir Lecturer'),
-('L004','Gihan','Fernando','Male','Kekanadura','Matara','1995-01-01','gihan123@gmail.com',null,'201mnb','Professor'),
-('L005','Lalin','Perera','Male','Deniyaya','Matara','1990-12-19','lalinperera@gmail.com',null,'qwe412','Senior Lecturer');
-
+('L001','Saman','Perera','Male','Akuressa','Matara','1989-04-05','sperera@gmail.com',null,'Fv8I3RoTOs9/psCbK5afpQ==','Professor'),
+('L002','Kumari','Lanka','Female','Eheliyagoda','Rathnapura','1993-05-24','kumarilanka@gmail.com',null,'+tIaS0rJex1GnK/rCSAUfg==','Senior Professor'),
+('L003','Sandya','Gunathilaka','Female','Kamburupitiya','Matara','1982-08-12','sgunathilaka@gmail.com',null,'n6CZ9J0FsCbRCuug8lEwsQ==','Senoir Lecturer'),
+('L004','Gihan','Fernando','Male','Kekanadura','Matara','1995-01-01','gihan123@gmail.com',null,'1rvy9AC72pz5JnpfASW+oA==','Professor'),
+('L005','Lalin','Perera','Male','Deniyaya','Matara','1990-12-19','lalinperera@gmail.com',null,'XoOawABgtQOMNn4lERvHDw==','Senior Lecturer');
 
 -- student table
 CREATE TABLE if not exists Student
@@ -66,7 +65,7 @@ CREATE TABLE if not exists Student
     Email VARCHAR(50),
     Pro_pic blob,
     S_type VARCHAR(20),
-    Password VARCHAR(20),
+    Password VARCHAR(500),
     Lecturer_id VARCHAR(10),
     FOREIGN KEY (Lecturer_id) REFERENCES Lecturer(User_id)
 );
@@ -115,7 +114,7 @@ CREATE TABLE if not exists Technical_officer
     DOB DATE,
     Email VARCHAR(50),
     Pro_pic blob,
-    Password VARCHAR(20),
+    Password VARCHAR(500),
     foreign key (Dep_id) references Department (Dep_id)
 );
 
@@ -739,6 +738,22 @@ CREATE TABLE if not exists Student_Grades
     ICT05 DECIMAL(5,3),
     ICT06 DECIMAL(5,3),
     Grade VARCHAR(5),
+    L1_S1_Credit DECIMAL(5,3),
+    L1_S2_Credit DECIMAL(5,3),
+    L2_S1_Credit DECIMAL(5,3),
+    L2_S2_Credit DECIMAL(5,3),
+    L3_S1_Credit DECIMAL(5,3),
+    L3_S2_Credit DECIMAL(5,3),
+    L4_S1_Credit DECIMAL(5,3),
+    L4_S2_Credit DECIMAL(5,3),
+    L1_S1_GPA DECIMAL(5,3),
+    L1_S2_GPA DECIMAL(5,3),
+    L2_S1_GPA DECIMAL(5,3),
+    L2_S2_GPA DECIMAL(5,3),
+    L3_S1_GPA DECIMAL(5,3),
+    L3_S2_GPA DECIMAL(5,3),
+    L4_S1_GPA DECIMAL(5,3),
+    L4_S2_GPA DECIMAL(5,3),
     Total_credits DECIMAL(5,3),
     SGPA Decimal(5,4),
     CGPA DECIMAL(5,4),
@@ -752,13 +767,3 @@ CREATE TABLE if not exists T_Table
     Level_and_Semester VARCHAR(30),
     TT_pdf longblob
 );
-
-
-
-
-
-
-
-
-
-
