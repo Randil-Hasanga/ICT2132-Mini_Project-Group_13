@@ -522,7 +522,7 @@ public class Lecturer extends User {
         }
 
     }
-    
+
     public void sumCredit(){
 
         //SGPA credit sum
