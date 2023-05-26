@@ -84,8 +84,8 @@ public class UploadAttendenceDetails extends TechnicalOfficer {
                             selectedDate = dateChooser.getDate(); // get selected date
 
                             // Format the selected date as YYYY-MM-DD
-                            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-                            formattedDate = sdf1.format(selectedDate);
+                            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+                            formattedDate = sdf2.format(selectedDate);
                             System.out.println(selectedDate);
                             System.out.println(formattedDate);
                             frame.dispose(); // Close the frame after selecting the date
@@ -147,7 +147,15 @@ public class UploadAttendenceDetails extends TechnicalOfficer {
                     lblSuccess2.setText(" New Attendance Details successfully added to database ! ");
 
                 } catch (SQLException ex) {
-                    System.out.println("Error in sql" + ex.getMessage());
+                    System.out.println(" AttendanceDetails Unsuccessfully Uploaded " + ex.getMessage());
+                }
+                finally {
+                    try {
+                        conn.close();
+                        System.out.println(" Connection is closed ");
+                    } catch (SQLException ex) {
+                        System.out.println(" Connection Closed is Unsuccessful "+ex.getMessage());
+                    }
                 }
 
             }

@@ -167,23 +167,22 @@ public class UpdateProfile extends TechnicalOfficer{
                 }
 
                 String ProfSql = "UPDATE Technical_Officer SET FName = ?, LName = ?, Gender = ?, Address_L1 = ?, Address_L2 = ?, " +
-                        "DOB = ?, Email = ?, Pro_pic = ?, Position = ? " +
+                        "DOB = ?, Email = ?, Pro_pic = ?, Position_ = ? " +
                         "WHERE User_id = ?";
 
                 try(PreparedStatement pstmt = conn.prepareStatement(ProfSql)){
 
                     byte[] imageData = Files.readAllBytes(proPic.toPath());
 
-                    pstmt.setString(1,Fname);
-                    pstmt.setString(2,Lname);
-                    pstmt.setString(3,gender);
-                    pstmt.setString(4,AL1);
-                    pstmt.setString(5,AL2);
-                    pstmt.setString(6,formattedDate);
-                    pstmt.setString(7,email);
-                    pstmt.setBytes(8,imageData);
+                    pstmt.setString(2,Fname);
+                    pstmt.setString(3,Lname);
+                    pstmt.setString(4,gender);
+                    pstmt.setString(5,AL1);
+                    pstmt.setString(6,AL2);
+                    pstmt.setString(7,formattedDate);
+                    pstmt.setString(8,email);
                     pstmt.setString(9,position);
-                    pstmt.setString(10,user_id);
+                    pstmt.setString(1,user_id);
 
                     int rows = pstmt.executeUpdate();
 
@@ -191,9 +190,17 @@ public class UpdateProfile extends TechnicalOfficer{
 
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    System.out.println(" Update is successful ");
                 } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                    System.out.println(" Update is Unsuccessful "+ex.getMessage());
+                }
+                finally {
+                    try {
+                        conn.close();
+                        System.out.println(" Connection is Closed ");
+                    } catch (SQLException ex) {
+                        System.out.println(" Connection Closed is Unsuccessful "+ex.getMessage());
+                    }
                 }
             }
         });

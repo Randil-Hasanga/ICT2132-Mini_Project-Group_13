@@ -79,7 +79,15 @@ public class RemoveMedical extends TechnicalOfficer{
                     lblRmvMedSuccess.setText(rows + "  Medical Successfully Removed. ");
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    System.out.println(" Medical Remove is Unsuccessful "+ex.getMessage());
+                }
+                finally {
+                    try {
+                        conn.close();
+                        System.out.println(" Connection is Closed ");
+                    } catch (SQLException ex) {
+                        System.out.println(" Connection closed is Unsuccessful! "+ex.getMessage());
+                    }
                 }
 
             }

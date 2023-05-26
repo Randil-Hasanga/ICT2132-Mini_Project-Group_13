@@ -59,6 +59,7 @@ public class UploadMedical extends TechnicalOfficer {
         add(pnlUploadMedical);
         setSize(700, 600);
         setTitle("Upload Medicals");
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 
@@ -124,8 +125,6 @@ public class UploadMedical extends TechnicalOfficer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 txtMedID.setText("");
-                JDateChooserStartDate.setDateFormatString("");
-                JDateChooserEndDate.setDateFormatString("");
                 txtSID.setText("");
                 txtMedCon.setText("");
             }
@@ -166,7 +165,15 @@ public class UploadMedical extends TechnicalOfficer {
                     lblSuccess.setText(" New Medical successfully Upload to database ! ");
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    System.out.println(" Medical Uploaded is  Unsuccessfully  "+ex.getMessage());
+                }
+                finally {
+                    try {
+                        conn.close();
+                        System.out.println(" Connection Close is Successful ");
+                    } catch (SQLException ex) {
+                        System.out.println(" Connection Close is Unsuccessful "+ex.getMessage());
+                    }
                 }
 
             }

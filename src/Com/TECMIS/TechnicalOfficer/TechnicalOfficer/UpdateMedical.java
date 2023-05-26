@@ -5,11 +5,16 @@ import Com.TECMIS.User;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class UpdateMedical extends TechnicalOfficer {
 
@@ -19,6 +24,10 @@ public class UpdateMedical extends TechnicalOfficer {
     private JTextField textFieldupdMedicalID;
     private JLabel lblupdStartDate;
 
+    private Date selectedDate;
+    private String formattedDate;
+    private Date selectedDate1;
+    private String formattedDate1;
     private JLabel lblupdEndDate;
 
     private JLabel lblupdStudentID;
@@ -32,6 +41,8 @@ public class UpdateMedical extends TechnicalOfficer {
     private JButton btnUpdate;
     private JButton btnClr;
     private JTextArea facultyOfTechnologyManagementTextArea;
+    private JButton chooseDateButton;
+    private JButton chooseDateButton1;
     private JDateChooser JDateChooser1;
     private JDateChooser JDateChooser2;
 
@@ -45,6 +56,10 @@ public class UpdateMedical extends TechnicalOfficer {
     private String MedCondition;
 
 
+
+
+
+
     public void UpdateMedical() {
 
         userId = User.getUserId();
@@ -53,15 +68,72 @@ public class UpdateMedical extends TechnicalOfficer {
         add(pnlUpdateMedical);
         setSize(700, 600);
         setTitle("Update Medicals");
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+
+        chooseDateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("Choose Date");
+                JDateChooser dateChooser = new JDateChooser();
+                frame.add(dateChooser);
+                frame.setType(Window.Type.UTILITY);
+                frame.pack();
+                frame.setLocationRelativeTo(null); // Center the frame on the screen
+                frame.setVisible(true);
+
+                dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if (evt.getPropertyName().equals("date")) {
+                            selectedDate = dateChooser.getDate(); // get selected date
+
+                            // Format the selected date as YYYY-MM-DD
+                            SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd");
+                            formattedDate = sdf3.format(selectedDate);
+                            System.out.println(selectedDate);
+                            System.out.println(formattedDate);
+                            frame.dispose(); // Close the frame after selecting the date
+                        }
+                    }
+                });
+            }
+        });
+
+        chooseDateButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("Choose Date");
+                JDateChooser dateChooser = new JDateChooser();
+                frame.add(dateChooser);
+                frame.setType(Window.Type.UTILITY);
+                frame.pack();
+                frame.setLocationRelativeTo(null); // Center the frame on the screen
+                frame.setVisible(true);
+
+                dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if (evt.getPropertyName().equals("date")) {
+                            selectedDate1 = dateChooser.getDate(); // get selected date
+
+                            // Format the selected date as YYYY-MM-DD
+                            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                            formattedDate1 = sdf1.format(selectedDate1);
+                            System.out.println(selectedDate1);
+                            System.out.println(formattedDate1);
+                            frame.dispose(); // Close the frame after selecting the date
+                        }
+                    }
+                });
+            }
+        });
 
         btnClr.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 textFieldupdMedicalID.setText("");
-                JDateChooser1.setDateFormatString("");
-                JDateChooser2.setDateFormatString("");
                 textFieldupdStudentID.setText("");
                 textFieldupdMedCondition.setText("");
             }
@@ -83,21 +155,19 @@ public class UpdateMedical extends TechnicalOfficer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MedicalID = textFieldupdMedicalID.getText();
-                Start_Date = JDateChooser1.getDateFormatString();
-                End_Date = JDateChooser2.getDateFormatString();
                 StudentID = textFieldupdStudentID.getText();
                 MedCondition = textFieldupdMedCondition.getText();
 
-                String updMed = "UPDATE Medical SET  Student_id = ?,Start_Date = ?,End_Date = ? ,Medical_Condition = ?) WHERE Medical_id = ? ";
+                String updMed = "UPDATE Medical SET  Student_id = ?,Start_Date = ?,End_Date = ? ,Medical_Condition = ? WHERE Medical_id = ? ";
 
                 try (PreparedStatement stmt = conn.prepareStatement(updMed)) {
 
                     stmt.setString(1, MedicalID);
-                    stmt.setString(2, Start_Date);
-                    stmt.setString(3, End_Date);
+                    stmt.setString(2, formattedDate);
+                    stmt.setString(3, formattedDate1);
                     stmt.setString(4, StudentID);
                     stmt.setString(5, MedCondition);
-                    stmt.setString(6, userId);
+
 
                     int rowsInserted = stmt.executeUpdate();
                     System.out.println(rowsInserted + "Rows inserted");
@@ -105,7 +175,15 @@ public class UpdateMedical extends TechnicalOfficer {
                     lblupdSuccess.setText(" New Medical successfully Updated to database ! ");
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    System.out.println(" Update is Unsuccessful"+ex.getMessage());
+                }
+                finally {
+                    try {
+                        conn.close();
+                        System.out.println("Connection is Closed ");
+                    } catch (SQLException ex) {
+                        System.out.println(" Connection Closed is Unsuccessful "+ex.getMessage());
+                    }
                 }
             }
 
