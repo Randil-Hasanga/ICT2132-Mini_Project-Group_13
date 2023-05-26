@@ -738,6 +738,14 @@ CREATE TABLE if not exists Student_Grades
     ICT05 DECIMAL(5,3),
     ICT06 DECIMAL(5,3),
     Grade VARCHAR(5),
+    L1_S1_Credit DECIMAL(5,3),
+    L1_S2_Credit DECIMAL(5,3),
+    L2_S1_Credit DECIMAL(5,3),
+    L2_S2_Credit DECIMAL(5,3),
+    L3_S1_Credit DECIMAL(5,3),
+    L3_S2_Credit DECIMAL(5,3),
+    L4_S1_Credit DECIMAL(5,3),
+    L4_S2_Credit DECIMAL(5,3),
     L1_S1_GPA DECIMAL(5,3),
     L1_S2_GPA DECIMAL(5,3),
     L2_S1_GPA DECIMAL(5,3),
@@ -759,11 +767,3 @@ CREATE TABLE if not exists T_Table
     Level_and_Semester VARCHAR(30),
     TT_pdf longblob
 );
-
-
-UPDATE Student_Grades SET Total_credits = ICT01 + ICT02 + ICT03 + ICT04 + ICT05 + ICT06;
-
-
-
-
-
