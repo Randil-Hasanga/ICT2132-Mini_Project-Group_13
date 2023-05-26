@@ -96,9 +96,9 @@ public class TechnicalOfficer extends User {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(" Error in add Image "+e.getMessage());
         }
-        lblWelcome.setText("Welcome Dr." + Fname + " " + Lname + "!");
+        lblWelcome.setText("Welcome " + Fname + " " + Lname + "!");
 
         //View Buttons
         ViewBtnNotice.addActionListener(new ActionListener() {

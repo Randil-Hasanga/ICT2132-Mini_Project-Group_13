@@ -65,7 +65,7 @@ public class RemoveAttendenceDetails extends TechnicalOfficer {
             public void actionPerformed(ActionEvent e) {
                 AttendenceID = textFieldrmvAttendenceID.getText();
 
-                String rmvADid = " DELETE FROM Attendence  WHERE Attendence_id = ? ";
+                String rmvADid = " DELETE FROM Attendance  WHERE Attendance_id = ? ";
 
                 try (PreparedStatement stmt = conn.prepareStatement(rmvADid)) {
 
@@ -73,10 +73,18 @@ public class RemoveAttendenceDetails extends TechnicalOfficer {
                     int rows = stmt.executeUpdate();
 
                     lblRmvSuccess.setVisible(true);
-                    lblRmvSuccess.setText(rows + "  Attendence Successfully Removed. ");
+                    lblRmvSuccess.setText(rows + "  Attendance Successfully Removed. ");
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    System.out.println(" Attendance Unsuccessfully Removed!!! "+ex.getMessage());
+                }
+                finally {
+                    try {
+                        conn.close();
+                        System.out.println(" Connection is closed ");
+                    } catch (SQLException ex) {
+                        System.out.println(" Connection Closed is Unsuccessful! "+ex.getMessage());
+                    }
                 }
 
             }
