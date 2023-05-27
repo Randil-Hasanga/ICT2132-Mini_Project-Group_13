@@ -42,13 +42,21 @@ public class RemoveLecture extends JFrame {
 
                 LecId = lecId.getText();
 
-                String sql = "DELETE FROM lecturer WHERE User_id = ? ";
 
-                PreparedStatement pstmt=null;
                 try {
+
+                    // Delete the Lec_id from the Student table
+                    String deleteLecSQL = "DELETE FROM student WHERE Lecturer_Id = ?";
+                    PreparedStatement deleteLecStmt = conn.prepareStatement(deleteLecSQL);
+                    deleteLecStmt.setString(1, LecId);
+                    int rows = deleteLecStmt.executeUpdate();
+
+                    //Delete lec_Id from the Lecture Table
+                    String sql = "DELETE FROM lecturer WHERE User_id = ? ";
+                    PreparedStatement pstmt=null;
                     pstmt = conn.prepareStatement(sql);
                     pstmt.setString(1,LecId);
-                    int rows = pstmt.executeUpdate();
+                    int rows1 = pstmt.executeUpdate();
 
                     succsPnl.setVisible(true);
 
