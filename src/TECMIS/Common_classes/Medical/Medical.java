@@ -86,6 +86,7 @@ public class Medical extends Lecturer {
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 txtSID.setText("");
             }
         });
