@@ -68,5 +68,26 @@ public class CourseDetails extends Student{
                 }
             }
         });
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Student stuBack = new Student();
+                stuBack.setVisible(true);
+                setVisible(false);
+                stuBack.methodStudent();
+
+
+            }
+        });
+        clearButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtSid.setText("");
+
+            }
+        });
+
     }
-}
+    }
+
