@@ -23,11 +23,13 @@ public class RemoveMedical extends TechnicalOfficer{
     private JButton btnRemove;
     private JButton btnClear;
     private JTextArea facultyOfTechnologyManagementTextArea;
+    private JTextField textFieldStuID;
 
 
     private String userId;
     private String acc;
     private String MedicalID;
+    private String StudentID;
 
 
 
@@ -41,6 +43,7 @@ public class RemoveMedical extends TechnicalOfficer{
         add(pnlRemoveMedical);
         setSize(700, 600);
         setTitle(" Remove Medicals");
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         btnClear.addActionListener(new ActionListener() {
@@ -48,6 +51,7 @@ public class RemoveMedical extends TechnicalOfficer{
             public void actionPerformed(ActionEvent e) {
 
                 textFieldMedicalID.setText("");
+                textFieldStuID.setText(" ");
             }
         });
 
@@ -59,6 +63,14 @@ public class RemoveMedical extends TechnicalOfficer{
                 TOBack.setVisible(true);
                 setVisible(false);
                 TOBack.methodTechnicalOfficer();
+
+                try {
+                    conn.close();
+                    System.out.println(" Connection is Closed ");
+
+                } catch (SQLException ex) {
+                    System.out.println(" Connection close is Unsuccessfully "+ex.getMessage());
+                }
             }
         });
 
@@ -68,30 +80,31 @@ public class RemoveMedical extends TechnicalOfficer{
             public void actionPerformed(ActionEvent e) {
                 MedicalID = textFieldMedicalID.getText();
 
-                String rmvMedID = " DELETE FROM Medical  WHERE Medical_id = ? ";
+                if ((MedicalID.isEmpty())) {
 
-                try (PreparedStatement stmt = conn.prepareStatement(rmvMedID)) {
+                    lblRmvMedSuccess.setText(" Please fill out the field ");
 
-                    stmt.setString(1, MedicalID);
-                    int rows = stmt.executeUpdate();
+                } else {
 
-                    lblRmvMedSuccess.setVisible(true);
-                    lblRmvMedSuccess.setText(rows + "  Medical Successfully Removed. ");
+                    String rmvMedID = " DELETE FROM Medical  WHERE Medical_id = ? ";
 
-                } catch (SQLException ex) {
-                    System.out.println(" Medical Remove is Unsuccessful "+ex.getMessage());
-                }
-                finally {
-                    try {
-                        conn.close();
-                        System.out.println(" Connection is Closed ");
+                    try (PreparedStatement pstmt = conn.prepareStatement(rmvMedID)) {
+
+                        pstmt.setString(1, MedicalID);
+
+
+                        int rows = pstmt.executeUpdate();
+
+                        lblRmvMedSuccess.setVisible(true);
+                        lblRmvMedSuccess.setText(rows + "  Medical Successfully Removed. ");
+
                     } catch (SQLException ex) {
-                        System.out.println(" Connection closed is Unsuccessful! "+ex.getMessage());
+                        System.out.println(" Medical Remove is Unsuccessful " + ex.getMessage());
                     }
+
+
                 }
-
             }
-
         });
     }
 
