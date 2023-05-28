@@ -24,22 +24,22 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
     private JPanel pnlUpdateAttendenceDetails;
     private JLabel lblAttendenceID;
     private JTextField textFieldAttendenceID;
-    private JLabel lblStatus;
-    private JTextField textFieldStatus;
     private JTextField textFieldCourseID;
+    private JTextField textFieldStudentID;
     private JTextField textFieldDate;
     private Date selectedDate;
     private String formattedDate;
-    private JTextField textFieldStudentID;
-    private JLabel lblCourseID;
+    private JTextField textFieldStatus;
     private JLabel lblDate;
-    private JLabel lblStudentID;
     private JButton BtnBack;
     private JButton BtnUpdate;
     private JButton BtnClear;
     private JLabel LblSuccess;
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JButton chooseDateButton;
+    private JLabel lblCourseID;
+    private JLabel lblStudentID;
+    private JLabel lblStatus;
     private JDateChooser JDateChooser2;
 
 
@@ -97,9 +97,9 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
             @Override
             public void actionPerformed(ActionEvent e) {
                 textFieldAttendenceID.setText("");
-                textFieldStatus.setText("");
                 textFieldCourseID.setText("");
                 textFieldStudentID.setText("");
+                textFieldStatus.setText("");
             }
         });
 
@@ -111,6 +111,13 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
                 TOBack.setVisible(true);
                 setVisible(false);
                 TOBack.methodTechnicalOfficer();
+
+                try {
+                    conn.close();
+                    System.out.println(" Connection is Closed ");
+                } catch (SQLException ex) {
+                    System.out.println(" Connection Closed is Unsuccessful "+ex.getMessage());
+                }
             }
         });
 
@@ -119,19 +126,22 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
             @Override
             public void actionPerformed(ActionEvent e) {
              AttendanceID = textFieldAttendenceID.getText();
-                Status = textFieldStatus.getText();
-                CourseID = textFieldCourseID.getText();
-                StudentID =textFieldStudentID.getText();
+                Status = textFieldCourseID.getText();
+                CourseID = textFieldStudentID.getText();
+                StudentID = textFieldStatus.getText();
 
                 String updAD = "UPDATE Attendance SET  Student_id = ?,Date_ = ?,Course_id = ? ,Status_ = ? WHERE Attendance_id = ? ";
 
                 try(PreparedStatement stmt = conn.prepareStatement(updAD)){
 
                     stmt.setString(1,AttendanceID);
-                    stmt.setString(5,Status);
-                    stmt.setString(4,CourseID);
-                    stmt.setString(3,formattedDate);
                     stmt.setString(2,StudentID);
+                    stmt.setString(3,formattedDate);
+                    stmt.setString(4,CourseID);
+                    stmt.setString(5,Status);
+
+
+
 
 
                     int rowsInserted = stmt.executeUpdate();
@@ -140,16 +150,9 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
                     LblSuccess.setText(" New Attendance Details successfully Updated to database ! ");
 
                 } catch (SQLException ex) {
-                    System.out.println(" Update is Unsuccessful"+ex.getMessage());
+                    throw new RuntimeException(ex);
                 }
-                finally {
-                    try {
-                        conn.close();
-                        System.out.println(" Connection is Closed ");
-                    } catch (SQLException ex) {
-                        System.out.println(" Connection Closed is Unsuccessful "+ex.getMessage());
-                    }
-                }
+
             }
 
 
