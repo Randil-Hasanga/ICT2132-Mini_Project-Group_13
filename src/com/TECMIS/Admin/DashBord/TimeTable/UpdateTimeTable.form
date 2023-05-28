@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.TECMIS.Admin.DashBord.TimeTable.UpdateTimeTable">
+  <grid id="27dc6" binding="UpTiTabPnl" layout-manager="GridLayoutManager" row-count="9" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="500" height="445"/>
+    </constraints>
+    <properties>
+      <background color="-16532605"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="45e9d" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="d804b" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="2" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="d1a31" class="javax.swing.JTextArea" binding="facultyOfTechnologyManagementTextArea" default-binding="true">
+                <constraints>
+                  <grid row="0" column="1" row-span="3" col-span="1" vsize-policy="6" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-1"/>
+                  <editable value="false"/>
+                  <font name="Consolas" size="16" style="1"/>
+                  <foreground color="-16777216"/>
+                  <text value="Faculty of Technology&#10;Management Information System&#10;[ T E C M I S ]"/>
+                </properties>
+              </component>
+              <component id="6598d" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="3" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <icon value="UoRlogo.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <vspacer id="5275b">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <grid id="8e3e7" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none" title="Update Time Table"/>
+        <children>
+          <component id="4cd74" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Time Table Id"/>
+            </properties>
+          </component>
+          <component id="51545" class="javax.swing.JTextField" binding="TiTaId">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="fd522" class="javax.swing.JButton" binding="submitButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Submit"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <vspacer id="6d21d">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <grid id="b1e66" binding="AffterPnl" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none" title="Update Details"/>
+        <children>
+          <component id="29553" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Enter level and semester(String)"/>
+            </properties>
+          </component>
+          <component id="4df54" class="javax.swing.JTextField" binding="LeveSemes">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="bd8c1" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Upload File"/>
+            </properties>
+          </component>
+          <component id="f65ef" class="javax.swing.JButton" binding="chooseFileButton" default-binding="true">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Choose File"/>
+            </properties>
+          </component>
+          <component id="64011" class="javax.swing.JButton" binding="uploadButton" default-binding="true">
+            <constraints>
+              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Upload"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="12ace" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="48306" class="javax.swing.JButton" binding="backButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Back"/>
+            </properties>
+          </component>
+          <component id="4c4c" class="javax.swing.JButton" binding="clearButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Clear"/>
+            </properties>
+          </component>
+          <hspacer id="e1aa9">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
+        </children>
+      </grid>
+      <vspacer id="3830b">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <vspacer id="667fb">
+        <constraints>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <vspacer id="5a3fe">
+        <constraints>
+          <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+    </children>
+  </grid>
+</form>
