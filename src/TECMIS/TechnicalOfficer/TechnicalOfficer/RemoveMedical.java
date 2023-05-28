@@ -80,11 +80,7 @@ public class RemoveMedical extends TechnicalOfficer{
             public void actionPerformed(ActionEvent e) {
                 MedicalID = textFieldMedicalID.getText();
 
-<<<<<<< Updated upstream
                 if ((MedicalID.isEmpty())) {
-=======
-                String rmvMedID = " DELETE FROM medical  WHERE Medical_id = ? ";
->>>>>>> Stashed changes
 
                     lblRmvMedSuccess.setText(" Please fill out the field ");
 
