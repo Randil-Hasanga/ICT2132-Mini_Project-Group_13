@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class UploadAttendenceDetails extends TechnicalOfficer {
+public class UploadAttandenceDetails extends TechnicalOfficer {
 
     Connection conn = MySqlCon.MysqlMethod();
 
@@ -43,6 +43,7 @@ public class UploadAttendenceDetails extends TechnicalOfficer {
     private JDateChooser JDateChooser1;
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JButton chooseDateButton;
+    private JLabel lblError;
 
 
     private String userId;
@@ -113,6 +114,13 @@ public class UploadAttendenceDetails extends TechnicalOfficer {
                 TOBack.setVisible(true);
                 setVisible(false);
                 TOBack.methodTechnicalOfficer();
+
+                try {
+                    conn.close();
+                    System.out.println(" Connection is closed ");
+                } catch (SQLException ex) {
+                    System.out.println(" Connection Closed is Unsuccessful "+ex.getMessage());
+                }
             }
         });
 
@@ -125,6 +133,11 @@ public class UploadAttendenceDetails extends TechnicalOfficer {
                 CourseID = textFieldCourseID.getText();
                 StudentID = textFieldSID.getText();
 
+                if((AttendenceID.isEmpty()) || (Status.isEmpty()) || (CourseID.isEmpty()) || (StudentID.isEmpty()))
+                {
+                    lblError.setVisible(true);
+                    lblError.setText(" Please Fill Out the all Fields ");
+                }
 
 
                 String upAD = "INSERT INTO Attendance (Attendance_id, Student_id,Date_,Course_id,Status_) VALUES (?,?,?,?,?)";
@@ -149,14 +162,7 @@ public class UploadAttendenceDetails extends TechnicalOfficer {
                 } catch (SQLException ex) {
                     System.out.println(" AttendanceDetails Unsuccessfully Uploaded " + ex.getMessage());
                 }
-                finally {
-                    try {
-                        conn.close();
-                        System.out.println(" Connection is closed ");
-                    } catch (SQLException ex) {
-                        System.out.println(" Connection Closed is Unsuccessful "+ex.getMessage());
-                    }
-                }
+
 
             }
         });
