@@ -40,6 +40,7 @@ public class UploadMedical extends TechnicalOfficer {
     private JButton btnClr;
     private JButton chooseDateButton;
     private JButton chooseDateButton1;
+    private JLabel lblErrorMsg;
 
 
     private String userId;
@@ -138,6 +139,13 @@ public class UploadMedical extends TechnicalOfficer {
                 TOBack.setVisible(true);
                 setVisible(false);
                 TOBack.methodTechnicalOfficer();
+
+                try {
+                    conn.close();
+                    System.out.println(" Connection is Closed ");
+                } catch (SQLException ex) {
+                    System.out.println(" Unsuccessfully Connection Closed !");
+                }
             }
         });
 
@@ -149,33 +157,31 @@ public class UploadMedical extends TechnicalOfficer {
                 StudentID = txtSID.getText();
                 MedCondition = txtMedCon.getText();
 
-                String uploadMed = "INSERT INTO Medical (Medical_id, Student_id,Start_Date,End_Date,Medical_Condition) VALUES (?,?,?,?,?)";
+                if ((MedicalID.isEmpty()) || (StudentID.isEmpty()) || (MedCondition.isEmpty())) {
+                    lblErrorMsg.setText(" Please Fill Out the all Fields ! ");
 
-                try (PreparedStatement stmt = conn.prepareStatement(uploadMed)) {
+                } else {
 
-                    stmt.setString(1, MedicalID);
-                    stmt.setString(2, StudentID);
-                    stmt.setString(3, formattedDate);
-                    stmt.setString(4, formattedDate1);
-                    stmt.setString(5, MedCondition);
+                    String uploadMed = "INSERT INTO Medical (Medical_id, Student_id,Start_Date,End_Date,Medical_Condition) VALUES (?,?,?,?,?)";
 
-                    int rowsInserted = stmt.executeUpdate();
-                    System.out.println(rowsInserted + "Rows inserted");
+                    try (PreparedStatement pstmt = conn.prepareStatement(uploadMed)) {
 
-                    lblSuccess.setText(" New Medical successfully Upload to database ! ");
+                        pstmt.setString(1, MedicalID);
+                        pstmt.setString(2, StudentID);
+                        pstmt.setString(3, formattedDate);
+                        pstmt.setString(4, formattedDate1);
+                        pstmt.setString(5, MedCondition);
 
-                } catch (SQLException ex) {
-                    System.out.println(" Medical Uploaded is  Unsuccessfully  "+ex.getMessage());
-                }
-                finally {
-                    try {
-                        conn.close();
-                        System.out.println(" Connection Close is Successful ");
+                        int rowsInserted = pstmt.executeUpdate();
+                        System.out.println(rowsInserted + "Rows inserted");
+
+                        lblSuccess.setText(" New Medical successfully Upload to database ! ");
+
                     } catch (SQLException ex) {
-                        System.out.println(" Connection Close is Unsuccessful "+ex.getMessage());
+                        System.out.println(" Medical Uploaded is  Unsuccessfully  " + ex.getMessage());
                     }
-                }
 
+                }
             }
         });
 
