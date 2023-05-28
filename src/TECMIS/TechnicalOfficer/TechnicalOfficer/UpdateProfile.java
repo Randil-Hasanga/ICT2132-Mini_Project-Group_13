@@ -37,6 +37,7 @@ public class UpdateProfile extends TechnicalOfficer{
     private JButton btnUpdate;
     private JButton btnClr;
     private JLabel lblUpdatedSuccess;
+    private JLabel lblError;
 
 
     private File proPic;
@@ -45,7 +46,6 @@ public class UpdateProfile extends TechnicalOfficer{
     private String gender;
     private String Fname;
     private String Lname;
-    private String position;
     private String AL1;
     private String AL2;
     private String user_id = TechnicalOfficer.getUserId();;
@@ -59,6 +59,7 @@ public class UpdateProfile extends TechnicalOfficer{
 
 
     public void UpdateProfile() {
+
         add(pnlTOProfile);
         setSize(750, 500);
         setTitle("Update profile");
@@ -75,7 +76,6 @@ public class UpdateProfile extends TechnicalOfficer{
                 txtLname.setText("");
                 txtAD1.setText("");
                 txtAD2.setText("");
-                txtPosition.setText("");
                 txtEmail.setText("");
             }
         });
@@ -87,6 +87,13 @@ public class UpdateProfile extends TechnicalOfficer{
                 TOBack.setVisible(true);
                 setVisible(false);
                 TOBack.methodTechnicalOfficer();
+
+                try {
+                    conn.close();
+                    System.out.println(" Connection is Closed ");
+                } catch (SQLException ex) {
+                    System.out.println(" Connection Closed is Unsuccessfully "+ex.getMessage());
+                }
             }
         });
 
@@ -100,7 +107,7 @@ public class UpdateProfile extends TechnicalOfficer{
                         proPic = imgOpen.getSelectedFile();
                     }
                 } catch (Exception ex) {
-                    throw new RuntimeException(ex);
+                    System.out.println(" Error , Please Re-enter the image "+ex.getMessage());
                 }
             }
         });
@@ -158,49 +165,44 @@ public class UpdateProfile extends TechnicalOfficer{
                 Lname = txtLname.getText();
                 AL1 = txtAD1.getText();
                 AL2 = txtAD2.getText();
-                position = txtPosition.getText();
                 email = txtEmail.getText();
 
-                if((proPic == null) || (formattedDate.isEmpty()) || (Fname.isEmpty()) || (Lname.isEmpty()) || (AL1.isEmpty()) || (AL2.isEmpty()) || (position.isEmpty()) || (email.isEmpty())){
-                    lblUpdatedSuccess.setVisible(true);
-                    lblUpdatedSuccess.setText("Fill all the fields to proceed !");
-                }
+                if ( (formattedDate.isEmpty()) || (Fname.isEmpty()) || (Lname.isEmpty()) || (AL1.isEmpty()) || (AL2.isEmpty()) || (email.isEmpty())) {
+                    lblError.setVisible(true);
+                    lblError.setText("Fill all the fields to proceed !");
 
-                String ProfSql = "UPDATE Technical_Officer SET FName = ?, LName = ?, Gender = ?, Address_L1 = ?, Address_L2 = ?, " +
-                        "DOB = ?, Email = ?, Pro_pic = ?, Position_ = ? " +
-                        "WHERE User_id = ?";
+                } else {
 
-                try(PreparedStatement pstmt = conn.prepareStatement(ProfSql)){
+                    String ProfSql = "UPDATE Technical_officer SET FName = ?, LName = ?, Gender = ?, Address_L1 = ?, Address_L2 = ?, " +
+                            "DOB = ?, Email = ?, Pro_pic = ? WHERE User_id = ?";
 
-                    byte[] imageData = Files.readAllBytes(proPic.toPath());
+                    try (PreparedStatement pstmt = conn.prepareStatement(ProfSql)) {
 
-                    pstmt.setString(2,Fname);
-                    pstmt.setString(3,Lname);
-                    pstmt.setString(4,gender);
-                    pstmt.setString(5,AL1);
-                    pstmt.setString(6,AL2);
-                    pstmt.setString(7,formattedDate);
-                    pstmt.setString(8,email);
-                    pstmt.setString(9,position);
-                    pstmt.setString(1,user_id);
+                        byte[] imageData = Files.readAllBytes(proPic.toPath());
 
-                    int rows = pstmt.executeUpdate();
+                        pstmt.setString(2, Fname);
+                        pstmt.setString(3, Lname);
+                        pstmt.setString(4, gender);
+                        pstmt.setString(5, AL1);
+                        pstmt.setString(6, AL2);
+                        pstmt.setString(7, formattedDate);
+                        pstmt.setString(8, email);
+                        pstmt.setString(1, user_id);
 
-                    System.out.println(rows + " row(s) updated.");
+                        int rows = pstmt.executeUpdate();
+
+                        System.out.println(rows + " row(s) updated.");
+
+                        lblUpdatedSuccess.setVisible(true);
+                        lblUpdatedSuccess.setText(" Update is Successful");
 
 
-                } catch (SQLException ex) {
-                    System.out.println(" Update is successful ");
-                } catch (IOException ex) {
-                    System.out.println(" Update is Unsuccessful "+ex.getMessage());
-                }
-                finally {
-                    try {
-                        conn.close();
-                        System.out.println(" Connection is Closed ");
                     } catch (SQLException ex) {
-                        System.out.println(" Connection Closed is Unsuccessful "+ex.getMessage());
+                        System.out.println(" Update is successful ");
+                    } catch (IOException ex) {
+                        System.out.println(" Update is Unsuccessful " + ex.getMessage());
                     }
+
                 }
             }
         });

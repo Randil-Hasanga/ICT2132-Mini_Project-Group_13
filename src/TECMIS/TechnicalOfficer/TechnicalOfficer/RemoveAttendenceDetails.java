@@ -37,6 +37,7 @@ public class RemoveAttendenceDetails extends TechnicalOfficer {
         add(pnlRemoveAttendenceDetails);
         setSize(700, 600);
         setTitle(" Remove AttendenceDetails");
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 
@@ -56,6 +57,13 @@ public class RemoveAttendenceDetails extends TechnicalOfficer {
                 TOBack.setVisible(true);
                 setVisible(false);
                 TOBack.methodTechnicalOfficer();
+
+                try {
+                    conn.close();
+                    System.out.println(" Connection is closed");
+                } catch (SQLException ex) {
+                    System.out.println(" Connection close is Unsuccessfully "+ex.getMessage());
+                }
             }
         });
 
@@ -65,30 +73,27 @@ public class RemoveAttendenceDetails extends TechnicalOfficer {
             public void actionPerformed(ActionEvent e) {
                 AttendenceID = textFieldrmvAttendenceID.getText();
 
-                String rmvADid = " DELETE FROM Attendance  WHERE Attendance_id = ? ";
+                if (AttendenceID.isEmpty()) {
+                    lblRmvSuccess.setText(" Please Fill the field ");
+                } else {
 
-                try (PreparedStatement stmt = conn.prepareStatement(rmvADid)) {
 
-                    stmt.setString(1, AttendenceID);
-                    int rows = stmt.executeUpdate();
+                    String rmvADid = " DELETE FROM attendance WHERE Attendance_id = ? ";
 
-                    lblRmvSuccess.setVisible(true);
-                    lblRmvSuccess.setText(rows + "  Attendance Successfully Removed. ");
+                    try (PreparedStatement stmt = conn.prepareStatement(rmvADid)) {
 
-                } catch (SQLException ex) {
-                    System.out.println(" Attendance Unsuccessfully Removed!!! "+ex.getMessage());
-                }
-                finally {
-                    try {
-                        conn.close();
-                        System.out.println(" Connection is closed ");
+                        stmt.setString(1, AttendenceID);
+                        int rows = stmt.executeUpdate();
+
+                        lblRmvSuccess.setVisible(true);
+                        lblRmvSuccess.setText(rows + "  Attendance Successfully Removed. ");
+
                     } catch (SQLException ex) {
-                        System.out.println(" Connection Closed is Unsuccessful! "+ex.getMessage());
+                        System.out.println(" Attendance Unsuccessfully Removed!!! " + ex.getMessage());
                     }
+
                 }
-
             }
-
         });
 
     }

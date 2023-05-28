@@ -43,6 +43,7 @@ public class UploadAttendenceDetails extends TechnicalOfficer {
     private JDateChooser JDateChooser1;
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JButton chooseDateButton;
+    private JLabel lblErrorMsg;
 
 
     private String userId;
@@ -113,6 +114,14 @@ public class UploadAttendenceDetails extends TechnicalOfficer {
                 TOBack.setVisible(true);
                 setVisible(false);
                 TOBack.methodTechnicalOfficer();
+
+                try {
+                    conn.close();
+                    System.out.println(" Connection is Closed ");
+
+                } catch (SQLException ex) {
+                    System.out.println(" Connection closed is Unsuccessfully "+ex.getMessage());
+                }
             }
         });
 
@@ -125,39 +134,32 @@ public class UploadAttendenceDetails extends TechnicalOfficer {
                 CourseID = textFieldCourseID.getText();
                 StudentID = textFieldSID.getText();
 
+                if ((AttendenceID.isEmpty()) || (Status.isEmpty()) || (CourseID.isEmpty()) || (StudentID.isEmpty())) {
+                    lblErrorMsg.setText(" Please Fill out the all Fields ! ");
+
+                } else {
+
+                    String upAD = "INSERT INTO Attendance (Attendance_id, Student_id,Date_,Course_id,Status_) VALUES (?,?,?,?,?)";
+
+                    try (PreparedStatement stmt = conn.prepareStatement(upAD)) {
+
+                        stmt.setString(1, AttendenceID);
+                        stmt.setString(2, StudentID);
+                        stmt.setString(3, formattedDate);
+                        stmt.setString(4, CourseID);
+                        stmt.setString(5, Status);
 
 
-                String upAD = "INSERT INTO Attendance (Attendance_id, Student_id,Date_,Course_id,Status_) VALUES (?,?,?,?,?)";
+                        int rowsInserted = stmt.executeUpdate();
+                        System.out.println(rowsInserted + "Rows inserted");
 
-                try(PreparedStatement stmt = conn.prepareStatement(upAD)){
+                        lblSuccess2.setText(" New Attendance Details successfully added to database ! ");
 
-                    stmt.setString(1,AttendenceID);
-                    stmt.setString(2,StudentID);
-                    stmt.setString(3,formattedDate);
-                    stmt.setString(4,CourseID);
-                    stmt.setString(5,Status);
-
-
-
-
-
-                    int rowsInserted = stmt.executeUpdate();
-                    System.out.println(rowsInserted + "Rows inserted");
-
-                    lblSuccess2.setText(" New Attendance Details successfully added to database ! ");
-
-                } catch (SQLException ex) {
-                    System.out.println(" AttendanceDetails Unsuccessfully Uploaded " + ex.getMessage());
-                }
-                finally {
-                    try {
-                        conn.close();
-                        System.out.println(" Connection is closed ");
                     } catch (SQLException ex) {
-                        System.out.println(" Connection Closed is Unsuccessful "+ex.getMessage());
+                        System.out.println(" AttendanceDetails Unsuccessfully Uploaded " + ex.getMessage());
                     }
-                }
 
+                }
             }
         });
 

@@ -48,7 +48,7 @@
         </constraints>
         <properties>
           <font size="14" style="2"/>
-          <text value=" Welcome ! to Notices"/>
+          <text value=" Welcome ! to  Technical_Officer Notices"/>
         </properties>
       </component>
       <component id="a73d1" class="javax.swing.JTable" binding="tblTech_OfficerNotices">

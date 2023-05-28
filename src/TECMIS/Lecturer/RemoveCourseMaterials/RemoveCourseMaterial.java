@@ -1,4 +1,4 @@
-package TECMIS.Common_classes.RemoveCourse;
+package TECMIS.Lecturer.RemoveCourseMaterials;
 
 import TECMIS.Lecturer.Lecturer;
 import TECMIS.MySqlCon;
@@ -6,13 +6,12 @@ import TECMIS.Student.Student;
 import TECMIS.User;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class RemoveCourseMaterial extends User{
 
@@ -24,9 +23,14 @@ public class RemoveCourseMaterial extends User{
     private JButton clearButton;
     private JPanel pnlRemoveCourse;
     private JLabel lblDisplay;
+    private JTextField txtCM_id;
+    private JButton searchButton;
+    private JTable table1;
     private String CID;
     private String acc;
     private String User;
+    private String CM_Id;
+
 
 
     public void RemoveCourse(){
@@ -55,15 +59,50 @@ public class RemoveCourseMaterial extends User{
             }
         });
 
+        searchButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String srch = "SELECT C_Material_Id, Material_Name FROM Course_materials WHERE Lecturer_id = ?";
+
+                try(PreparedStatement pstmt = conn.prepareStatement(srch)) {
+                    pstmt.setString(1,User);
+                    ResultSet rs = pstmt.executeQuery();
+
+                    DefaultTableModel tableModel2 = new DefaultTableModel();
+                    table1.setModel(tableModel2);
+
+                    ResultSetMetaData rsmd2 = rs.getMetaData();
+                    int columntCount2 = rsmd2.getColumnCount();
+
+                    for (int i = 1; i <= columntCount2; i++) {
+                        tableModel2.addColumn(rsmd2.getColumnName(i));
+                    }
+
+                    while (rs.next()) {
+                        Object[] rowData = new Object[columntCount2];
+                        for (int i = 1; i <= columntCount2; i++) {
+                            rowData[i - 1] = rs.getObject(i);
+                        }
+                        tableModel2.addRow(rowData);
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CID = txtCID.getText();
+                CM_Id = txtCM_id.getText();
 
-                String sql = "DELETE FROM Course_Detail WHERE Course_id = ? ";
+
+                String sql = "DELETE FROM Course_Materials WHERE C_Material_Id = ? ";
 
                 try(PreparedStatement pstmt = conn.prepareStatement(sql)){
-                    pstmt.setString(1,CID);
+                    pstmt.setString(1,CM_Id);
                     int rows = pstmt.executeUpdate();
 
                     lblDisplay.setVisible(true);
@@ -100,6 +139,14 @@ public class RemoveCourseMaterial extends User{
             @Override
             public void actionPerformed(ActionEvent e) {
                 txtCID.setText("");
+
+                DefaultTableModel tableModel = (DefaultTableModel) table1.getModel();
+                tableModel.setRowCount(0);
+                tableModel.setColumnCount(0);
+                table1.setModel(tableModel);
+
+                txtCM_id.setText("");
+
             }
         });
 
