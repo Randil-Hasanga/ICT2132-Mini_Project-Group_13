@@ -40,6 +40,7 @@ public class UploadMedical extends TechnicalOfficer {
     private JButton btnClr;
     private JButton chooseDateButton;
     private JButton chooseDateButton1;
+    private JLabel lblError;
 
 
     private String userId;
@@ -138,6 +139,16 @@ public class UploadMedical extends TechnicalOfficer {
                 TOBack.setVisible(true);
                 setVisible(false);
                 TOBack.methodTechnicalOfficer();
+
+
+                try{
+                    conn.close();
+                    System.out.println(" Connection is Successfully close ");
+
+                } catch (SQLException ex) {
+                    System.out.println(" Connection closed is Unsuccessfully "+ex.getMessage());
+                }
+
             }
         });
 
@@ -148,6 +159,12 @@ public class UploadMedical extends TechnicalOfficer {
                 MedicalID = txtMedID.getText();
                 StudentID = txtSID.getText();
                 MedCondition = txtMedCon.getText();
+
+                if((MedicalID.isEmpty()) ||(StudentID.isEmpty()) || (MedCondition.isEmpty()))
+                {
+                    lblError.setVisible(true);
+                    lblError.setText(" Please Fill Out the all Fields ");
+                }
 
                 String uploadMed = "INSERT INTO Medical (Medical_id, Student_id,Start_Date,End_Date,Medical_Condition) VALUES (?,?,?,?,?)";
 
@@ -167,14 +184,7 @@ public class UploadMedical extends TechnicalOfficer {
                 } catch (SQLException ex) {
                     System.out.println(" Medical Uploaded is  Unsuccessfully  "+ex.getMessage());
                 }
-                finally {
-                    try {
-                        conn.close();
-                        System.out.println(" Connection Close is Successful ");
-                    } catch (SQLException ex) {
-                        System.out.println(" Connection Close is Unsuccessful "+ex.getMessage());
-                    }
-                }
+
 
             }
         });
