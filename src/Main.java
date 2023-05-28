@@ -1,4 +1,4 @@
-import Com.TECMIS.User;
+import TECMIS.User;
 
 public class Main {
     public static void main(String[] args) {
