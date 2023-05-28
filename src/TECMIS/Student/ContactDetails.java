@@ -18,18 +18,18 @@ public class ContactDetails extends Student{
 
     private JPanel pnlUpdateCD;
     private JTextField textSID;
-    private JTextField textAl1;
-    private JTextField textAl2;
-    private JTextField textEmail;
     private JButton backButton;
     private JButton updateButton;
     private JButton clearButton;
     private JLabel lblSID;
-    private JLabel lblAL1;
-    private JLabel lblAL2;
     private JLabel lblEmail;
     private JLabel lblSuccess;
     private JTextArea facultyOfTechnologyManagementTextArea;
+    private JLabel lblAl1;
+    private JTextField txtAl1;
+    private JLabel lblAl2;
+    private JTextField txtAl2;
+    private JTextField txtEmail;
 
     private String userId;
     private String acc;
@@ -42,7 +42,7 @@ public class ContactDetails extends Student{
 
     String Email;
 
-    public void upCourseDetails() {
+    public void ContactDetails() {
 
         userId = User.getUserId();
         acc = User.getAcc();
@@ -53,12 +53,12 @@ public class ContactDetails extends Student{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 
-        lblAL1.setVisible(false);
-        lblAL2.setVisible(false);
+        lblAl1.setVisible(false);
+        lblAl2.setVisible(false);
         lblEmail.setVisible(false);
-        textAl1.setVisible(false);
-        textAl2.setVisible(false);
-        textEmail.setVisible(false);
+        txtAl1.setVisible(false);
+        txtAl2.setVisible(false);
+        txtEmail.setVisible(false);
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -75,9 +75,9 @@ public class ContactDetails extends Student{
             @Override
             public void actionPerformed(ActionEvent e) {
                 textSID.setText("");
-                textAl1.setText("");
-                textAl2.setText("");
-                textEmail.setText("");
+                txtAl1.setText("");
+                txtAl2.setText("");
+                txtEmail.setText("");
 
             }
         });
@@ -86,17 +86,18 @@ public class ContactDetails extends Student{
             @Override
             public void actionPerformed(ActionEvent e) {
                 SID = textSID.getText();
-                Al1 = textAl1.getText();
-                Al2 = textAl2.getText();
-                Email = textEmail.getText();
+                Al1 = txtAl1.getText();
+                Al2 = txtAl2.getText();
+                Email = txtEmail.getText();
 
-                String updateCD = "INSERT INTO Student (Address_L1, Address_L2, Email) VALUES (?,?,?)";
+                String updateCD = "INSERT INTO Student (Address_L1, Address_L2, Email) VALUES (?,?,?) WHERE User_id=?";
 
                 try(PreparedStatement stmt = conn.prepareStatement(updateCD)){
 
                     stmt.setString(1,SID);
                     stmt.setString(2,Al1);
                     stmt.setString(3,Al2);
+                    stmt.setString(4,Email);
 
 
                     int rowsInserted = stmt.executeUpdate();

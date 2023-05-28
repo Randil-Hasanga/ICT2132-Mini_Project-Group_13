@@ -132,8 +132,9 @@
               </grid>
             </constraints>
             <properties>
-              <foreground color="-5575425"/>
-              <gridColor color="-5575425"/>
+              <foreground color="-16777216"/>
+              <gridColor color="-16777216"/>
+              <selectionBackground color="-16777216"/>
             </properties>
           </component>
         </children>

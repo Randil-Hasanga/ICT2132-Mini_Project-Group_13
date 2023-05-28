@@ -144,8 +144,8 @@ public class Student extends User {
         medicalButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Medical stMed = new Medical();
-                stMed.viewMedicals();
+                StudentMedical stMed = new StudentMedical();
+                stMed.StudentMedicals();
                 stMed.setVisible(true);
                 setVisible(false);
 
@@ -189,7 +189,7 @@ public class Student extends User {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ContactDetails contactDetails= new ContactDetails();
-                contactDetails.upCourseDetails();
+                contactDetails.ContactDetails();
                 contactDetails.setVisible(true);
                 setVisible(false);
 
