@@ -31,14 +31,15 @@ public class Tech_OfficerNotice extends TechnicalOfficer {
         setSize(600, 600);
         setTitle("TechnicalOfficer Notices");
         tblTech_OfficerNotices.setEnabled(false);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        String TONoticeQuery = "SELECT Notice.Notice_id,Notice.Subject_,Notice.Description_ FROM Notice,Tech_OfficerNotice,TechnicalOfficer WHERE (Notice.Notice_id = Tech_OfficerNotice.Notice_id) AND (Tech_OfficerNotice.T_Officer_id = TechnicalOfficer.User_id) AND TechnicalOfficer.User_id = ?";
+        String TONoticeQuery = "SELECT Notice.Notice_id,Notice.Subject_,Notice.Description_ FROM Notice,Tech_officerNotice,Technical_officer WHERE (Notice.Notice_id = Tech_officerNotice.Notice_id) AND (Tech_officerNotice.T_officer_id = Technical_officer.User_id) AND Technical_officer.User_id = ?";
 
-        try (PreparedStatement pstmt3 = conn.prepareStatement(TONoticeQuery)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(TONoticeQuery)) {
 
-            pstmt3.setString(1, userId);
-            ResultSet rs2 = pstmt3.executeQuery();
+            pstmt.setString(1, userId);
+            ResultSet rs2 = pstmt.executeQuery();
 
             DefaultTableModel tableModel2 = new DefaultTableModel();
             tblTech_OfficerNotices.setModel(tableModel2);
@@ -69,6 +70,14 @@ public class Tech_OfficerNotice extends TechnicalOfficer {
                 TOBack.setVisible(true);
                 setVisible(false);
                 TOBack.methodTechnicalOfficer();
+
+                try {
+                    conn.close();
+                    System.out.println(" Connection is closed ");
+
+                } catch (SQLException ex) {
+                    System.out.println(" Connection is Unsuccessfully Closed");
+                }
 
             }
         });
