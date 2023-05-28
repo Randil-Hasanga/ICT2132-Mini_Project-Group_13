@@ -147,6 +147,13 @@ public class UpdateMedical extends TechnicalOfficer {
                 TOBack.setVisible(true);
                 setVisible(false);
                 TOBack.methodTechnicalOfficer();
+
+                try {
+                    conn.close();
+                    System.out.println(" Connection is Closed ");
+                } catch (SQLException ex) {
+                    System.out.println(" Connection close is Unsuccessful "+ex.getMessage());
+                }
             }
         });
 
@@ -158,31 +165,36 @@ public class UpdateMedical extends TechnicalOfficer {
                 StudentID = textFieldupdStudentID.getText();
                 MedCondition = textFieldupdMedCondition.getText();
 
-                String updMed = "UPDATE Medical SET  Student_id = ?,Start_Date = ?,End_Date = ? ,Medical_Condition = ? WHERE Medical_id = ? ";
+                if ((MedicalID.isEmpty()) || (StudentID.isEmpty()) || (MedCondition.isEmpty())) {
+                    lblupdSuccess.setText(" Please Fill Out the all Fields ! ");
 
-                try (PreparedStatement stmt = conn.prepareStatement(updMed)) {
+                } else {
 
-                    stmt.setString(1, MedicalID);
-                    stmt.setString(2, formattedDate);
-                    stmt.setString(3, formattedDate1);
-                    stmt.setString(4, StudentID);
-                    stmt.setString(5, MedCondition);
+                    String updMed = "UPDATE Medical SET  Student_id = ?,Start_Date = ?,End_Date = ? ,Medical_Condition = ? WHERE Medical_id = ? ";
+
+                    try (PreparedStatement stmt = conn.prepareStatement(updMed)) {
+
+                        stmt.setString(1, MedicalID);
+                        stmt.setString(2, formattedDate);
+                        stmt.setString(3, formattedDate1);
+                        stmt.setString(4, StudentID);
+                        stmt.setString(5, MedCondition);
 
 
-                    int rowsInserted = stmt.executeUpdate();
-                    System.out.println(rowsInserted + "Rows inserted");
+                        int rowsInserted = stmt.executeUpdate();
+                        System.out.println(rowsInserted + "Rows inserted");
 
-                    lblupdSuccess.setText(" New Medical successfully Updated to database ! ");
+                        lblupdSuccess.setText(" New Medical successfully Updated to database ! ");
 
-                } catch (SQLException ex) {
-                    System.out.println(" Update is Unsuccessful"+ex.getMessage());
-                }
-                finally {
-                    try {
-                        conn.close();
-                        System.out.println("Connection is Closed ");
                     } catch (SQLException ex) {
-                        System.out.println(" Connection Closed is Unsuccessful "+ex.getMessage());
+                        System.out.println(" Update is Unsuccessful" + ex.getMessage());
+                    } finally {
+                        try {
+                            conn.close();
+                            System.out.println("Connection is Closed ");
+                        } catch (SQLException ex) {
+                            System.out.println(" Connection Closed is Unsuccessful " + ex.getMessage());
+                        }
                     }
                 }
             }
