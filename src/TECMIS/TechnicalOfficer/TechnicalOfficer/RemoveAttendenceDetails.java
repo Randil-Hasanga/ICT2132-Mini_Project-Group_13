@@ -23,7 +23,6 @@ public class RemoveAttendenceDetails extends TechnicalOfficer {
     private JButton btnRemove;
     private JButton btnClr;
     private JTextArea facultyOfTechnologyManagementTextArea;
-    private JLabel lblError;
 
 
     private String userId;
@@ -37,7 +36,7 @@ public class RemoveAttendenceDetails extends TechnicalOfficer {
 
         add(pnlRemoveAttendenceDetails);
         setSize(700, 600);
-        setTitle(" Remove AttendanceDetails");
+        setTitle(" Remove AttendenceDetails");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 
@@ -57,13 +56,6 @@ public class RemoveAttendenceDetails extends TechnicalOfficer {
                 TOBack.setVisible(true);
                 setVisible(false);
                 TOBack.methodTechnicalOfficer();
-
-                try {
-                    conn.close();
-                    System.out.println(" Connection is closed ");
-                } catch (SQLException ex) {
-                    System.out.println(" Connection Closed is Unsuccessful! "+ex.getMessage());
-                }
             }
         });
 
@@ -72,12 +64,6 @@ public class RemoveAttendenceDetails extends TechnicalOfficer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AttendenceID = textFieldrmvAttendenceID.getText();
-
-                if(AttendenceID.isEmpty())
-                {
-                    lblError.setVisible(true);
-                    lblError.setText(" Please Fill out the Field!");
-                }
 
                 String rmvADid = " DELETE FROM Attendance  WHERE Attendance_id = ? ";
 
@@ -91,6 +77,14 @@ public class RemoveAttendenceDetails extends TechnicalOfficer {
 
                 } catch (SQLException ex) {
                     System.out.println(" Attendance Unsuccessfully Removed!!! "+ex.getMessage());
+                }
+                finally {
+                    try {
+                        conn.close();
+                        System.out.println(" Connection is closed ");
+                    } catch (SQLException ex) {
+                        System.out.println(" Connection Closed is Unsuccessful! "+ex.getMessage());
+                    }
                 }
 
             }
