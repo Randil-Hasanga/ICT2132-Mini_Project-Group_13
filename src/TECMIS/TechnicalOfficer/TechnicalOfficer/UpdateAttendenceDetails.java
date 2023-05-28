@@ -111,6 +111,14 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
                 TOBack.setVisible(true);
                 setVisible(false);
                 TOBack.methodTechnicalOfficer();
+
+                try {
+                    conn.close();
+                    System.out.println(" Connection is closed ");
+
+                } catch (SQLException ex) {
+                    System.out.println(" Connection closed is Unsuccessfully "+ex.getMessage());
+                }
             }
         });
 
@@ -118,40 +126,38 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
         BtnUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-             AttendanceID = textFieldAttendenceID.getText();
+                AttendanceID = textFieldAttendenceID.getText();
                 Status = textFieldStatus.getText();
                 CourseID = textFieldCourseID.getText();
-                StudentID =textFieldStudentID.getText();
+                StudentID = textFieldStudentID.getText();
 
-                String updAD = "UPDATE Attendance SET  Student_id = ?,Date_ = ?,Course_id = ? ,Status_ = ? WHERE Attendance_id = ? ";
+                if ((AttendanceID.isEmpty()) || (Status.isEmpty()) || (CourseID.isEmpty()) || (StudentID.isEmpty())) {
+                    LblSuccess.setText(" Please fill out the all fields !");
 
-                try(PreparedStatement stmt = conn.prepareStatement(updAD)){
+                } else {
 
-                    stmt.setString(1,AttendanceID);
-                    stmt.setString(5,Status);
-                    stmt.setString(4,CourseID);
-                    stmt.setString(3,formattedDate);
-                    stmt.setString(2,StudentID);
+                    String updAD = "UPDATE Attendance SET  Student_id = ?,Date_ = ?,Course_id = ? ,Status_ = ? WHERE Attendance_id = ? ";
+
+                    try (PreparedStatement stmt = conn.prepareStatement(updAD)) {
+
+                        stmt.setString(1, AttendanceID);
+                        stmt.setString(5, Status);
+                        stmt.setString(4, CourseID);
+                        stmt.setString(3, formattedDate);
+                        stmt.setString(2, StudentID);
 
 
-                    int rowsInserted = stmt.executeUpdate();
-                    System.out.println(rowsInserted + "Rows inserted");
+                        int rowsInserted = stmt.executeUpdate();
+                        System.out.println(rowsInserted + "Rows inserted");
 
-                    LblSuccess.setText(" New Attendance Details successfully Updated to database ! ");
+                        LblSuccess.setText(" New Attendance Details successfully Updated to database ! ");
 
-                } catch (SQLException ex) {
-                    System.out.println(" Update is Unsuccessful"+ex.getMessage());
-                }
-                finally {
-                    try {
-                        conn.close();
-                        System.out.println(" Connection is Closed ");
                     } catch (SQLException ex) {
-                        System.out.println(" Connection Closed is Unsuccessful "+ex.getMessage());
+                        System.out.println(" Update is Unsuccessful" + ex.getMessage());
                     }
+
                 }
             }
-
 
         });
 
