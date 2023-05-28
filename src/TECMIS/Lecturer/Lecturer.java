@@ -1,6 +1,6 @@
 package TECMIS.Lecturer;
 
-import TECMIS.Common_classes.RemoveCourse.RemoveCourseMaterial;
+import TECMIS.Lecturer.RemoveCourseMaterials.RemoveCourseMaterial;
 import TECMIS.Common_classes.ViewGradeGPA;
 import TECMIS.Common_classes.Medical.Medical;
 import TECMIS.Lecturer.StudentDetails.StudentDetails;
