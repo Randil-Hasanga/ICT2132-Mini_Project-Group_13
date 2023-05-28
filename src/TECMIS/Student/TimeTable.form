@@ -45,7 +45,7 @@
           </component>
         </children>
       </grid>
-      <grid id="17873" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="17873" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -53,32 +53,12 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="1b822" class="javax.swing.JLabel">
+          <component id="1b822" class="javax.swing.JLabel" binding="lblDep">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Select Subject"/>
-            </properties>
-          </component>
-          <component id="d4544" class="javax.swing.JComboBox" binding="subDrop">
-            <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <model>
-                <item value="Choose Subject"/>
-                <item value="01 - Data Structures and Algorithms"/>
-                <item value="02 - Cloud Computing"/>
-                <item value="03 - Data Base Management Systems"/>
-                <item value="04 - Fundamental of Management"/>
-                <item value="05 - Nano Technology"/>
-                <item value="06 - Objet Oriented Analysis and Design"/>
-                <item value="07 - Polymer Materials"/>
-                <item value="08 - C Programming"/>
-                <item value="09 - Mechatronics control and Technologists"/>
-                <item value="10 - Gene Technology"/>
-              </model>
+              <text value="Dep_ID"/>
             </properties>
           </component>
           <component id="c7842" class="javax.swing.JButton" binding="searchButton" default-binding="true">
@@ -89,13 +69,13 @@
               <text value="Search"/>
             </properties>
           </component>
-          <component id="26c6c" class="javax.swing.JButton" binding="clearButton" default-binding="true">
+          <component id="bb694" class="javax.swing.JTextField" binding="txtDepId">
             <constraints>
-              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
             </constraints>
-            <properties>
-              <text value="Clear"/>
-            </properties>
+            <properties/>
           </component>
         </children>
       </grid>
@@ -107,17 +87,17 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="d92a9" class="javax.swing.JTable" binding="tbltimeTable">
+          <component id="f4b8f" class="javax.swing.JLabel" binding="lblImg">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="50"/>
-              </grid>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <text value=""/>
+            </properties>
           </component>
         </children>
       </grid>
-      <grid id="bdc1b" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="bdc1b" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -140,9 +120,17 @@
           </vspacer>
           <hspacer id="d2ea9">
             <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
           </hspacer>
+          <component id="be862" class="javax.swing.JButton" binding="btnclear">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Clear"/>
+            </properties>
+          </component>
         </children>
       </grid>
       <grid id="731fe" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
