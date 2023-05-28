@@ -87,13 +87,6 @@ public class UpdateProfile extends TechnicalOfficer{
                 TOBack.setVisible(true);
                 setVisible(false);
                 TOBack.methodTechnicalOfficer();
-
-                try {
-                    conn.close();
-                    System.out.println(" Connection is Closed ");
-                } catch (SQLException ex) {
-                    System.out.println(" Connection Closed is Unsuccessful "+ex.getMessage());
-                }
             }
         });
 
@@ -143,19 +136,20 @@ public class UpdateProfile extends TechnicalOfficer{
             }
         });
 
-          ActionListener listener = new ActionListener() {
-              @Override
-              public void actionPerformed(ActionEvent e) {
-                  if (maleRbutton.isSelected()) {
-                      gender = "Male";
-                  } else if (femaleRbutton.isSelected()) {
-                      gender = "Female";
-                  }
-              }
+        ActionListener listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (maleRbutton.isSelected()) {
+                    gender = "Male";
+                } else if (femaleRbutton.isSelected()) {
+                    gender = "Female";
+                }
+            }
+        };
 
-          };
-          maleRbutton.addActionListener(listener);
-          femaleRbutton.addActionListener(listener);
+        maleRbutton.addActionListener(listener);
+        femaleRbutton.addActionListener(listener);
+
 
         btnUpdate.addActionListener(new ActionListener() {
             @Override
@@ -172,7 +166,7 @@ public class UpdateProfile extends TechnicalOfficer{
                     lblUpdatedSuccess.setText("Fill all the fields to proceed !");
                 }
 
-                String ProfSql = "UPDATE Technical_officer SET FName = ?, LName = ?, Gender = ?, Address_L1 = ?, Address_L2 = ?, " +
+                String ProfSql = "UPDATE Technical_Officer SET FName = ?, LName = ?, Gender = ?, Address_L1 = ?, Address_L2 = ?, " +
                         "DOB = ?, Email = ?, Pro_pic = ?, Position_ = ? " +
                         "WHERE User_id = ?";
 
@@ -200,7 +194,14 @@ public class UpdateProfile extends TechnicalOfficer{
                 } catch (IOException ex) {
                     System.out.println(" Update is Unsuccessful "+ex.getMessage());
                 }
-
+                finally {
+                    try {
+                        conn.close();
+                        System.out.println(" Connection is Closed ");
+                    } catch (SQLException ex) {
+                        System.out.println(" Connection Closed is Unsuccessful "+ex.getMessage());
+                    }
+                }
             }
         });
 
