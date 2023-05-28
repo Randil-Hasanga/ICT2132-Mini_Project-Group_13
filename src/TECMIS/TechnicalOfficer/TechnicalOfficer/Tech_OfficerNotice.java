@@ -15,12 +15,11 @@ public class Tech_OfficerNotice extends TechnicalOfficer {
     private JTable tblTech_OfficerNotices;
     private JPanel pnlTech_OfficerNotice;
     private JTextArea facultyOfTechnologyManagementTextarea;
+
     private JButton btnBack;
 
     private String userId;
     private String acc;
-
-
 
 
     public void viewTONotice() {
@@ -34,7 +33,7 @@ public class Tech_OfficerNotice extends TechnicalOfficer {
         tblTech_OfficerNotices.setEnabled(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        String TONoticeQuery = "SELECT Notice.Notice_id,Notice.Subject_,Notice.Description_ FROM Notice,Tech_OfficerNotice,Technical_officer WHERE (Notice.Notice_id = Tech_OfficerNotice.Notice_id) AND (Tech_OfficerNotice.T_Officer_id = Technical_officer.User_id) AND Technical_officer.User_id = ?";
+        String TONoticeQuery = "SELECT Notice.Notice_id,Notice.Subject_,Notice.Description_ FROM Notice,Tech_OfficerNotice,TechnicalOfficer WHERE (Notice.Notice_id = Tech_OfficerNotice.Notice_id) AND (Tech_OfficerNotice.T_Officer_id = TechnicalOfficer.User_id) AND TechnicalOfficer.User_id = ?";
 
         try (PreparedStatement pstmt3 = conn.prepareStatement(TONoticeQuery)) {
 
@@ -60,28 +59,18 @@ public class Tech_OfficerNotice extends TechnicalOfficer {
             }
 
         } catch (SQLException e) {
-            System.out.println(" "+e.getMessage());
+            throw new RuntimeException(e);
         }
-
 
         btnBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                      TechnicalOfficer TOBack = new Tech_OfficerNotice();
-                      TOBack.setVisible(true);
-                      setVisible(false);
-                      TOBack.methodTechnicalOfficer();
+                TechnicalOfficer TOBack = new TechnicalOfficer();
+                TOBack.setVisible(true);
+                setVisible(false);
+                TOBack.methodTechnicalOfficer();
+
             }
         });
-
-        try{
-                    conn.close();
-                    System.out.println(" Connection Closed Successfully");
-                } catch (SQLException ex) {
-                    System.out.println(" Unsuccessfully Connection Closed "+ex.getMessage());
-                }
-
-            }
-
     }
-
+}

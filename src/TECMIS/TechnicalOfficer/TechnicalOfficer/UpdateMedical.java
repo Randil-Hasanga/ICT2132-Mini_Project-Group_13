@@ -147,13 +147,6 @@ public class UpdateMedical extends TechnicalOfficer {
                 TOBack.setVisible(true);
                 setVisible(false);
                 TOBack.methodTechnicalOfficer();
-
-                try {
-                    conn.close();
-                    System.out.println("Connection is Closed ");
-                } catch (SQLException ex) {
-                    System.out.println(" Connection Closed is Unsuccessful "+ex.getMessage());
-                }
             }
         });
 
@@ -184,7 +177,14 @@ public class UpdateMedical extends TechnicalOfficer {
                 } catch (SQLException ex) {
                     System.out.println(" Update is Unsuccessful"+ex.getMessage());
                 }
-
+                finally {
+                    try {
+                        conn.close();
+                        System.out.println("Connection is Closed ");
+                    } catch (SQLException ex) {
+                        System.out.println(" Connection Closed is Unsuccessful "+ex.getMessage());
+                    }
+                }
             }
 
 
