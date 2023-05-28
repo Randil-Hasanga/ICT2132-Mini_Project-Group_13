@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -45,18 +46,46 @@ public class RemoveAdmin extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 adId = textAdminId.getText();
 
-                String sql = "DELETE FROM admin WHERE User_Id = ? ";
 
-                PreparedStatement pstmt = null;
                 try {
-                    pstmt = conn.prepareStatement(sql);
+
+
+//                    String CouseIDSQL = " SELECT Course_id FROM course_detail WHERE Admin_id=?";//---------------
+//                    PreparedStatement selectCourseIdStmt = conn.prepareStatement(CouseIDSQL);
+//                    selectCourseIdStmt.setString(1, adId);
+//                    ResultSet rs = selectCourseIdStmt.executeQuery(CouseIDSQL);
+//                    String coId= rs.getString("Course_id");
+//
+//                    System.out.println(coId);
+
+
+
+
+
+                    // Delete the Admin from the course_detail table
+                    String deleteCourseSQL = "DELETE FROM course_detail WHERE Admin_id= ?";
+                    PreparedStatement deleteCourseStmt = conn.prepareStatement(deleteCourseSQL);
+                    deleteCourseStmt.setString(1, adId);
+                    int rows1 = deleteCourseStmt.executeUpdate();
+
+//                    // Delete Admin for the attendance table-----------------------------
+//                    String deleteAttendanceSQL = "DELETE FROM attendance WHERE Course_id = coId";
+//                    PreparedStatement deleteAttendanceStmt = conn.prepareStatement(deleteAttendanceSQL);
+//                    int rows2 = deleteAttendanceStmt.executeUpdate();
+
+
+                    //Delete the Admin from the Admin table
+                    String sql = "DELETE FROM admin WHERE User_Id = ? ";
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
                     pstmt.setString(1,adId);
                     int rows = pstmt.executeUpdate();
+
+
 
                     succ.setVisible(true);
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    System.out.println("Error in sql" + ex.getMessage());
                 }
 
 

@@ -161,10 +161,9 @@ import java.util.Date;
                     pstmt.executeUpdate();
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    System.out.println("problem error 1 : " + ex.getMessage());
                 } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                    System.out.println("problem error 2: " + ex.getMessage());                }
             }
         });
 

@@ -3,10 +3,13 @@ package TECMIS.Admin.DashBord;
 import TECMIS.Admin.DashBord.Course.CreateCourse;
 import TECMIS.Admin.DashBord.Course.RemoveCourse;
 import TECMIS.Admin.DashBord.Course.UpdateCouse;
+import TECMIS.Admin.DashBord.Notice.RemoveNotice;
 import TECMIS.Admin.DashBord.Notice.UpdateNotice;
 import TECMIS.Admin.DashBord.Notice.createNotice;
 import TECMIS.Admin.DashBord.RemoveUser.RemoveUserDashbord;
-import TECMIS.Admin.DashBord.TimeTable.CreateTimeTable.CreateTimeTable;
+import TECMIS.Admin.DashBord.TimeTable.CreateTimeTable;
+import TECMIS.Admin.DashBord.TimeTable.RemoveTimeTable;
+import TECMIS.Admin.DashBord.TimeTable.UpdateTimeTable;
 import TECMIS.Admin.DashBord.UpdateUser.UpdateUserDashbord;
 import TECMIS.Admin.DashBord.UserDashBord.createUser;
 import TECMIS.MySqlCon;
@@ -48,6 +51,12 @@ public class Dashbord extends User {
     private byte[] dImg;
     private String Fname;
     private String Lname;
+
+
+
+
+
+
 
 
 
@@ -192,6 +201,17 @@ public class Dashbord extends User {
         });
 
 
+        UpdateTimeTableButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UpdateTimeTable UpTiTable = new UpdateTimeTable();
+                UpTiTable.UpdateTimeTableMethod();
+                UpTiTable.setVisible(true);
+                setVisible(false);
+            }
+        });
+
+
         //Remove Details--------------------------------------
         RemoveUserButton.addActionListener(new ActionListener() {
             @Override
@@ -210,6 +230,26 @@ public class Dashbord extends User {
                 RemoveCourse RemCou = new RemoveCourse();
                 RemCou.RemoveCourseDetails();
                 RemCou.setVisible(true);
+                setVisible(false);
+            }
+        });
+
+        removeNoticeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RemoveNotice RemoNoti = new RemoveNotice();
+                RemoNoti.RemoveNotiMethod();
+                RemoNoti.setVisible(true);
+                setVisible(false);
+            }
+        });
+
+        removeTimeTableButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RemoveTimeTable ReTiTable = new RemoveTimeTable();
+                ReTiTable.RemoveTimeTableMethod();
+                ReTiTable.setVisible(true);
                 setVisible(false);
             }
         });
