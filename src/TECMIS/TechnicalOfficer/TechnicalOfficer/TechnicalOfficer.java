@@ -148,7 +148,7 @@ public class TechnicalOfficer extends User {
         AddBtnAttendenceDetails.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                UploadAttendenceDetails upAttendence = new UploadAttendenceDetails();
+                UploadAttandenceDetails upAttendence = new UploadAttandenceDetails();
                 upAttendence.uploadAttendance();
                 upAttendence.setVisible(true);
                 setVisible(false);

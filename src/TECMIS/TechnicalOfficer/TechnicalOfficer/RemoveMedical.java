@@ -23,6 +23,7 @@ public class RemoveMedical extends TechnicalOfficer{
     private JButton btnRemove;
     private JButton btnClear;
     private JTextArea facultyOfTechnologyManagementTextArea;
+    private JLabel lblError;
 
 
     private String userId;
@@ -59,6 +60,15 @@ public class RemoveMedical extends TechnicalOfficer{
                 TOBack.setVisible(true);
                 setVisible(false);
                 TOBack.methodTechnicalOfficer();
+
+                try {
+                    conn.close();
+                    System.out.println(" Connection is Closed ");
+                } catch (SQLException ex) {
+                    System.out.println(" Connection closed is Unsuccessful! "+ex.getMessage());
+                }
+
+
             }
         });
 
@@ -67,6 +77,12 @@ public class RemoveMedical extends TechnicalOfficer{
             @Override
             public void actionPerformed(ActionEvent e) {
                 MedicalID = textFieldMedicalID.getText();
+
+                if(MedicalID.isEmpty())
+                {
+                    lblError.setVisible(true);
+                    lblError.setText(" Please Fill out the Field!");
+                }
 
                 String rmvMedID = " DELETE FROM Medical  WHERE Medical_id = ? ";
 
@@ -81,14 +97,7 @@ public class RemoveMedical extends TechnicalOfficer{
                 } catch (SQLException ex) {
                     System.out.println(" Medical Remove is Unsuccessful "+ex.getMessage());
                 }
-                finally {
-                    try {
-                        conn.close();
-                        System.out.println(" Connection is Closed ");
-                    } catch (SQLException ex) {
-                        System.out.println(" Connection closed is Unsuccessful! "+ex.getMessage());
-                    }
-                }
+
 
             }
 
