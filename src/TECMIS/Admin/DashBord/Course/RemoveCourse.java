@@ -36,28 +36,7 @@ public class RemoveCourse extends JFrame{
         scc.setVisible(false);
 
 
-//        submitButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//
-//                coId = CourId.getText();
-//
-//                String sql = "DELETE FROM course_detail WHERE Course_id = ? ";
-//
-//                try {
-//                    PreparedStatement pstmt = conn.prepareStatement(sql);
-//
-//                    pstmt.setString(1,coId);
-//                    int rows = pstmt.executeUpdate();
-//
-//                    scc.setVisible(true);
-//
-//                } catch (SQLException ex) {
-//                    throw new RuntimeException(ex);
-//                }
-//
-//            }
-//        });
+
 
         submitButton.addActionListener(new ActionListener() {
             @Override
@@ -76,7 +55,7 @@ public class RemoveCourse extends JFrame{
                     String deleteAttendanceSQL = "DELETE FROM attendance WHERE Course_id = ?";
                     PreparedStatement deleteAttendanceStmt = conn.prepareStatement(deleteAttendanceSQL);
                     deleteAttendanceStmt.setString(1, coId);
-                    deleteAttendanceStmt.executeUpdate();
+                    int rows2 = deleteAttendanceStmt.executeUpdate();
 
                     // Delete the course from the course_detail table
                     String deleteCourseSQL = "DELETE FROM course_detail WHERE Course_id = ?";

@@ -2,13 +2,14 @@ package TECMIS.Lecturer.UpdateProfile;
 
 import TECMIS.Lecturer.Lecturer;
 import TECMIS.MySqlCon;
-import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -19,7 +20,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Calendar;
 
 public class UpdateProfileLecturer extends Lecturer{
 
@@ -62,6 +62,20 @@ public class UpdateProfileLecturer extends Lecturer{
         setLocationRelativeTo(null);
         lblDisplay.setVisible(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    // Close the application
+                    System.exit(0);
+                }else {
+                    // Do nothing (prevent the window from closing)
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+            }
+        });
 
         clearButton.addActionListener(new ActionListener() {
             @Override

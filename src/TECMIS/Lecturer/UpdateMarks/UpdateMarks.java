@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class UpdateMarks extends Lecturer{
 
@@ -50,7 +52,6 @@ public class UpdateMarks extends Lecturer{
     private double F_Theory;
     private double F_Practical;
 
-
     public void UpdateMarks(){
 
         add(pnlUpdateMarks);
@@ -58,6 +59,21 @@ public class UpdateMarks extends Lecturer{
         setTitle("Update Marks");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    // Close the application
+                    System.exit(0);
+                }else {
+                    // Do nothing (prevent the window from closing)
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+            }
+        });
+
     marksDrop.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -186,7 +202,6 @@ public class UpdateMarks extends Lecturer{
             @Override
             public void actionPerformed(ActionEvent e) {
                 Lecturer up = new Lecturer();
-
 
                 if((CID.equals("ICT01")) || (CID.equals("ICT05"))) {
 

@@ -55,7 +55,7 @@ public class RevomeStudent extends JFrame{
 
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    System.out.println("Error in sql" + ex.getMessage());
                 }
 
 

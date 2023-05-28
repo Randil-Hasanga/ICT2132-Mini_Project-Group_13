@@ -6,6 +6,8 @@ import TECMIS.User;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.*;
 
 public class UploadMarks extends Lecturer{
@@ -60,7 +62,7 @@ public class UploadMarks extends Lecturer{
     private String p10 = "10%";
     private double A1;
     private double A2;
-    private String selected;
+    private String selected = "Select Mark Style";
     private int newCredit;
 
     public void upMarks(){
@@ -73,6 +75,21 @@ public class UploadMarks extends Lecturer{
         setTitle("Upload Marks");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    // Close the application
+                    System.exit(0);
+                }else {
+                    // Do nothing (prevent the window from closing)
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+            }
+        });
+
             style.setVisible(false);
             txtQ1.setVisible(false);
             txtQ2.setVisible(false);
@@ -109,8 +126,8 @@ public class UploadMarks extends Lecturer{
                 }else if(newR.isSelected()){
                     style.setVisible(true);
                     dropCourse.setVisible(false);
-                    lblCID.setVisible(true);
-                    txtCID.setVisible(true);
+                    lblCID.setVisible(false);
+                    txtCID.setVisible(false);
                 }
             }
         };
@@ -140,9 +157,14 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(true);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+                    lblCID.setVisible(true);
+                    txtCID.setVisible(true);
+
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
                     txtQ3.setText(p10);
+                    txtA1.setText("");
+                    txtA2.setText("");
                     txtMid.setText(p20);
                     txtFinalTheory.setText(p40);
                     txtFinalPractical.setText(p30);
@@ -165,6 +187,10 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(false);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+
+                    lblCID.setVisible(true);
+                    txtCID.setVisible(true);
+
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
                     txtA2.setText(p10);
@@ -172,6 +198,7 @@ public class UploadMarks extends Lecturer{
                     txtQ3.setText(p10);
                     txtMid.setText(p20);
                     txtFinalTheory.setText(p60);
+                    txtFinalPractical.setText("");
 
                 }else if(selected.equals("Style 3")){
                     txtQ1.setVisible(true);
@@ -192,13 +219,15 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(true);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+                    lblCID.setVisible(true);
+                    txtCID.setVisible(true);
 
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
                     txtA2.setText(p10);
                     txtA1.setText(p10);
                     txtQ3.setText(p10);
-                    txtMid.setText(p20);
+                    txtMid.setText("");
                     txtFinalTheory.setText(p40);
                     txtFinalPractical.setText(p30);
 
@@ -221,15 +250,39 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(true);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+                    lblCID.setVisible(true);
+                    txtCID.setVisible(true);
 
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
                     txtA2.setText(p10);
                     txtA1.setText(p10);
                     txtQ3.setText(p10);
-                    txtMid.setText(p20);
+                    txtMid.setText("");
                     txtFinalTheory.setText(p30);
                     txtFinalPractical.setText(p40);
+
+                }else if(selected.equals("Select Mark Style")){
+                    txtQ1.setVisible(false);
+                    txtQ2.setVisible(false);
+                    txtQ3.setVisible(false);
+                    lblQ1.setVisible(false);
+                    lblQ2.setVisible(false);
+                    lblQ3.setVisible(false);
+                    txtA1.setVisible(false);
+                    txtA2.setVisible(false);
+                    lblA1.setVisible(false);
+                    lblA2.setVisible(false);
+                    lblMid.setVisible(false);
+                    txtMid.setVisible(false);
+                    lblFinalTheory.setVisible(false);
+                    txtFinalTheory.setVisible(false);
+                    lblFinalPractical.setVisible(false);
+                    txtFinalPractical.setVisible(false);
+                    txtSID.setVisible(false);
+                    lblSID.setVisible(false);
+                    lblCID.setVisible(false);
+                    txtCID.setVisible(false);
                 }
 
 
@@ -262,6 +315,8 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(true);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+                    lblCID.setVisible(true);
+                    txtCID.setVisible(true);
 
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
@@ -671,7 +726,4 @@ public class UploadMarks extends Lecturer{
             }
         });
     }
-
-
-
 }

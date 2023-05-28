@@ -43,19 +43,30 @@ public class RemoveTechnicalOffice extends JFrame{
 
                 TecID = tecOffRe.getText();
 
-                String sql = "DELETE FROM technical_officer WHERE User_id = ? ";
 
-                PreparedStatement pstmt = null;
 
                 try {
+
+                    // Delete the TecID from the Tec_Off_Time table
+                    String deleteTecOffSQL = "DELETE FROM tech_officertimetable WHERE T_Officer_Id = ?";
+                    PreparedStatement deleteTecOffStmt = conn.prepareStatement(deleteTecOffSQL);
+                    deleteTecOffStmt.setString(1, TecID);
+                    int rows1 = deleteTecOffStmt.executeUpdate();
+
+                    //Delete the TecId from the Tec_Off table
+                    String sql = "DELETE FROM technical_officer WHERE User_id = ? ";
+                    PreparedStatement pstmt = null;
                     pstmt = conn.prepareStatement(sql);
                     pstmt.setString(1,TecID);
                     int rows = pstmt.executeUpdate();
 
+
+
+
                     succsPnl.setVisible(true);
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    System.out.println("Error in sql" + ex.getMessage());
                 }
 
 

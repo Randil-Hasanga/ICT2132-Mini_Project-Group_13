@@ -19,7 +19,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.sql.*;
@@ -55,6 +56,9 @@ public class Lecturer extends User {
     private byte[] dImg;
     private int level;
     private int semester;
+    private double tt;
+    private String lvlSem;
+    private double semTotalCredit;
 
     public void methodLecturer() {
         userId = getUserId();
@@ -66,6 +70,20 @@ public class Lecturer extends User {
         setLocationRelativeTo(null);
         setTitle("Lecturer");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    // Close the application
+                    System.exit(0);
+                }else {
+                    // Do nothing (prevent the window from closing)
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+            }
+        });
 
         String sql = "SELECT FName,LName,Pro_pic FROM " + acc + " WHERE User_id = ?";
         String dfIcon = "SELECT img FROM DefaulImg WHERE imgId = 0";
@@ -87,25 +105,30 @@ public class Lecturer extends User {
                 Lname = rs.getString("LName");
                 byte[] imageData = rs.getBytes("Pro_pic");
 
-                if(imageData == null){
-                    ImageIcon defaultIcon = new ImageIcon(dImg);
-                    Image image = defaultIcon.getImage();
-                    BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-                    Graphics2D g2 = bufferedImage.createGraphics();
-                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    g2.setClip(new Ellipse2D.Float(0,0, image.getWidth(null), image.getHeight(null)));
-                    g2.drawImage(image, 0, 0, null);
-                    lblPic.setIcon(new ImageIcon(bufferedImage));
-                }
-                else{
-                    ImageIcon icon = new ImageIcon(imageData);
-                    Image image = icon.getImage();
-                    BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-                    Graphics2D g2 = bufferedImage.createGraphics();
-                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    g2.setClip(new Ellipse2D.Float(0,0, image.getWidth(null), image.getHeight(null)));
-                    g2.drawImage(image, 0, 0, null);
-                    lblPic.setIcon(new ImageIcon(bufferedImage));
+                try {
+                    if ((imageData == null) && (dImg == null)) {
+                        lblPic.setText("");
+                    } else if (imageData == null) {
+                        ImageIcon defaultIcon = new ImageIcon(dImg);
+                        Image image = defaultIcon.getImage();
+                        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+                        Graphics2D g2 = bufferedImage.createGraphics();
+                        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                        g2.setClip(new Ellipse2D.Float(0, 0, image.getWidth(null), image.getHeight(null)));
+                        g2.drawImage(image, 0, 0, null);
+                        lblPic.setIcon(new ImageIcon(bufferedImage));
+                    } else {
+                        ImageIcon icon = new ImageIcon(imageData);
+                        Image image = icon.getImage();
+                        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+                        Graphics2D g2 = bufferedImage.createGraphics();
+                        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                        g2.setClip(new Ellipse2D.Float(0, 0, image.getWidth(null), image.getHeight(null)));
+                        g2.drawImage(image, 0, 0, null);
+                        lblPic.setIcon(new ImageIcon(bufferedImage));
+                    }
+                } catch (RuntimeException ex){
+                    throw new RuntimeException();
                 }
 
             }
@@ -400,8 +423,16 @@ public class Lecturer extends User {
     }
 
     public void updateCreditGained(){
-        String credit2 = "UPDATE Exam_Mark SET Credit_gained = Grade*2.0 WHERE (Course_id = 'ICT01') || (Course_id = 'ICT02')";
-        String credit3 = "UPDATE Exam_Mark SET Credit_gained = Grade*3.0 WHERE (Course_id = 'ICT03') || (Course_id = 'ICT04') || (Course_id = 'ICT05') || (Course_id = 'ICT06')";
+
+        String credit2 = "UPDATE Exam_mark em " +
+                "JOIN Course_Detail cd ON em.Course_id = cd.Course_id " +
+                "SET em.Credit_gained = em.Grade * 2.0 " +
+                "WHERE cd.Credit = 2";
+
+        String credit3 = "UPDATE Exam_mark em " +
+                "JOIN Course_Detail cd ON em.Course_id = cd.Course_id " +
+                "SET em.Credit_gained = em.Grade * 3.0 " +
+                "WHERE cd.Credit = 3";
 
         try (Statement c2 = conn.createStatement()){
             c2.executeUpdate(credit2);
@@ -493,14 +524,10 @@ public class Lecturer extends User {
 
     public void sumCredit(){
 
-        // Update total credits of each student to student_grades table
+        //SGPA credit sum
+
         level = ViewGradeGPA.getCurrent_level();
         semester = ViewGradeGPA.getCurrent_semester();
-
-        System.out.println(level);
-        System.out.println(semester);
-
-        //SGPA credit sum
 
         String creditSumSGPA = "SELECT SUM(Credit) FROM Course_Detail WHERE (Level = ?) AND (Semester = ?)";
         try(PreparedStatement sm = conn.prepareStatement(creditSumSGPA)){
@@ -536,12 +563,61 @@ public class Lecturer extends User {
     }
 
     public void totalCredit(){
-        String tc = "UPDATE Student_Grades SET Total_credits = ICT01 + ICT02 + ICT03 + ICT04 + ICT05 + ICT06";
+        level = ViewGradeGPA.getCurrent_level();
+        semester = ViewGradeGPA.getCurrent_semester();
+        String SID = ViewGradeGPA.getSID();
 
-        try(Statement upTC = conn.createStatement()){
-            upTC.executeUpdate(tc);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+        System.out.println(level);
+        System.out.println(semester);
+
+
+        try (Statement stmt = conn.createStatement()) {
+            // Iterate over levels
+            for (int level = 1; level <= 4; level++) {
+                // Iterate over semesters
+                for (int semester = 1; semester <= 2; semester++) {
+                    // Construct the column name dynamically
+                    String columnName = "L" + level + "_S" + semester + "_Credit";
+
+                    // Construct the UPDATE statement
+                    String updateQuery = "UPDATE Student_Grades " +
+                            "JOIN Student ON Student_Grades.Student_id = Student.User_id " +
+                            "SET Student_Grades." + columnName + " = (" +
+                            "    SELECT SUM(Exam_mark.Credit_gained) " +
+                            "    FROM Exam_mark " +
+                            "    JOIN Course_Detail ON Exam_mark.Course_id = Course_Detail.Course_id " +
+                            "    WHERE Course_Detail.Level = " + level + " " +
+                            "    AND Course_Detail.Semester = " + semester + " " +
+                            "    AND Exam_mark.Student_id = Student.User_id " +
+                            ")";
+
+                    // Execute the UPDATE statement
+                    stmt.executeUpdate(updateQuery);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        String t = "SELECT Total_credits FROM Student_Grades";
+
+        try(Statement st = conn.createStatement()){
+            ResultSet rs = st.executeQuery(t);
+            while(rs.next()){
+                tt = rs.getDouble("Total_credits");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        if((tt==0)) {
+            String tc = "UPDATE Student_Grades SET Total_credits = ICT01 + ICT02 + ICT03 + ICT04 + ICT05 + ICT06";
+
+            try (Statement upTC = conn.createStatement()) {
+                upTC.executeUpdate(tc);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -549,16 +625,60 @@ public class Lecturer extends User {
 
         //calculateSGpa
 
-        String sgp = "UPDATE Student_Grades SET SGPA = (Total_credits/?)";
-
-        try(PreparedStatement upSGPA = conn.prepareStatement(sgp)){
-            upSGPA.setDouble(1,SumCreditSGPA);
-            upSGPA.executeUpdate();
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+        if(level == 1){
+            if(semester == 1){
+                lvlSem = "L1_S1_GPA";
+            }else if(semester == 2){
+                lvlSem = "L1_S2_GPA";
+            }
+        } else if (level == 2) {
+            if(semester == 1){
+                lvlSem = "L2_S1_GPA";
+            }else if(semester == 2){
+                lvlSem = "L2_S2_GPA";
+            }
+        }else if (level == 3) {
+            if(semester == 1){
+                lvlSem = "L3_S1_GPA";
+            }else if(semester == 2){
+                lvlSem = "L3_S2_GPA";
+            }
+        } else if (level == 4) {
+            if(semester == 1){
+                lvlSem = "L4_S1_GPA";
+            }else if(semester == 2){
+                lvlSem = "L4_S2_GPA";
+            }
         }
 
-        //calculateSGpa
+        try (Statement stmt = conn.createStatement()) {
+            // Iterate over levels
+            for (int level = 1; level <= 4; level++) {
+                // Iterate over semesters
+                for (int semester = 1; semester <= 2; semester++) {
+                    // Construct the column names dynamically
+                    String columnName = "L" + level + "_S" + semester + "_GPA";
+                    String columnName2 = "L" + level + "_S" + semester + "_Credit";
+
+                    // Construct the UPDATE statement with the column names
+                    String updateQuery = "UPDATE Student_Grades SET " + columnName + " = (" + columnName2 + " / " + SumCreditSGPA + ")";
+
+                    // Execute the UPDATE statement
+                    stmt.executeUpdate(updateQuery);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+
+
+
+        System.out.println(SumCreditSGPA);
+
+        //calculateCGpa
 
         String cgp = "UPDATE Student_Grades SET CGPA = (Total_credits/?)";
 

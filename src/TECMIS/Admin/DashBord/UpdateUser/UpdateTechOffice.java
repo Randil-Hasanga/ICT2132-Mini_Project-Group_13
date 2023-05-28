@@ -1,6 +1,5 @@
 package TECMIS.Admin.DashBord.UpdateUser;
 
-import TECMIS.Admin.DashBord.Dashbord;
 import TECMIS.MySqlCon;
 import com.toedter.calendar.JDateChooser;
 

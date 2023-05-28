@@ -1,4 +1,4 @@
-package TECMIS.Admin.DashBord.TimeTable.CreateTimeTable;
+package TECMIS.Admin.DashBord.TimeTable;
 
 import TECMIS.Admin.DashBord.Dashbord;
 import TECMIS.MySqlCon;
@@ -103,7 +103,8 @@ public class CreateTimeTable extends JFrame{
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                txtTableId.setText("");
+                txtLVL.setText("");
             }
         });
     }

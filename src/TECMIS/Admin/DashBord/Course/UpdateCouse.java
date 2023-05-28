@@ -1,14 +1,11 @@
 package TECMIS.Admin.DashBord.Course;
 
 import TECMIS.Admin.DashBord.Dashbord;
-import TECMIS.Admin.DashBord.UpdateUser.UpdateUserDashbord;
 import TECMIS.MySqlCon;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
