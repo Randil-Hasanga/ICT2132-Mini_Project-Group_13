@@ -3,37 +3,29 @@ package TECMIS;
 import TECMIS.Admin.DashBord.Dashbord;
 import TECMIS.Lecturer.Lecturer;
 import TECMIS.Student.Student;
+import TECMIS.TechnicalOfficer.TechnicalOfficer.TechnicalOfficer;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.*;
-
+import java.util.Base64;
 
 
 public class User extends JFrame{
 
-    Connection conn;
-
+    private Connection conn;
     {
         conn = MySqlCon.MysqlMethod();
     }
-
     private static String userId;
     private static String acc;
-
-
-
-    String pwd;
-    String DBpwd;
-    Date DOB;
-
-
-    String address_L1;
-    String getAddress_L2;
-
-
-
+    private String pwd;
+    private String DBpwd;
     private JComboBox<String> userDrop;
     private JTextField txtUserId;
     private JPasswordField txtPwd;
@@ -75,6 +67,20 @@ public class User extends JFrame{
         lblDisplay.setVisible(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    // Close the application
+                    System.exit(0);
+                }else {
+                    // Do nothing (prevent the window from closing)
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+            }
+        });
+
         ClearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -102,6 +108,22 @@ public class User extends JFrame{
                     lblDisplay.setText("Fill all the fields to proceed !");
                 }
 
+                // password encryption
+                String EncryptedPwd = null;
+                String secretKey = "ThisIsASecretKey";
+
+                try {
+                    SecretKeySpec keySpec = new SecretKeySpec(secretKey.getBytes(),"AES");
+                    Cipher cipher = Cipher.getInstance("AES");
+                    cipher.init(Cipher.ENCRYPT_MODE, keySpec);
+
+                    byte[] encryptedBytes = cipher.doFinal(pwd.getBytes());
+                    EncryptedPwd = Base64.getEncoder().encodeToString(encryptedBytes);
+
+                } catch (Exception ex){
+                    ex.printStackTrace();
+                }
+
                 String sql = "SELECT Password FROM " + acc + " WHERE User_id = ?";
 
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -112,9 +134,7 @@ public class User extends JFrame{
                     }
 
                     if(acc.equals("lecturer")){
-
-
-                        if(DBpwd != null && DBpwd.equals(pwd)){
+                        if(DBpwd != null && DBpwd.equals(EncryptedPwd)){
                             Statement stmt = conn.createStatement();
 
                             String query1 = "CREATE USER IF NOT EXISTS 'lecturer'@'localhost' IDENTIFIED BY 'lecturer123'";
@@ -137,7 +157,31 @@ public class User extends JFrame{
                             lblDisplay.setText("Incorrect email or password");
                         }
 
-                    }else if (acc.equals("student")){
+                    }else if (acc.equals("technical_officer")){
+
+                        if (DBpwd != null && DBpwd.equals(pwd)){
+                            Statement stmt = conn.createStatement();
+
+                            String query7 = "CREATE USER IF NOT EXISTS 'technical_officer'@'localhost' IDENTIFIED BY 'technical_officer123'";
+                            String query8 = "GRANT SELECT,INSERT,UPDATE (User_id,FName,LName,Gender,Address_L1, Address_L2,DOB, Email,Pro_pic) ON LMSDB.Technical_officer TO 'technical_officer'@'localhost'";
+
+                            stmt.executeUpdate(query7);
+                            stmt.executeUpdate(query8);
+
+                            lblDisplay.setText("Password correct");
+
+                            TechnicalOfficer technicalOfficer = new TechnicalOfficer();
+                            technicalOfficer.setUserId(userId);
+                            technicalOfficer.setAcc(acc);
+                            technicalOfficer.methodTechnicalOfficer();
+                            technicalOfficer.setVisible(true);
+                            setVisible(false);
+                        }else {
+                            lblDisplay.setVisible(true);
+                            lblDisplay.setText(" Incorrect email or password ");
+                        }
+                    }
+                    else if (acc.equals("student")){
 
                         if (DBpwd != null && DBpwd.equals(pwd)){
                             Statement stmt = conn.createStatement();
@@ -157,9 +201,8 @@ public class User extends JFrame{
                             student.setVisible(true);
                             setVisible(false);
                         }
-
-
-                    }else if(acc.equals("admin")){
+                    }
+                    else if(acc.equals("admin")){
 
                         if(DBpwd !=null && DBpwd.equals(pwd)){
                             Statement stmt = conn.createStatement();
@@ -190,6 +233,4 @@ public class User extends JFrame{
             }
         });
     }
-
-
 }

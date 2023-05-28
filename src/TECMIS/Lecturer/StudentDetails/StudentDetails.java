@@ -1,19 +1,20 @@
 package TECMIS.Lecturer.StudentDetails;
 
 import TECMIS.Lecturer.Lecturer;
-import TECMIS.MySqlCon;
 import TECMIS.User;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.*;
 
 public class StudentDetails extends Lecturer{
 
-    Connection conn = TECMIS.MySqlCon.MysqlMethod();
-    String sid;
+    private Connection conn = TECMIS.MySqlCon.MysqlMethod();
+    private String sid;
     private JTextField txtSID;
     private JButton btnSearch;
     private JTable tblStudentDetails;
@@ -38,6 +39,19 @@ public class StudentDetails extends Lecturer{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    // Close the application
+                    System.exit(0);
+                }else {
+                    // Do nothing (prevent the window from closing)
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+            }
+        });
 
         clearButton.addActionListener(new ActionListener() {
             @Override
@@ -54,11 +68,14 @@ public class StudentDetails extends Lecturer{
                 lecBack.setVisible(true);
                 setVisible(false);
                 lecBack.methodLecturer();
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
-
-
-
 
         btnSearch.addActionListener(new ActionListener() {
             @Override
@@ -89,9 +106,6 @@ public class StudentDetails extends Lecturer{
                             }
                         }
                         rs.close();
-                        pstmt.close();
-                        conn.close();
-
 
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);

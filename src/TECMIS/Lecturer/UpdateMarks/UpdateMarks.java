@@ -9,10 +9,12 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-public class UpdateMarks extends JFrame{
+public class UpdateMarks extends Lecturer{
 
-    Connection conn = MySqlCon.MysqlMethod();
+    private Connection conn = MySqlCon.MysqlMethod();
     private JPanel pnlUpdateMarks;
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JLabel lvlSID;
@@ -38,10 +40,8 @@ public class UpdateMarks extends JFrame{
     private JButton clearButton;
     private JLabel lblSuccess;
     private JComboBox marksDrop;
-
     private String CID;
     private String selected;
-
     private String SID;
     private double Q1;
     private double Q2;
@@ -52,7 +52,6 @@ public class UpdateMarks extends JFrame{
     private double F_Theory;
     private double F_Practical;
 
-
     public void UpdateMarks(){
 
         add(pnlUpdateMarks);
@@ -60,6 +59,21 @@ public class UpdateMarks extends JFrame{
         setTitle("Update Marks");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    // Close the application
+                    System.exit(0);
+                }else {
+                    // Do nothing (prevent the window from closing)
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+            }
+        });
+
     marksDrop.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -188,7 +202,6 @@ public class UpdateMarks extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 Lecturer up = new Lecturer();
-
 
                 if((CID.equals("ICT01")) || (CID.equals("ICT05"))) {
 
@@ -341,6 +354,12 @@ public class UpdateMarks extends JFrame{
                 lecBack.setVisible(true);
                 setVisible(false);
                 lecBack.methodLecturer();
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 

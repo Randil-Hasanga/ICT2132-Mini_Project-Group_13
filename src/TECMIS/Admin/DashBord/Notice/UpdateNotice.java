@@ -1,7 +1,6 @@
 package TECMIS.Admin.DashBord.Notice;
 
 import TECMIS.Admin.DashBord.Dashbord;
-import TECMIS.Admin.DashBord.UpdateUser.UpdateUserDashbord;
 import TECMIS.MySqlCon;
 
 import javax.swing.*;

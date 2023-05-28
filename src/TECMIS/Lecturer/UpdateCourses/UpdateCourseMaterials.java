@@ -6,12 +6,14 @@ import TECMIS.MySqlCon;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class UpdateCourseMaterials extends JFrame{
-    Connection conn = MySqlCon.MysqlMethod();
+public class UpdateCourseMaterials extends Lecturer{
+    private Connection conn = MySqlCon.MysqlMethod();
     private JPanel pnlUploadCM;
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JTextField txtCName;
@@ -24,7 +26,6 @@ public class UpdateCourseMaterials extends JFrame{
     private JLabel lblSuccess2;
     private JTextField txtLevel;
     private JTextField txtSem;
-
     private String CID;
     private String CourseName;
     private String AdminId;
@@ -38,6 +39,20 @@ public class UpdateCourseMaterials extends JFrame{
         setTitle("Update Course Materials");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    // Close the application
+                    System.exit(0);
+                }else {
+                    // Do nothing (prevent the window from closing)
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+            }
+        });
 
         updateButton.addActionListener(new ActionListener() {
             @Override
@@ -97,6 +112,12 @@ public class UpdateCourseMaterials extends JFrame{
                 lecBack.setVisible(true);
                 setVisible(false);
                 lecBack.methodLecturer();
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
 
             }
         });

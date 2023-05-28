@@ -48,7 +48,8 @@ public class TechnicalOfficer extends User {
         add(pnlTechnicalOfficer);
         setSize(750, 500);
         pnlPic.setSize(200, 200);
-        setTitle(" TechnicalOfficer");
+        setLocationRelativeTo(null);
+        setTitle("TechnicalOfficer");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         String sql = "SELECT FName,LName,Pro_pic FROM " + acc + " WHERE User_id = ?";
@@ -72,8 +73,8 @@ public class TechnicalOfficer extends User {
                 byte[] imageData = rs.getBytes("Pro_pic");
 
                 if (imageData == null) {
-                    ImageIcon picIcon = new ImageIcon(dImg);
-                    Image image = picIcon.getImage();
+                    ImageIcon defaultIcon = new ImageIcon(dImg);
+                    Image image = defaultIcon.getImage();
                     BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
                     Graphics2D g2 = bufferedImage.createGraphics();
                     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -95,9 +96,9 @@ public class TechnicalOfficer extends User {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(" Error in add Image "+e.getMessage());
         }
-        lblWelcome.setText("Welcome Dr." + Fname + " " + Lname + "!");
+        lblWelcome.setText("Welcome " + Fname + " " + Lname + "!");
 
         //View Buttons
         ViewBtnNotice.addActionListener(new ActionListener() {
@@ -148,7 +149,7 @@ public class TechnicalOfficer extends User {
             @Override
             public void actionPerformed(ActionEvent e) {
                 UploadAttendenceDetails upAttendence = new UploadAttendenceDetails();
-                upAttendence.uploadAttendence();
+                upAttendence.uploadAttendance();
                 upAttendence.setVisible(true);
                 setVisible(false);
             }

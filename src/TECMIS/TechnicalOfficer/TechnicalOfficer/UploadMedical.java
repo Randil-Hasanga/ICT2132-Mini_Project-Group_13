@@ -4,15 +4,25 @@ import TECMIS.User;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class UploadMedical extends TechnicalOfficer {
 
 
     private JPanel pnlUploadMedical;
+    private Date selectedDate;
+    private String formattedDate;
+
+    private Date selectedDate1;
+    private String formattedDate1;
     private JTextArea informationSystemTextArea;
     private JLabel lblMedID;
     private JTextField txtMedID;
@@ -28,6 +38,8 @@ public class UploadMedical extends TechnicalOfficer {
     private JButton btnBack;
     private JButton btnUpload;
     private JButton btnClr;
+    private JButton chooseDateButton;
+    private JButton chooseDateButton1;
 
 
     private String userId;
@@ -39,10 +51,6 @@ public class UploadMedical extends TechnicalOfficer {
     private String MedCondition;
 
 
-
-
-
-
     public void uploadMedical() {
 
         userId = User.getUserId();
@@ -51,14 +59,72 @@ public class UploadMedical extends TechnicalOfficer {
         add(pnlUploadMedical);
         setSize(700, 600);
         setTitle("Upload Medicals");
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+
+        chooseDateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("Choose Date");
+                JDateChooser dateChooser = new JDateChooser();
+                frame.add(dateChooser);
+                frame.setType(Window.Type.UTILITY);
+                frame.pack();
+                frame.setLocationRelativeTo(null); // Center the frame on the screen
+                frame.setVisible(true);
+
+                dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if (evt.getPropertyName().equals("date")) {
+                            selectedDate = dateChooser.getDate(); // get selected date
+
+                            // Format the selected date as YYYY-MM-DD
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            formattedDate = sdf.format(selectedDate);
+                            System.out.println(selectedDate);
+                            System.out.println(formattedDate);
+                            frame.dispose(); // Close the frame after selecting the date
+                        }
+                    }
+                });
+            }
+        });
+        chooseDateButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("Choose Date");
+                JDateChooser dateChooser = new JDateChooser();
+                frame.add(dateChooser);
+                frame.setType(Window.Type.UTILITY);
+                frame.pack();
+                frame.setLocationRelativeTo(null); // Center the frame on the screen
+                frame.setVisible(true);
+
+                dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if (evt.getPropertyName().equals("date")) {
+                            selectedDate1 = dateChooser.getDate(); // get selected date
+
+                            // Format the selected date as YYYY-MM-DD
+                            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                            formattedDate1 = sdf1.format(selectedDate1);
+                            System.out.println(selectedDate1);
+                            System.out.println(formattedDate1);
+                            frame.dispose(); // Close the frame after selecting the date
+                        }
+                    }
+                });
+
+            }
+        });
 
         btnClr.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 txtMedID.setText("");
-                JDateChooserStartDate.setDateFormatString("");
-                JDateChooserEndDate.setDateFormatString("");
                 txtSID.setText("");
                 txtMedCon.setText("");
             }
@@ -80,8 +146,6 @@ public class UploadMedical extends TechnicalOfficer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MedicalID = txtMedID.getText();
-                Start_Date = JDateChooserStartDate.getDateFormatString();
-                End_Date = JDateChooserEndDate.getDateFormatString();
                 StudentID = txtSID.getText();
                 MedCondition = txtMedCon.getText();
 
@@ -90,11 +154,10 @@ public class UploadMedical extends TechnicalOfficer {
                 try (PreparedStatement stmt = conn.prepareStatement(uploadMed)) {
 
                     stmt.setString(1, MedicalID);
-                    stmt.setString(2, Start_Date);
-                    stmt.setString(3, End_Date);
-                    stmt.setString(4, StudentID);
+                    stmt.setString(2, StudentID);
+                    stmt.setString(3, formattedDate);
+                    stmt.setString(4, formattedDate1);
                     stmt.setString(5, MedCondition);
-                    stmt.setString(6, userId);
 
                     int rowsInserted = stmt.executeUpdate();
                     System.out.println(rowsInserted + "Rows inserted");
@@ -102,11 +165,20 @@ public class UploadMedical extends TechnicalOfficer {
                     lblSuccess.setText(" New Medical successfully Upload to database ! ");
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    System.out.println(" Medical Uploaded is  Unsuccessfully  "+ex.getMessage());
+                }
+                finally {
+                    try {
+                        conn.close();
+                        System.out.println(" Connection Close is Successful ");
+                    } catch (SQLException ex) {
+                        System.out.println(" Connection Close is Unsuccessful "+ex.getMessage());
+                    }
                 }
 
             }
         });
 
     }
+
 }
