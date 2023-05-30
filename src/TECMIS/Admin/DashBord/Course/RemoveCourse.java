@@ -17,7 +17,7 @@ public class RemoveCourse extends JFrame{
     private JButton backButton;
     private JButton clearButton;
     private JButton submitButton;
-    private JPanel scc;
+    private JLabel scc;
     private String coId;
 
 
@@ -33,7 +33,7 @@ public class RemoveCourse extends JFrame{
         setTitle("LMS Software");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        scc.setVisible(false);
+
 
 
 
@@ -63,8 +63,7 @@ public class RemoveCourse extends JFrame{
                     deleteCourseStmt.setString(1, coId);
                     int rows = deleteCourseStmt.executeUpdate();
 
-
-                    scc.setVisible(true);
+                    scc.setText("Successful Remove Course !");
                 } catch (SQLException ex) {
                     System.out.println("Error in sql" + ex.getMessage());
                 }
