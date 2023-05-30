@@ -77,24 +77,30 @@ public class Student extends User {
                 Lname = rs.getString("LName");
                 byte[] imageData = rs.getBytes("Pro_pic");
 
-                if (imageData == null) {
-                    ImageIcon defaultIcon = new ImageIcon(dImg);
-                    Image image = defaultIcon.getImage();
-                    BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-                    Graphics2D g2 = bufferedImage.createGraphics();
-                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    g2.setClip(new Ellipse2D.Float(0, 0, image.getWidth(null), image.getHeight(null)));
-                    g2.drawImage(image, 0, 0, null);
-                    lblPic.setIcon(new ImageIcon(bufferedImage));
-                } else {
-                    ImageIcon icon = new ImageIcon(imageData);
-                    Image image = icon.getImage();
-                    BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-                    Graphics2D g2 = bufferedImage.createGraphics();
-                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    g2.setClip(new Ellipse2D.Float(0, 0, image.getWidth(null), image.getHeight(null)));
-                    g2.drawImage(image, 0, 0, null);
-                    lblPic.setIcon(new ImageIcon(bufferedImage));
+                try {
+                    if ((imageData == null) && (dImg == null)) {
+                        lblPic.setText("");
+                    } else if (imageData == null) {
+                        ImageIcon defaultIcon = new ImageIcon(dImg);
+                        Image image = defaultIcon.getImage();
+                        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+                        Graphics2D g2 = bufferedImage.createGraphics();
+                        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                        g2.setClip(new Ellipse2D.Float(0, 0, image.getWidth(null), image.getHeight(null)));
+                        g2.drawImage(image, 0, 0, null);
+                        lblPic.setIcon(new ImageIcon(bufferedImage));
+                    } else {
+                        ImageIcon icon = new ImageIcon(imageData);
+                        Image image = icon.getImage();
+                        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+                        Graphics2D g2 = bufferedImage.createGraphics();
+                        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                        g2.setClip(new Ellipse2D.Float(0, 0, image.getWidth(null), image.getHeight(null)));
+                        g2.drawImage(image, 0, 0, null);
+                        lblPic.setIcon(new ImageIcon(bufferedImage));
+                    }
+                } catch (RuntimeException ex){
+                    throw new RuntimeException();
                 }
 
             }
@@ -144,8 +150,8 @@ public class Student extends User {
         medicalButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Medical stMed = new Medical();
-                stMed.viewMedicals();
+                StudentMedical stMed = new StudentMedical();
+                stMed.StudentMedicals();
                 stMed.setVisible(true);
                 setVisible(false);
 
@@ -189,7 +195,7 @@ public class Student extends User {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ContactDetails contactDetails= new ContactDetails();
-                contactDetails.upCourseDetails();
+                contactDetails.ContactDetails();
                 contactDetails.setVisible(true);
                 setVisible(false);
 

@@ -6,7 +6,7 @@ public class MySqlCon {
     public static Connection MysqlMethod() {
         String url = "jdbc:mysql://localhost:3306/LMSDB";
         String username = "root";
-        String password = "";
+        String password = "123qwe";
         Connection conn = null;
 
         try{

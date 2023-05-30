@@ -9,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -18,7 +21,7 @@ public class UploadCourseMaterials extends Lecturer{
     private Connection conn = MySqlCon.MysqlMethod();
     private JPanel pnlUploadCM;
     private JTextArea facultyOfTechnologyManagementTextArea;
-    private JTextField txtCName;
+    private JTextField txtCMname;
     private JTextField txtCredit;
     private JTextField txtAdminId;
     private JButton backButton;
@@ -26,16 +29,21 @@ public class UploadCourseMaterials extends Lecturer{
     private JButton clearButton;
     private JTextField txtCID;
     private JLabel lblSuccess2;
+    private JButton clickHereButton;
+    private JTextField txtCM_id;
     private JTextField txtLevel;
     private JTextField txtSem;
     private String userId;
     private String acc;
     private String CID;
-    private String CourseName;
+    private String CM_Name;
     private String AdminId;
     private int Credit;
     private int level;
     private int semester;
+    private String CM_id;
+    private File Material;
+
 
     public void upCourseMaterials(){
         userId = User.getUserId();
@@ -62,16 +70,27 @@ public class UploadCourseMaterials extends Lecturer{
         });
 
 
+        clickHereButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    JFileChooser mt = new JFileChooser();
+                    int result = mt.showOpenDialog(null);
+                    if(result == JFileChooser.APPROVE_OPTION){
+                        Material = mt.getSelectedFile();
+                    }
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 txtCID.setText("");
-                txtAdminId.setText("");
-                txtCredit.setText("");
-                txtCName.setText("");
-                txtLevel.setText("");
-                txtCredit.setText("");
-                txtSem.setText("");
+                txtCMname.setText("");
+                txtCM_id.setText("");
             }
         });
 
@@ -97,39 +116,31 @@ public class UploadCourseMaterials extends Lecturer{
             @Override
             public void actionPerformed(ActionEvent e) {
                 CID = txtCID.getText();
-                Credit = Integer.parseInt(txtCredit.getText());
-                AdminId = txtAdminId.getText();
-                CourseName = txtCName.getText();
-                level = Integer.parseInt(txtLevel.getText());
-                semester = Integer.parseInt(txtSem.getText());
+                CM_Name = txtCMname.getText();
+                CM_id = txtCM_id.getText();
 
 
-                String upCD = "INSERT INTO Course_Detail (Course_id, Course_Name, Credit, Admin_id, Lecturer_id, Level, Semester) VALUES (?,?,?,?,?,?,?)";
+                String upCD = "INSERT INTO Course_materials (C_Material_Id,Course_id,Material_Name,Lecturer_id,File_) VALUES (?,?,?,?,?)";
 
                 try(PreparedStatement stmt = conn.prepareStatement(upCD)){
 
-                    stmt.setString(1,CID);
-                    stmt.setString(2,CourseName);
-                    stmt.setInt(3,Credit);
-                    stmt.setString(4,AdminId);
-                    stmt.setString(5,userId);
-                    stmt.setInt(6,level);
-                    stmt.setInt(7,semester);
+                    byte[] FileData = Files.readAllBytes(Material.toPath());
+
+                    stmt.setString(1,CM_id);
+                    stmt.setString(2, CID);
+                    stmt.setString(3,CM_Name);
+                    stmt.setString(4,userId);
+                    stmt.setBytes(5,FileData);
 
                     int rowsInserted = stmt.executeUpdate();
                     System.out.println(rowsInserted + "Rows inserted");
 
-                    // create a new column in Student_Grades for new subject
-
-                    String updColumn = "ALTER TABLE Student_Grades ADD " +CID+ " DECIMAL(5,3)";
-
-                    try(PreparedStatement pstmt2 = conn.prepareStatement(updColumn)){
-                        pstmt2.executeUpdate();
-                    }
 
                     lblSuccess2.setText(" New course material successfully added to database ! ");
 
                 } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
 
