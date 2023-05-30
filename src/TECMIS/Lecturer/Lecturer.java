@@ -25,7 +25,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.sql.*;
 
-public class Lecturer extends User {
+public class Lecturer extends User implements Calculable{
 
     private Connection conn = MySqlCon.MysqlMethod();
     private JButton profileButton;
@@ -670,12 +670,6 @@ public class Lecturer extends User {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
-
-
-
-
         System.out.println(SumCreditSGPA);
 
         //calculateCGpa
