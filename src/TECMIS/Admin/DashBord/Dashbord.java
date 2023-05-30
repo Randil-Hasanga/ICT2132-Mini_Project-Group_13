@@ -61,6 +61,8 @@ public class Dashbord extends User {
 
 
 
+
+
     public void methodAdmin(){
 
         userId = getUserId();
@@ -120,6 +122,17 @@ public class Dashbord extends User {
             throw new RuntimeException(e);
         }
 
+        //Log Out Button ------------
+
+        logOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User LogUot = new User();
+                LogUot.setVisible(true);
+                setVisible(false);
+                LogUot.Login();
+            }
+        });
 
         //Insert data in table----------------------------
         CreateUserButton.addActionListener(new ActionListener() {

@@ -17,10 +17,11 @@ public class RemoveNotice extends JFrame{
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JPanel reNoPnl;
     private JTextField NoId;
-    private JPanel ssc;
+
     private JButton backButton;
     private JButton submitButton;
     private JButton clearButton;
+    private JLabel scc;
     private String NotId;
 
 
@@ -36,7 +37,7 @@ public class RemoveNotice extends JFrame{
         setTitle("LMS Software");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        ssc.setVisible(false);
+
 
 
         submitButton.addActionListener(new ActionListener() {
@@ -53,7 +54,7 @@ public class RemoveNotice extends JFrame{
                     pstmt.setString(1,NotId);
                     int rows = pstmt.executeUpdate();
 
-                    ssc.setVisible(true);
+                    scc.setText("Successful Remove Notice !");
 
                 } catch (SQLException ex) {
                     System.out.println("Error in sql" + ex.getMessage());

@@ -1,13 +1,18 @@
 package TECMIS.Admin.DashBord.TimeTable;
 
 import TECMIS.Admin.DashBord.Dashbord;
+import TECMIS.MySqlCon;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.sql.*;
 
 public class UpdateTimeTable extends JFrame{
+    Connection conn = MySqlCon.MysqlMethod();
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JPanel UpTiTabPnl;
     private JTextField TiTaId;
@@ -18,10 +23,15 @@ public class UpdateTimeTable extends JFrame{
     private JButton clearButton;
     private JPanel AffterPnl;
     private JButton uploadButton;
+    private JLabel scc;
     private String TimeTableId;
     private File pdf;
 
-public void UpdateTimeTableMethod() {
+    private String LeSe;
+
+
+
+    public void UpdateTimeTableMethod() {
 
     add(UpTiTabPnl);
     setVisible(true);
@@ -32,14 +42,69 @@ public void UpdateTimeTableMethod() {
 
     AffterPnl.setVisible(false);
 
-    TimeTableId = TiTaId.getText();
+
 
     submitButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            try {
+                TimeTableId= TiTaId.getText();
+                AffterPnl.setVisible(true);
+
+
+                String sql = "SELECT Level_and_Semester FROM t_table WHERE TT_id = ?";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+
+                pstmt.setString(1,TimeTableId);
+                ResultSet rs = pstmt.executeQuery();
+
+                while(rs.next()) {
+                    LeSe = rs.getString("Level_and_Semester");
+                }
+
+                LeveSemes.setText(LeSe);
+
+
+            } catch (SQLException ex) {
+                System.out.printf("SQL error in my code : " + ex.getMessage());
+            }
+
         }
     });
+
+
+        uploadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                try {
+                    LeSe = LeveSemes.getText();
+
+                    String UpTiTa = "UPDATE t_table SET Level_and_Semester = ? , TT_pdf = ? WHERE TT_id = ? ";
+
+                    PreparedStatement stmt = conn.prepareStatement(UpTiTa);
+
+                    stmt.setString(1,LeSe);
+
+                    byte[] pdfBytes = Files.readAllBytes(pdf.toPath());
+
+                    stmt.setBytes(2,pdfBytes);
+
+                    stmt.setString(3, TimeTableId);
+
+
+                    stmt.executeUpdate();
+
+                    scc.setText("Database has been updated !");
+
+                } catch (SQLException ex) {
+                    System.out.println("Error in my SQL :" + ex.getMessage());
+                } catch (IOException ex) {
+                    System.out.printf("Error in pdf converter : " + ex.getMessage());
+                }
+            }
+        });
 
 
     chooseFileButton.addActionListener(new ActionListener() {
@@ -52,7 +117,7 @@ public void UpdateTimeTableMethod() {
                     pdf = pdfFile.getSelectedFile();
                 }
             } catch (Exception ex) {
-                throw new RuntimeException(ex);
+                System.out.printf("Error in pdf choice : " + ex.getMessage());
             }
         }
     });

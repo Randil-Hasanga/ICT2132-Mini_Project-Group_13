@@ -82,6 +82,8 @@ public class UpdateCouse extends JFrame{
                     txtSe.setText(String.valueOf(Semester));
                     txtLec.setText(Lec_id);
 
+
+
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
