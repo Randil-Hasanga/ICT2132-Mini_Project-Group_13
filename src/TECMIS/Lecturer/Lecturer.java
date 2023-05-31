@@ -5,7 +5,7 @@ import TECMIS.Common_classes.ViewGradeGPA;
 import TECMIS.Common_classes.Medical.Medical;
 import TECMIS.Lecturer.StudentDetails.StudentDetails;
 import TECMIS.Lecturer.StudentEligibility.viewStudentEligibility;
-import TECMIS.Lecturer.UpdateCourses.UpdateCourseMaterials;
+import TECMIS.Lecturer.UpdateCourseMaterials.UpdateCourseMaterials;
 import TECMIS.Lecturer.UpdateMarks.UpdateMarks;
 import TECMIS.Lecturer.UpdateProfile.UpdateProfileLecturer;
 import TECMIS.Lecturer.UploadCourseMaterials.UploadCourseMaterials;
@@ -576,10 +576,10 @@ public class Lecturer extends User implements Calculable{
             for (int level = 1; level <= 4; level++) {
                 // Iterate over semesters
                 for (int semester = 1; semester <= 2; semester++) {
-                    // Construct the column name dynamically
+
                     String columnName = "L" + level + "_S" + semester + "_Credit";
 
-                    // Construct the UPDATE statement
+
                     String updateQuery = "UPDATE Student_Grades " +
                             "JOIN Student ON Student_Grades.Student_id = Student.User_id " +
                             "SET Student_Grades." + columnName + " = (" +
@@ -591,7 +591,6 @@ public class Lecturer extends User implements Calculable{
                             "    AND Exam_mark.Student_id = Student.User_id " +
                             ")";
 
-                    // Execute the UPDATE statement
                     stmt.executeUpdate(updateQuery);
                 }
             }
