@@ -4,6 +4,7 @@ import TECMIS.MySqlCon;
 import TECMIS.User;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -45,6 +46,9 @@ public class UploadMarks extends Lecturer{
     private JComboBox style;
     private JLabel lblCID;
     private JComboBox dropCourse;
+    private JTable table1;
+    private JScrollPane ScrollPanel;
+    private JLabel lblShown;
     private String userId;
     private String acc;
     private String SID;
@@ -75,6 +79,7 @@ public class UploadMarks extends Lecturer{
         setTitle("Upload Marks");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        lblShown.setVisible(false);
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -122,12 +127,62 @@ public class UploadMarks extends Lecturer{
                     style.setVisible(false);
                     lblCID.setVisible(false);
                     txtCID.setVisible(false);
+                    lblShown.setVisible(false);
+
+                    DefaultTableModel tableModel2 = new DefaultTableModel();
+                    table1.setModel(tableModel2);
+
+                    tableModel2.setRowCount(0);
+                    tableModel2.setColumnCount(0);
+                    table1.setModel(tableModel2);
 
                 }else if(newR.isSelected()){
                     style.setVisible(true);
                     dropCourse.setVisible(false);
                     lblCID.setVisible(false);
                     txtCID.setVisible(false);
+
+                    String sql = "SELECT Course_id,Course_Name FROM Course_Detail " +
+                            "ORDER BY Course_id ASC " +
+                            "LIMIT 999999 OFFSET 6";
+
+                    try(Statement stmt = conn.createStatement()) {
+                        ResultSet rs = stmt.executeQuery(sql);
+
+                        boolean isEmpty = true;
+
+                            DefaultTableModel tableModel2 = new DefaultTableModel();
+                            table1.setModel(tableModel2);
+
+                            ResultSetMetaData rsmd2 = rs.getMetaData();
+                            int columntCount2 = rsmd2.getColumnCount();
+
+                            for (int i = 1; i <= columntCount2; i++) {
+                                tableModel2.addColumn(rsmd2.getColumnName(i));
+                            }
+                            lblShown.setVisible(true);
+                            lblShown.setText("Newly created courses are shown below");
+
+                            while (rs.next()) {
+                                isEmpty = false;
+                                Object[] rowData = new Object[columntCount2];
+                                for (int i = 1; i <= columntCount2; i++) {
+                                    rowData[i - 1] = rs.getObject(i);
+                                }
+                                tableModel2.addRow(rowData);
+                            }
+
+                            if(isEmpty){
+                                tableModel2.setRowCount(0);
+                                tableModel2.setColumnCount(0);
+                                table1.setModel(tableModel2);
+                                lblShown.setVisible(true);
+                                lblShown.setText("No newly created courses");
+                            }
+
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             }
         };

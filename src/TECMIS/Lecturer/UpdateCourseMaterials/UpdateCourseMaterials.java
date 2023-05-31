@@ -1,4 +1,4 @@
-package TECMIS.Lecturer.UpdateCourses;
+package TECMIS.Lecturer.UpdateCourseMaterials;
 
 import TECMIS.Lecturer.Lecturer;
 import TECMIS.MySqlCon;
