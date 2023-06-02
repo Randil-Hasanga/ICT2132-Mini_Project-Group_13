@@ -14,8 +14,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 public class UpdateProfile extends TechnicalOfficer{
@@ -38,6 +40,10 @@ public class UpdateProfile extends TechnicalOfficer{
     private JButton btnClr;
     private JLabel lblUpdatedSuccess;
     private JLabel lblError;
+    private JLabel lblDepID;
+    private JTextField textFieldDepID;
+    private JLabel lblPW;
+    private JTextField textFieldPassword;
 
 
     private File proPic;
@@ -51,9 +57,9 @@ public class UpdateProfile extends TechnicalOfficer{
     private String user_id = TechnicalOfficer.getUserId();;
     private String acc = TechnicalOfficer.getAcc();
     private String email;
-
-
-
+    private String depID;
+    private String pw;
+    private byte[] imageData;
 
 
 
@@ -67,16 +73,52 @@ public class UpdateProfile extends TechnicalOfficer{
         lblUpdatedSuccess.setVisible(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        JFileChooser picOpen = new JFileChooser();
+        user_id = TechnicalOfficer.getUserId();
+
+        String sql = " SELECT * FROM Technical_officer WHERE User_id = ?";
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1,user_id);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while(rs.next())
+            {
+                depID = rs.getString("Dep_id");
+                Fname = rs.getString("FName");
+                Lname = rs.getString("LName");
+                AL1 = rs.getString("Address_L1");
+                AL2 = rs.getString("Address_L2");
+                email = rs.getString("Email");
+                pw = rs.getString("Password");
+
+
+
+            }
+            textFieldDepID.setText(depID);
+            txtFname.setText(Fname);
+            txtLname.setText(Lname);
+            txtAD1.setText(AL1);
+            txtAD2.setText(AL2);
+            txtEmail.setText(email);
+            textFieldPassword.setText(pw);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
 
         btnClr.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                textFieldDepID.setText("");
                 txtFname.setText("");
                 txtLname.setText("");
                 txtAD1.setText("");
                 txtAD2.setText("");
                 txtEmail.setText("");
+                textFieldPassword.setText("");
             }
         });
 
@@ -161,25 +203,28 @@ public class UpdateProfile extends TechnicalOfficer{
         btnUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                depID = textFieldDepID.getText();
                 Fname = txtFname.getText();
                 Lname = txtLname.getText();
                 AL1 = txtAD1.getText();
                 AL2 = txtAD2.getText();
                 email = txtEmail.getText();
+                pw = textFieldPassword.getText();
 
-                if ( (formattedDate.isEmpty()) || (Fname.isEmpty()) || (Lname.isEmpty()) || (AL1.isEmpty()) || (AL2.isEmpty()) || (email.isEmpty())) {
+                if ( (formattedDate.isEmpty()) || (Fname.isEmpty()) || (Lname.isEmpty()) || (AL1.isEmpty()) || (AL2.isEmpty()) || (email.isEmpty()) || (pw.isEmpty())) {
                     lblError.setVisible(true);
                     lblError.setText("Fill all the fields to proceed !");
 
                 } else {
 
-                    String ProfSql = "UPDATE Technical_officer SET FName = ?, LName = ?, Gender = ?, Address_L1 = ?, Address_L2 = ?, " +
+                    String ProfSql = "UPDATE Technical_officer SET Dep_id = ? ,FName = ?, LName = ?, Gender = ?, Address_L1 = ?, Address_L2 = ?, " +
                             "DOB = ?, Email = ?, Pro_pic = ? WHERE User_id = ?";
 
                     try (PreparedStatement pstmt = conn.prepareStatement(ProfSql)) {
 
-                        byte[] imageData = Files.readAllBytes(proPic.toPath());
+                         imageData = Files.readAllBytes(proPic.toPath());
 
+                        pstmt.setString(1,depID);
                         pstmt.setString(2, Fname);
                         pstmt.setString(3, Lname);
                         pstmt.setString(4, gender);
@@ -187,7 +232,8 @@ public class UpdateProfile extends TechnicalOfficer{
                         pstmt.setString(6, AL2);
                         pstmt.setString(7, formattedDate);
                         pstmt.setString(8, email);
-                        pstmt.setString(1, user_id);
+                        pstmt.setString(9, Arrays.toString(imageData));
+                        pstmt.setString(10, user_id);
 
                         int rows = pstmt.executeUpdate();
 
