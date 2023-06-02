@@ -12,6 +12,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,6 +44,9 @@ public class UpdateMedical extends TechnicalOfficer {
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JButton chooseDateButton;
     private JButton chooseDateButton1;
+    private JButton btnSubmit;
+    private JPanel pnlMedID;
+    private JPanel pnlDetail;
     private JDateChooser JDateChooser1;
     private JDateChooser JDateChooser2;
 
@@ -60,6 +64,9 @@ public class UpdateMedical extends TechnicalOfficer {
 
 
 
+
+
+
     public void UpdateMedical() {
 
         userId = User.getUserId();
@@ -70,6 +77,39 @@ public class UpdateMedical extends TechnicalOfficer {
         setTitle("Update Medicals");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        pnlDetail.setVisible(false);
+        pnlMedID.setVisible(true);
+
+
+
+        btnSubmit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MedicalID = textFieldupdMedicalID.getText();
+                pnlDetail.setVisible(true);
+
+                String sql = " SELECT * FROM Medical WHERE Medical_id = ?";
+                try {
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+                    pstmt.setString(1,MedicalID);
+
+                    ResultSet rs = pstmt.executeQuery();
+                    while(rs.next())
+                    {
+                        StudentID = rs.getString("Student_id");
+                        MedCondition = rs.getString("Medical_Condition");
+
+                    }
+                    textFieldupdStudentID.setText(StudentID);
+                    textFieldupdMedCondition.setText(MedCondition);
+
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+
+            }
+        });
 
 
         chooseDateButton.addActionListener(new ActionListener() {
@@ -161,7 +201,6 @@ public class UpdateMedical extends TechnicalOfficer {
         btnUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MedicalID = textFieldupdMedicalID.getText();
                 StudentID = textFieldupdStudentID.getText();
                 MedCondition = textFieldupdMedCondition.getText();
 
