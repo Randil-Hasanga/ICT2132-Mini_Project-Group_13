@@ -213,11 +213,11 @@ public class UpdateMedical extends TechnicalOfficer {
 
                     try (PreparedStatement stmt = conn.prepareStatement(updMed)) {
 
-                        stmt.setString(1, MedicalID);
+                        stmt.setString(1, StudentID);
                         stmt.setString(2, formattedDate);
                         stmt.setString(3, formattedDate1);
-                        stmt.setString(4, StudentID);
-                        stmt.setString(5, MedCondition);
+                        stmt.setString(4, MedCondition);
+                        stmt.setString(5, MedicalID);
 
 
                         int rowsInserted = stmt.executeUpdate();

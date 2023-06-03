@@ -12,6 +12,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,6 +41,9 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
     private JLabel LblSuccess;
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JButton chooseDateButton;
+    private JPanel pnlAttendenceID;
+    private JButton btnSubmit;
+    private JPanel pnlDetails;
     private JDateChooser JDateChooser2;
 
 
@@ -53,6 +57,7 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
 
 
 
+
     public void UpdateAttendence() {
         userId = User.getUserId();
         acc = User.getAcc();
@@ -62,6 +67,39 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
         setTitle("Update AttendanceDetails");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        pnlDetails.setVisible(false);
+        pnlAttendenceID.setVisible(true);
+
+
+        btnSubmit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AttendanceID = textFieldAttendenceID.getText();
+                StudentID = textFieldStudentID.getText();
+                pnlDetails.setVisible(true);
+
+                String sql = " SELECT * FROM Attendance WHERE Attendance_id = ? AND Student_id = ? ";
+                try {
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+                    pstmt.setString(1,AttendanceID);
+                    pstmt.setString(2,StudentID);
+                    ResultSet rs = pstmt.executeQuery();
+
+                    while(rs.next())
+                    {
+                        CourseID = rs.getString("Course_id");
+                        Status = rs.getString("Status_");
+
+                    }
+                    textFieldCourseID.setText(CourseID);
+                    textFieldStatus.setText(Status);
+
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+            }
+        });
 
         chooseDateButton.addActionListener(new ActionListener() {
             @Override
@@ -126,25 +164,27 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
         BtnUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AttendanceID = textFieldAttendenceID.getText();
-                Status = textFieldStatus.getText();
+
+
                 CourseID = textFieldCourseID.getText();
+                Status = textFieldStatus.getText();
                 StudentID = textFieldStudentID.getText();
+
 
                 if ((AttendanceID.isEmpty()) || (Status.isEmpty()) || (CourseID.isEmpty()) || (StudentID.isEmpty())) {
                     LblSuccess.setText(" Please fill out the all fields !");
 
                 } else {
 
-                    String updAD = "UPDATE Attendance SET  Student_id = ?,Date_ = ?,Course_id = ? ,Status_ = ? WHERE Attendance_id = ? ";
+                    String updAD = "UPDATE Attendance SET  Date_ = ?,Course_id = ? ,Status_ = ? WHERE Attendance_id = ? AND Student_id = ?";
 
                     try (PreparedStatement stmt = conn.prepareStatement(updAD)) {
 
-                        stmt.setString(1, AttendanceID);
-                        stmt.setString(5, Status);
-                        stmt.setString(4, CourseID);
-                        stmt.setString(3, formattedDate);
-                        stmt.setString(2, StudentID);
+                        stmt.setString(1, formattedDate);
+                        stmt.setString(2, CourseID);
+                        stmt.setString(3, Status);
+                        stmt.setString(4, AttendanceID);
+                        stmt.setString(5, StudentID);
 
 
                         int rowsInserted = stmt.executeUpdate();
