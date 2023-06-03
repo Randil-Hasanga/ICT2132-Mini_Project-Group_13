@@ -1,8 +1,7 @@
 package TECMIS.Lecturer;
 
 import TECMIS.Lecturer.RemoveCourseMaterials.RemoveCourseMaterial;
-import TECMIS.Common_classes.ViewGradeGPA;
-import TECMIS.Common_classes.Medical.Medical;
+import TECMIS.Lecturer.Medical.Medical;
 import TECMIS.Lecturer.StudentDetails.StudentDetails;
 import TECMIS.Lecturer.StudentEligibility.viewStudentEligibility;
 import TECMIS.Lecturer.UpdateCourseMaterials.UpdateCourseMaterials;
@@ -13,7 +12,7 @@ import TECMIS.Lecturer.ViewMarks.ViewMarks;
 import TECMIS.MySqlCon;
 import TECMIS.Notice;
 import TECMIS.User;
-import TECMIS.Common_classes.viewAttendance.ViewStudentAttendance;
+import TECMIS.Lecturer.viewAttendance.ViewStudentAttendance;
 
 import javax.swing.*;
 import java.awt.*;
