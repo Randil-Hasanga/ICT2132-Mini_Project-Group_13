@@ -4,6 +4,7 @@ import TECMIS.MySqlCon;
 import TECMIS.User;
 
 import javax.swing.*;
+import javax.swing.plaf.nimbus.State;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -68,6 +69,7 @@ public class UploadMarks extends Lecturer{
     private double A2;
     private String selected = "Select Mark Style";
     private int newCredit;
+    Lecturer lec = new Lecturer();
 
     public void upMarks(){
 
@@ -75,7 +77,7 @@ public class UploadMarks extends Lecturer{
         acc = User.getAcc();
 
         add(pnlUploadMarks);
-        setSize(750, 500);
+        setSize(850, 600);
         setTitle("Upload Marks");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -372,6 +374,8 @@ public class UploadMarks extends Lecturer{
                     lblSID.setVisible(true);
                     lblCID.setVisible(true);
                     txtCID.setVisible(true);
+                    txtCID.setVisible(false);
+                    lblCID.setVisible(false);
 
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
@@ -399,6 +403,8 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(false);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+                    txtCID.setVisible(false);
+                    lblCID.setVisible(false);
 
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
@@ -427,6 +433,9 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(true);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+                    txtCID.setVisible(false);
+                    lblCID.setVisible(false);
+
 
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
@@ -456,6 +465,8 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(true);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+                    txtCID.setVisible(false);
+                    lblCID.setVisible(false);
 
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
@@ -486,6 +497,8 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(true);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+                    txtCID.setVisible(false);
+                    lblCID.setVisible(false);
 
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
@@ -514,6 +527,8 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(false);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+                    txtCID.setVisible(false);
+                    lblCID.setVisible(false);
 
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
@@ -547,10 +562,10 @@ public class UploadMarks extends Lecturer{
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Lecturer lecBack = new Lecturer();
-                lecBack.setVisible(true);
+
+                lec.setVisible(true);
                 setVisible(false);
-                lecBack.methodLecturer();
+                lec.methodLecturer();
 
                 try {
                     conn.close();
@@ -614,10 +629,10 @@ public class UploadMarks extends Lecturer{
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
-                Lecturer lec = new Lecturer();
                 lec.updateExamMarks();
 
 
+                // Updating final marks, final CA marks, and Eligibility of newly created course
                 if(selected.equals("Style 1")) {
 
 
@@ -725,33 +740,17 @@ public class UploadMarks extends Lecturer{
                 }
                 lec.updateLetterGrade();
                 lec.updateCreditGained();
-
-                String getCredit = "SELECT Credit FROM Course_Detail WHERE Course_id = ? ";
-                try {
-                    PreparedStatement pps = conn.prepareStatement(getCredit);
-                    pps.setString(1,CID);
-                    ResultSet rr = pps.executeQuery();
-
-                    while(rr.next()){
-                        newCredit = rr.getInt("Credit");
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-
-                String credit3 = "UPDATE Exam_Mark SET Credit_gained = Grade * "+ newCredit +" WHERE Course_id = ?";
-                try{
-                    PreparedStatement sss = conn.prepareStatement(credit3);
-                    sss.setString(1,CID);
-                    sss.executeUpdate();
-
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-
                 lec.updateStudentGrades();
+
+                //creating a new column in student grades table to store newly created subject credit gains
+                String alter = "ALTER TABLE Student_Grades ADD " +CID+ " VARCHAR(20)";
+
+                try {
+                    Statement stmt = conn.createStatement();
+                    stmt.executeUpdate(alter);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
 
                 String sqql = "UPDATE Student_Grades " +
                         "SET " + CID +" = (SELECT Credit_gained FROM Exam_mark WHERE Exam_mark.Student_id = Student_Grades.Student_id AND Exam_mark.Course_id = ? LIMIT 1)";
@@ -765,6 +764,8 @@ public class UploadMarks extends Lecturer{
                 }
                 lec.sumCredit();
                 lec.totalCredit();
+
+                //updating total credits after ading new marks
 
                 String tc = "UPDATE Student_Grades SET Total_credits = Total_credits + "+ CID + " WHERE Student_id = ? ";
                 try (PreparedStatement upTC = conn.prepareStatement(tc)) {

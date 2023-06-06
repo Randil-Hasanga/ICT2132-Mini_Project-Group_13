@@ -257,7 +257,7 @@
             <properties>
               <background color="-5574447"/>
             </properties>
-            <border type="none" title="Add"/>
+            <border type="none" title="Upload"/>
             <children>
               <hspacer id="c9880">
                 <constraints>

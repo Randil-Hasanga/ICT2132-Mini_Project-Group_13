@@ -767,3 +767,15 @@ CREATE TABLE if not exists T_Table
     Level_and_Semester VARCHAR(30),
     TT_pdf longblob
 );
+
+CREATE TABLE if not exists Course_materials
+(
+	C_Material_Id VARCHAR(10) primary key not null,
+    Course_id VARCHAR(30),
+    Material_Name VARCHAR(30),
+    Lecturer_id VARCHAR(30),
+    File_ longblob,
+    FOREIGN KEY(Course_id) REFERENCES Course_Detail(Course_id),
+    FOREIGN KEY(Lecturer_id) REFERENCES Lecturer(User_id)
+);
+

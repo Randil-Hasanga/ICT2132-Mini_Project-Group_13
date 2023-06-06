@@ -421,6 +421,7 @@ public class Lecturer extends User implements Calculable{
 
     }
 
+    //Updating credit gained for each course
     public void updateCreditGained(){
 
         String credit2 = "UPDATE Exam_mark em " +
@@ -446,6 +447,7 @@ public class Lecturer extends User implements Calculable{
         }
     }
 
+    //Updating letter grade for each course marks
     public void updateLetterGrade(){
         String grade = "UPDATE Exam_mark SET Letter_Grade = " +
                 "CASE " +
@@ -488,13 +490,17 @@ public class Lecturer extends User implements Calculable{
         }
     }
 
+    //
     public void updateStudentGrades(){
 
+        //Insert Student IDs into Student grades table. If student grades table already have the student id, That student id will be ignored
 
         String sq = "INSERT INTO Student_Grades (Student_id)" +
                 "SELECT DISTINCT User_id " +
                 "FROM Student " +
                 "WHERE User_id NOT IN (SELECT Student_id FROM Student_grades)";
+
+        //Updating Student grades table with inserting gained credits for each SUBJECT by each student.
 
         String sql = "UPDATE Student_Grades " +
                 "SET " +
@@ -523,7 +529,7 @@ public class Lecturer extends User implements Calculable{
 
     public void sumCredit(){
 
-        //SGPA credit sum
+        //Getting total credit values for semester (for SGPA)
 
         level = ViewGradeGPA.getCurrent_level();
         semester = ViewGradeGPA.getCurrent_semester();
@@ -543,7 +549,7 @@ public class Lecturer extends User implements Calculable{
             throw new RuntimeException(e);
         }
 
-        //CGPA creditsum
+        //Getting total credit value for all the courses (for CGPA)
 
         String creditSumCGPA = "SELECT SUM(Credit) FROM Course_Detail";
         try(Statement sm = conn.createStatement()){
@@ -569,6 +575,7 @@ public class Lecturer extends User implements Calculable{
         System.out.println(level);
         System.out.println(semester);
 
+        //Updating gained TOTAL credit values by each student for each SEMESTER in Student grades table
 
         try (Statement stmt = conn.createStatement()) {
             // Iterate over levels
@@ -649,6 +656,8 @@ public class Lecturer extends User implements Calculable{
             }
         }
 
+        //Updating gained GPA by each student for each SEMESTER (SGPA) in Student grades table
+
         try (Statement stmt = conn.createStatement()) {
             // Iterate over levels
             for (int level = 1; level <= 4; level++) {
@@ -670,7 +679,7 @@ public class Lecturer extends User implements Calculable{
         }
         System.out.println(SumCreditSGPA);
 
-        //calculateCGpa
+        //Calculating CGPA
 
         String cgp = "UPDATE Student_Grades SET CGPA = (Total_credits/?)";
 
