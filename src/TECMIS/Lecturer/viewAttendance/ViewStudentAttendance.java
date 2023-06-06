@@ -40,10 +40,7 @@ public class ViewStudentAttendance extends JFrame {
     private JLabel lblSid;
     private JLabel lblDate;
     private JLabel lblCid;
-
     private JButton chooseDateButton;
-    private JCalendar JCalendar1;
-
     private String userId;
     private String acc;
     private String SID;
@@ -54,7 +51,6 @@ public class ViewStudentAttendance extends JFrame {
     private String date;
     private String formattedDate;
     private Date selectedDate;
-
 
 
     public void viewAttendance(){
@@ -118,7 +114,6 @@ public class ViewStudentAttendance extends JFrame {
         });
 
 
-
         ActionListener listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -148,7 +143,6 @@ public class ViewStudentAttendance extends JFrame {
 
 
         searchButton.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -191,6 +185,9 @@ public class ViewStudentAttendance extends JFrame {
                             tableModel2.addRow(rowData);
                         }
 
+                        pstmt.close();
+                        rs.close();
+
                     } catch (SQLException ex) {
                         System.out.println("error 1");
                         throw new RuntimeException(ex);
@@ -208,51 +205,57 @@ public class ViewStudentAttendance extends JFrame {
                             subject = rs2.getString("Course_Name");
                         }
                         lblDisplay.setText("Attendance details of student " + Fname + " " + Lname +" in subject " + subject + ".");
+
+                        pstmt2.close();
+                        rs2.close();
+
                     } catch (SQLException ex) {
                         System.out.println("error2");
                         throw new RuntimeException(ex);
                     }
 
                 }else if(radioBatch.isSelected()){
-                        String sql3 = "SELECT Student.User_id,CONCAT(Student.FName,' ',Student.LName) AS Name,Attendance.Date_,Attendance.Status_,Course_detail.Course_Name " +
-                                "FROM Student,Course_detail,Attendance " +
-                                "WHERE (Attendance.Student_id = Student.User_id) AND (Attendance.Course_id = Course_detail.Course_id) AND (Attendance.Date_ = ?) " +
-                                "ORDER by Student.User_id";
+                    String sql3 = "SELECT Student.User_id,CONCAT(Student.FName,' ',Student.LName) AS Name,Attendance.Date_,Attendance.Status_,Course_detail.Course_Name " +
+                            "FROM Student,Course_detail,Attendance " +
+                            "WHERE (Attendance.Student_id = Student.User_id) AND (Attendance.Course_id = Course_detail.Course_id) AND (Attendance.Date_ = ?) " +
+                            "ORDER by Student.User_id";
 
-                        CID = txtCID.getText();
+                    CID = txtCID.getText();
 
 
-                        try(PreparedStatement pstmt3 = conn.prepareStatement(sql3)){
-                            pstmt3.setString(1,date);
+                    try(PreparedStatement pstmt3 = conn.prepareStatement(sql3)){
+                        pstmt3.setString(1,date);
 
-                            ResultSet r2d2 = pstmt3.executeQuery();
+                        ResultSet r2d2 = pstmt3.executeQuery();
 
-                            ResultSetMetaData rsmd3 = r2d2.getMetaData();
-                            int columntCount3 = rsmd3.getColumnCount();
+                        ResultSetMetaData rsmd3 = r2d2.getMetaData();
+                        int columntCount3 = rsmd3.getColumnCount();
 
-                            DefaultTableModel tableModel3= new DefaultTableModel();
-                            tblAttendance.setModel(tableModel3);
+                        DefaultTableModel tableModel3= new DefaultTableModel();
+                        tblAttendance.setModel(tableModel3);
 
-                            for (int i = 1; i <= columntCount3; i++) {
-                                tableModel3.addColumn(rsmd3.getColumnName(i));
-                            }
-                            tableModel3.setRowCount(0);
-
-                            while (r2d2.next()) {
-                                Object[] rowData = new Object[columntCount3];
-                                for (int i = 1; i <= columntCount3; i++) {
-                                    rowData[i-1] = r2d2.getObject(i);
-                                }
-                                tableModel3.addRow(rowData);
-                            }
-                            lblDisplay.setText("Attendance details of all the student at "+ date);
-
-                        } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
+                        for (int i = 1; i <= columntCount3; i++) {
+                            tableModel3.addColumn(rsmd3.getColumnName(i));
                         }
+                        tableModel3.setRowCount(0);
+
+                        while (r2d2.next()) {
+                            Object[] rowData = new Object[columntCount3];
+                            for (int i = 1; i <= columntCount3; i++) {
+                                rowData[i-1] = r2d2.getObject(i);
+                            }
+                            tableModel3.addRow(rowData);
+                        }
+                        lblDisplay.setText("Attendance details of all the student at "+ date);
+
+                        pstmt3.close();
+                        r2d2.close();
+
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             }
-
         });
 
         clearButton.addActionListener(new ActionListener() {
@@ -279,12 +282,13 @@ public class ViewStudentAttendance extends JFrame {
                     setVisible(false);
                     stuBack.methodStudent();
                 }
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
-
-
-    }
-
-    public static class JCalender {
     }
 }

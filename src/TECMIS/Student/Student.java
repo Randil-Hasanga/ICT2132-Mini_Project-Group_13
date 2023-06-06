@@ -1,6 +1,6 @@
 package TECMIS.Student;
 
-import TECMIS.Lecturer.ViewGradeGPA;
+import TECMIS.CommonClasses.ViewGradeGPA;
 import TECMIS.MySqlCon;
 import TECMIS.User;
 import TECMIS.Lecturer.viewAttendance.ViewStudentAttendance;
@@ -185,7 +185,6 @@ public class Student extends User {
                 User u1 = new User();
                 u1.setVisible(true);
                 setVisible(false);
-                u1.Login();
 
             }
         });

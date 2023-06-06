@@ -105,6 +105,7 @@ public class StudentDetails extends Lecturer{
                                 tableModel.addRow(rowData);
                             }
                         }
+                        pstmt.close();
                         rs.close();
 
                     } catch (SQLException ex) {
@@ -113,7 +114,4 @@ public class StudentDetails extends Lecturer{
             }
         });
     }
-
-
-
 }

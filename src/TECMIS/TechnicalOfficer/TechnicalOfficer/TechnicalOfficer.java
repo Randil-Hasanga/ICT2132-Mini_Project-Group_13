@@ -136,7 +136,6 @@ public class TechnicalOfficer extends User {
                 User ur = new User();
                 ur.setVisible(true);
                 setVisible(false);
-                ur.Login();
             }
         });
 

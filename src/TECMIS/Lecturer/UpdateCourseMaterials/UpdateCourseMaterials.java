@@ -46,10 +46,6 @@ public class UpdateCourseMaterials extends Lecturer{
     private File material;
     private String CM_Name;
 
-    public UpdateCourseMaterials() {
-
-    }
-
     public void UpdateCourse(){
         add(pnlUploadCM);
         setSize(750, 500);
@@ -71,10 +67,8 @@ public class UpdateCourseMaterials extends Lecturer{
             public void windowClosing(WindowEvent e) {
                 int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
-                    // Close the application
                     System.exit(0);
                 }else {
-                    // Do nothing (prevent the window from closing)
                     setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 }
             }
@@ -125,6 +119,8 @@ public class UpdateCourseMaterials extends Lecturer{
                         }
                         tableModel2.addRow(rowData);
                     }
+                    pstmt.close();
+                    rs.close();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -140,7 +136,6 @@ public class UpdateCourseMaterials extends Lecturer{
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
 
                 CID = txtCID.getText();
                 CM_id = txtCMid.getText();
@@ -161,6 +156,7 @@ public class UpdateCourseMaterials extends Lecturer{
                     System.out.println(rowsInserted + "Rows Updated");
 
                     lblSuccess2.setText(" Course material successfully updated ! ");
+                    stmt.close();
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -200,10 +196,7 @@ public class UpdateCourseMaterials extends Lecturer{
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
-
             }
         });
-
-
     }
 }

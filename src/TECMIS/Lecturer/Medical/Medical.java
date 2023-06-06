@@ -82,6 +82,9 @@ public class Medical extends Lecturer {
                         }
                         tableModel3.addRow(rowData);
                     }
+                    pstmt3.close();
+                    rs3.close();
+
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -96,17 +99,20 @@ public class Medical extends Lecturer {
                 lecBack.setVisible(true);
                 setVisible(false);
                 lecBack.methodLecturer();
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 txtSID.setText("");
             }
         });
-
-
     }
 }
