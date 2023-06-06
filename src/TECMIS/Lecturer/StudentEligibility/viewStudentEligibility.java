@@ -13,7 +13,6 @@ import java.sql.*;
 
 public class viewStudentEligibility extends Lecturer {
     private Connection conn = MySqlCon.MysqlMethod();
-
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JTextField txtSID;
     private JButton searchButton;
@@ -42,10 +41,8 @@ public class viewStudentEligibility extends Lecturer {
             public void windowClosing(WindowEvent e) {
                 int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
-                    // Close the application
                     System.exit(0);
                 }else {
-                    // Do nothing (prevent the window from closing)
                     setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 }
             }
@@ -112,6 +109,8 @@ public class viewStudentEligibility extends Lecturer {
                         }
                         tableModel2.addRow(rowData);
                     }
+                    pstmt.close();
+                    rs.close();
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);

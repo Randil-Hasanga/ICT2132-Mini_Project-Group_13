@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class Notice extends JFrame {
-
     Connection conn = MySqlCon.MysqlMethod();
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JPanel pnlLecNotice;
@@ -54,7 +53,8 @@ public class Notice extends JFrame {
                 }
                 tableModel2.addRow(rowData);
             }
-
+            pstmt2.close();
+            rs2.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -66,6 +66,12 @@ public class Notice extends JFrame {
                 lecBack.setVisible(true);
                 setVisible(false);
                 lecBack.methodLecturer();
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
 
             }
         });

@@ -1,5 +1,6 @@
 package TECMIS.Lecturer;
 
+import TECMIS.CommonClasses.ViewGradeGPA;
 import TECMIS.Lecturer.RemoveCourseMaterials.RemoveCourseMaterial;
 import TECMIS.Lecturer.Medical.Medical;
 import TECMIS.Lecturer.StudentDetails.StudentDetails;
@@ -57,7 +58,7 @@ public class Lecturer extends User implements Calculable{
     private int semester;
     private double tt;
     private String lvlSem;
-    private double semTotalCredit;
+
 
     public void methodLecturer() {
         userId = getUserId();
@@ -126,12 +127,15 @@ public class Lecturer extends User implements Calculable{
                         g2.drawImage(image, 0, 0, null);
                         lblPic.setIcon(new ImageIcon(bufferedImage));
                     }
+
                 } catch (RuntimeException ex){
                     throw new RuntimeException();
                 }
-
             }
-
+            pstmt.close();
+            rs.close();
+            pstmt2.close();
+            rs2.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -145,19 +149,16 @@ public class Lecturer extends User implements Calculable{
                 eg.setVisible(true);
                 setVisible(false);
                 eg.viewEligibility();
-
             }
         });
 
         RemoveCM.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 RemoveCourseMaterial RCM = new RemoveCourseMaterial();
                 RCM.setVisible(true);
                 setVisible(false);
                 RCM.RemoveCourse();
-
             }
         });
 
@@ -168,7 +169,6 @@ public class Lecturer extends User implements Calculable{
                 newUM.setVisible(true);
                 setVisible(false);
                 newUM.viewStudentMarks();
-
             }
         });
 
@@ -189,7 +189,6 @@ public class Lecturer extends User implements Calculable{
                 um.setVisible(true);
                 setVisible(false);
                 um.UpdateMarks();
-
             }
         });
 
@@ -200,7 +199,6 @@ public class Lecturer extends User implements Calculable{
                 gp.setVisible(true);
                 setVisible(false);
                 gp.viewGrades();
-
             }
         });
 
@@ -211,10 +209,8 @@ public class Lecturer extends User implements Calculable{
                 UCM.setVisible(true);
                 setVisible(false);
                 UCM.UpdateCourse();
-
             }
         });
-
 
         logOutButton.addActionListener(new ActionListener() {
             @Override
@@ -222,7 +218,6 @@ public class Lecturer extends User implements Calculable{
                 User u1 = new User();
                 u1.setVisible(true);
                 setVisible(false);
-                u1.Login();
 
                 try {
                     conn.close();
@@ -238,7 +233,6 @@ public class Lecturer extends User implements Calculable{
                 sd.viewStudentDetails();
                 sd.setVisible(true);
                 setVisible(false);
-
             }
         });
         noticeButton.addActionListener(new ActionListener() {
@@ -296,15 +290,13 @@ public class Lecturer extends User implements Calculable{
         // getting 2 highest values from 3 quiz mark columns and insert it in new column
         String upDateQuiz = "Update Exam_Mark SET Quiz_final = (GREATEST(QUIZ01,QUIZ02,QUIZ03) + LEAST(GREATEST(QUIZ01,QUIZ02),GREATEST(QUIZ01,QUIZ03),GREATEST(QUIZ02,QUIZ03)))/2";
 
-
         try(Statement stmt = conn.createStatement()){
-
             stmt.executeUpdate(upDateQuiz);
 
+            stmt.close();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
-
         // Updating final marks,final ca, Grade letter and CA eligibility of each subject
 
         String DSA = "UPDATE Exam_Mark SET final_mark = Quiz_final + MID + FINAL_Theory + FINAL_Practical WHERE Course_id = 'ICT01'";
@@ -322,6 +314,10 @@ public class Lecturer extends User implements Calculable{
             stmt2.executeUpdate(DSA);
             ca1.executeUpdate(fCA);
             e3.executeUpdate(eg6);
+
+            stmt2.close();
+            e3.close();
+            ca1.close();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -340,6 +336,10 @@ public class Lecturer extends User implements Calculable{
             stmt3.executeUpdate(EC);
             ca2.executeUpdate(fCA2);
             e2.executeUpdate(eg1);
+
+            stmt3.close();
+            ca2.close();
+            e2.close();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -360,6 +360,9 @@ public class Lecturer extends User implements Calculable{
             ca3.executeUpdate(fCA3);
             e1.executeUpdate(eg);
 
+            stmt4.close();
+            ca3.close();
+            e1.close();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -372,12 +375,17 @@ public class Lecturer extends User implements Calculable{
                 "ELSE 'CA Not Eligible' " +
                 "END " +
                 "WHERE Course_id = 'ICT04'";
+
         try(Statement stmt5 = conn.createStatement()){
             Statement e4 = conn.createStatement();
             Statement ca4 = conn.createStatement();
             stmt5.executeUpdate(OOP);
             ca4.executeUpdate(fCA4);
             e4.executeUpdate(eg2);
+
+            stmt5.close();
+            e4.close();
+            ca4.close();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -390,6 +398,7 @@ public class Lecturer extends User implements Calculable{
                 "ELSE 'CA Not Eligible' " +
                 "END " +
                 "WHERE Course_id = 'ICT05'";
+
         try(Statement stmt6 = conn.createStatement()){
             Statement e5 = conn.createStatement();
             Statement ca5 = conn.createStatement();
@@ -397,6 +406,9 @@ public class Lecturer extends User implements Calculable{
             ca5.executeUpdate(fCA5);
             e5.executeUpdate(eg3);
 
+            stmt6.close();
+            e5.close();
+            ca5.close();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -409,16 +421,20 @@ public class Lecturer extends User implements Calculable{
                 "ELSE 'CA Not Eligible' " +
                 "END " +
                 "WHERE Course_id = 'ICT06'";
+
         try(Statement stmt7 = conn.createStatement()){
             Statement e6 = conn.createStatement();
             Statement ca6 = conn.createStatement();
             stmt7.executeUpdate(BE);
             ca6.executeUpdate(fCA6);
             e6.executeUpdate(eg4);
+
+            stmt7.close();
+            e6.close();
+            ca6.close();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
-
     }
 
     //Updating credit gained for each course
@@ -436,12 +452,14 @@ public class Lecturer extends User implements Calculable{
 
         try (Statement c2 = conn.createStatement()){
             c2.executeUpdate(credit2);
+            c2.close();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
 
         try(Statement c3 = conn.createStatement()){
             c3.executeUpdate(credit3);
+            c3.close();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -482,9 +500,9 @@ public class Lecturer extends User implements Calculable{
                 "ELSE 0.0 " +
                 "END";
 
-
         try(Statement st = conn.createStatement()){
             st.executeUpdate(grade);
+            st.close();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -515,16 +533,17 @@ public class Lecturer extends User implements Calculable{
 
         try(Statement uid = conn.createStatement()){
             uid.executeUpdate(sq);
+            uid.close();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
 
         try(Statement sendData = conn.createStatement()){
             sendData.executeUpdate(sql);
+            sendData.close();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
-
     }
 
     public void sumCredit(){
@@ -545,6 +564,8 @@ public class Lecturer extends User implements Calculable{
             }
             System.out.println(SumCreditSGPA);
 
+            sm.close();
+            rsSum.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -561,16 +582,16 @@ public class Lecturer extends User implements Calculable{
             }
             System.out.println(SumCreditCGPA);
 
+            sm.close();
+            rsSum.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void totalCredit(){
         level = ViewGradeGPA.getCurrent_level();
         semester = ViewGradeGPA.getCurrent_semester();
-        String SID = ViewGradeGPA.getSID();
 
         System.out.println(level);
         System.out.println(semester);
@@ -600,10 +621,10 @@ public class Lecturer extends User implements Calculable{
                     stmt.executeUpdate(updateQuery);
                 }
             }
+            stmt.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
 
         String t = "SELECT Total_credits FROM Student_Grades";
 
@@ -612,6 +633,8 @@ public class Lecturer extends User implements Calculable{
             while(rs.next()){
                 tt = rs.getDouble("Total_credits");
             }
+            st.close();
+            rs.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -620,6 +643,7 @@ public class Lecturer extends User implements Calculable{
 
             try (Statement upTC = conn.createStatement()) {
                 upTC.executeUpdate(tc);
+                upTC.close();
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -629,7 +653,6 @@ public class Lecturer extends User implements Calculable{
     public void CalculateGPA(){
 
         //calculateSGpa
-
         if(level == 1){
             if(semester == 1){
                 lvlSem = "L1_S1_GPA";
@@ -663,17 +686,17 @@ public class Lecturer extends User implements Calculable{
             for (int level = 1; level <= 4; level++) {
                 // Iterate over semesters
                 for (int semester = 1; semester <= 2; semester++) {
-                    // Construct the column names dynamically
+                    // Construct the column names
                     String columnName = "L" + level + "_S" + semester + "_GPA";
                     String columnName2 = "L" + level + "_S" + semester + "_Credit";
 
                     // Construct the UPDATE statement with the column names
                     String updateQuery = "UPDATE Student_Grades SET " + columnName + " = (" + columnName2 + " / " + SumCreditSGPA + ")";
 
-                    // Execute the UPDATE statement
                     stmt.executeUpdate(updateQuery);
                 }
             }
+            stmt.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -686,6 +709,7 @@ public class Lecturer extends User implements Calculable{
         try(PreparedStatement upSGPA = conn.prepareStatement(cgp)){
             upSGPA.setDouble(1,SumCreditCGPA);
             upSGPA.executeUpdate();
+            upSGPA.close();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }

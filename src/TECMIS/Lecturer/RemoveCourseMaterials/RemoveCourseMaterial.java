@@ -31,8 +31,6 @@ public class RemoveCourseMaterial extends User{
     private String User;
     private String CM_Id;
 
-
-
     public void RemoveCourse(){
 
         acc = getAcc();
@@ -89,6 +87,9 @@ public class RemoveCourseMaterial extends User{
                         }
                         tableModel2.addRow(rowData);
                     }
+                    pstmt.close();
+                    rs.close();
+
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -123,6 +124,13 @@ public class RemoveCourseMaterial extends User{
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                
                 if (acc.equals("lecturer")) {
                     Lecturer lecBack = new Lecturer();
                     lecBack.setVisible(true);

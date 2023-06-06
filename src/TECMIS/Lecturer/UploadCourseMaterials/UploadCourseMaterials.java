@@ -22,8 +22,6 @@ public class UploadCourseMaterials extends Lecturer{
     private JPanel pnlUploadCM;
     private JTextArea facultyOfTechnologyManagementTextArea;
     private JTextField txtCMname;
-    private JTextField txtCredit;
-    private JTextField txtAdminId;
     private JButton backButton;
     private JButton uploadButton;
     private JButton clearButton;
@@ -31,16 +29,10 @@ public class UploadCourseMaterials extends Lecturer{
     private JLabel lblSuccess2;
     private JButton clickHereButton;
     private JTextField txtCM_id;
-    private JTextField txtLevel;
-    private JTextField txtSem;
     private String userId;
     private String acc;
     private String CID;
     private String CM_Name;
-    private String AdminId;
-    private int Credit;
-    private int level;
-    private int semester;
     private String CM_id;
     private File Material;
 
@@ -60,15 +52,12 @@ public class UploadCourseMaterials extends Lecturer{
             public void windowClosing(WindowEvent e) {
                 int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
-                    // Close the application
                     System.exit(0);
                 }else {
-                    // Do nothing (prevent the window from closing)
                     setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 }
             }
         });
-
 
         clickHereButton.addActionListener(new ActionListener() {
             @Override
@@ -94,7 +83,6 @@ public class UploadCourseMaterials extends Lecturer{
             }
         });
 
-
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -119,7 +107,6 @@ public class UploadCourseMaterials extends Lecturer{
                 CM_Name = txtCMname.getText();
                 CM_id = txtCM_id.getText();
 
-
                 String upCD = "INSERT INTO Course_materials (C_Material_Id,Course_id,Material_Name,Lecturer_id,File_) VALUES (?,?,?,?,?)";
 
                 try(PreparedStatement stmt = conn.prepareStatement(upCD)){
@@ -135,15 +122,15 @@ public class UploadCourseMaterials extends Lecturer{
                     int rowsInserted = stmt.executeUpdate();
                     System.out.println(rowsInserted + "Rows inserted");
 
-
                     lblSuccess2.setText(" New course material successfully added to database ! ");
+
+                    stmt.close();
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-
             }
         });
     }

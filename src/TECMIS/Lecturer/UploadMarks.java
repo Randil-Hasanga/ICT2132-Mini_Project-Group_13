@@ -88,15 +88,12 @@ public class UploadMarks extends Lecturer{
             public void windowClosing(WindowEvent e) {
                 int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
-                    // Close the application
                     System.exit(0);
                 }else {
-                    // Do nothing (prevent the window from closing)
                     setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 }
             }
         });
-
             style.setVisible(false);
             txtQ1.setVisible(false);
             txtQ2.setVisible(false);
@@ -123,7 +120,6 @@ public class UploadMarks extends Lecturer{
         ActionListener listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 if(existing.isSelected()){
                     dropCourse.setVisible(true);
                     style.setVisible(false);
@@ -137,7 +133,6 @@ public class UploadMarks extends Lecturer{
                     tableModel2.setRowCount(0);
                     tableModel2.setColumnCount(0);
                     table1.setModel(tableModel2);
-
                 }else if(newR.isSelected()){
                     style.setVisible(true);
                     dropCourse.setVisible(false);
@@ -182,6 +177,8 @@ public class UploadMarks extends Lecturer{
                                 lblShown.setText("No newly created courses");
                             }
 
+                            stmt.close();
+                            rs.close();
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -625,7 +622,7 @@ public class UploadMarks extends Lecturer{
 
                     lblSuccess.setText(" Student marks successfully added to database ! ");
 
-
+                    stmt.close();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -656,6 +653,10 @@ public class UploadMarks extends Lecturer{
                         pstmt3.setString(1, CID);
                         pstmt3.executeUpdate();
 
+                        pstmt.close();
+                        pstmt2.close();
+                        pstmt3.close();
+
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -681,6 +682,10 @@ public class UploadMarks extends Lecturer{
                         PreparedStatement pstmt3 = conn.prepareStatement(eg1);
                         pstmt3.setString(1, CID);
                         pstmt3.executeUpdate();
+
+                        pstmt.close();
+                        pstmt2.close();
+                        pstmt3.close();
 
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
@@ -708,6 +713,10 @@ public class UploadMarks extends Lecturer{
                         pstmt3.setString(1, CID);
                         pstmt3.executeUpdate();
 
+                        pstmt.close();
+                        pstmt2.close();
+                        pstmt3.close();
+
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -734,6 +743,10 @@ public class UploadMarks extends Lecturer{
                         pstmt.setString(1, CID);
                         pstmt3.executeUpdate();
 
+                        pstmt.close();
+                        pstmt2.close();
+                        pstmt3.close();
+
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -748,6 +761,7 @@ public class UploadMarks extends Lecturer{
                 try {
                     Statement stmt = conn.createStatement();
                     stmt.executeUpdate(alter);
+                    stmt.close();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -759,6 +773,7 @@ public class UploadMarks extends Lecturer{
                     PreparedStatement ss = conn.prepareStatement(sqql);
                     ss.setString(1,CID);
                     ss.executeUpdate();
+                    ss.close();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -772,13 +787,11 @@ public class UploadMarks extends Lecturer{
                     //upTC.setString(1, CID);
                     upTC.setString(1,SID);
                     upTC.executeUpdate();
+                    upTC.close();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
-
                 lec.CalculateGPA();
-
-
             }
         });
     }

@@ -86,7 +86,6 @@ public class UpdateProfileLecturer extends Lecturer{
                 txtAd2.setText("");
                 txtPOS.setText("");
                 txtEmail.setText("");
-
             }
         });
 
@@ -119,38 +118,37 @@ public class UpdateProfileLecturer extends Lecturer{
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
-
             }
         });
 
         chooseDateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("Choose Date");
+                JDateChooser dateChooser = new JDateChooser();
+                frame.add(dateChooser);
+                frame.setType(Window.Type.UTILITY);
+                frame.pack();
+                frame.setLocationRelativeTo(null); // Center the frame on the screen
+                frame.setVisible(true);
+
+                dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
                     @Override
-                    public void actionPerformed(ActionEvent e) {
-                        JFrame frame = new JFrame("Choose Date");
-                        JDateChooser dateChooser = new JDateChooser();
-                        frame.add(dateChooser);
-                        frame.setType(Window.Type.UTILITY);
-                        frame.pack();
-                        frame.setLocationRelativeTo(null); // Center the frame on the screen
-                        frame.setVisible(true);
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if (evt.getPropertyName().equals("date")) {
+                            selectedDate = dateChooser.getDate(); // get selected date
 
-                        dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
-                            @Override
-                            public void propertyChange(PropertyChangeEvent evt) {
-                                if (evt.getPropertyName().equals("date")) {
-                                    selectedDate = dateChooser.getDate(); // get selected date
-
-                                    // Format the selected date as YYYY-MM-DD
-                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                                    formattedDate = sdf.format(selectedDate);
-                                    System.out.println(selectedDate);
-                                    System.out.println(formattedDate);
-                                    frame.dispose(); // Close the frame after selecting the date
-                                }
-                            }
-                        });
+                            // Format the selected date as YYYY-MM-DD
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            formattedDate = sdf.format(selectedDate);
+                            System.out.println(selectedDate);
+                            System.out.println(formattedDate);
+                            frame.dispose(); // Close the frame after selecting the date
+                        }
                     }
                 });
+            }
+        });
 
         ActionListener listener = new ActionListener() {
             @Override
@@ -205,14 +203,13 @@ public class UpdateProfileLecturer extends Lecturer{
 
                     System.out.println(rows + " row(s) updated.");
 
+                    pstmt.close();
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-
-
             }
         });
     }
