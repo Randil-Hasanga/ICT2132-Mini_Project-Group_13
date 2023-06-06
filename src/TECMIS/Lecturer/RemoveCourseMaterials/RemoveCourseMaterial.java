@@ -61,12 +61,15 @@ public class RemoveCourseMaterial extends User{
 
         searchButton.addActionListener(new ActionListener() {
 
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                String srch = "SELECT C_Material_Id, Material_Name FROM Course_materials WHERE Lecturer_id = ?";
+                CID = txtCID.getText();
+                String srch = "SELECT C_Material_Id, Material_Name FROM Course_materials WHERE Lecturer_id = ? AND Course_id = ?";
 
                 try(PreparedStatement pstmt = conn.prepareStatement(srch)) {
                     pstmt.setString(1,User);
+                    pstmt.setString(2,CID);
                     ResultSet rs = pstmt.executeQuery();
 
                     DefaultTableModel tableModel2 = new DefaultTableModel();
