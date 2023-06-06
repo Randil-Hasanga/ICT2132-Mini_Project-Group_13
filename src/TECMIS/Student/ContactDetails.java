@@ -30,6 +30,7 @@ public class ContactDetails extends Student{
     private JLabel lblAl2;
     private JTextField txtAl2;
     private JTextField txtEmail;
+    private JPanel pnl1;
 
     private String userId;
     private String acc;
@@ -51,14 +52,15 @@ public class ContactDetails extends Student{
         setSize(600, 600);
         setTitle("Update Contact Details");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
 
 
-        lblAl1.setVisible(false);
-        lblAl2.setVisible(false);
-        lblEmail.setVisible(false);
-        txtAl1.setVisible(false);
-        txtAl2.setVisible(false);
-        txtEmail.setVisible(false);
+//        lblAl1.setVisible(false);
+//        lblAl2.setVisible(false);
+//        lblEmail.setVisible(false);
+//        txtAl1.setVisible(false);
+//        txtAl2.setVisible(false);
+//        txtEmail.setVisible(false);
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -90,14 +92,16 @@ public class ContactDetails extends Student{
                 Al2 = txtAl2.getText();
                 Email = txtEmail.getText();
 
-                String updateCD = "INSERT INTO Student (Address_L1, Address_L2, Email) VALUES (?,?,?) WHERE User_id=?";
+// update query-------
+                String updateCD = "UPDATE student SET Address_L1=?, Address_L2=?, Email=? WHERE User_id=?";
 
                 try(PreparedStatement stmt = conn.prepareStatement(updateCD)){
 
-                    stmt.setString(1,SID);
-                    stmt.setString(2,Al1);
-                    stmt.setString(3,Al2);
-                    stmt.setString(4,Email);
+
+                    stmt.setString(1,Al1);
+                    stmt.setString(2,Al2);
+                    stmt.setString(3,Email);
+                    stmt.setString(4,SID);
 
 
                     int rowsInserted = stmt.executeUpdate();
@@ -108,6 +112,7 @@ public class ContactDetails extends Student{
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
+
 
             }
         });

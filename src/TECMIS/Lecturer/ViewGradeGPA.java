@@ -62,6 +62,7 @@ public class ViewGradeGPA extends JFrame{
     public static String getLvlSem(){
         return lvlSem;
     }
+    Lecturer up = new Lecturer();
 
     public void viewGrades(){
 
@@ -92,7 +93,7 @@ public class ViewGradeGPA extends JFrame{
         });
 
 
-        Lecturer up = new Lecturer();
+
         up.updateExamMarks();
         up.updateCreditGained();
         up.updateLetterGrade();
@@ -113,10 +114,10 @@ public class ViewGradeGPA extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (acc.equals("lecturer")) {
-                    Lecturer lecBack = new Lecturer();
-                    lecBack.setVisible(true);
+
+                    up.setVisible(true);
                     setVisible(false);
-                    lecBack.methodLecturer();
+                    up.methodLecturer();
                 }
                 else if(acc.equals("student")){
                     Student stuBack = new Student();
@@ -184,7 +185,6 @@ public class ViewGradeGPA extends JFrame{
 
                 }else if(choice1.equals("View GPA for Batch")) {
 
-
                     txtCID.setVisible(false);
                     lblCID.setVisible(false);
                     txtSID.setVisible(false);
@@ -227,7 +227,6 @@ public class ViewGradeGPA extends JFrame{
 
                             if (choice.equals("View grades for Student") && (choice != null)) {
 
-                                Lecturer up = new Lecturer();
                                 up.updateExamMarks();
                                 up.updateCreditGained();
                                 up.updateLetterGrade();
@@ -270,7 +269,6 @@ public class ViewGradeGPA extends JFrame{
 
                             }else if (choice.equals("View grades for Subject")) {
 
-                                Lecturer up = new Lecturer();
                                 up.updateExamMarks();
                                 up.updateCreditGained();
                                 up.updateLetterGrade();
@@ -313,7 +311,6 @@ public class ViewGradeGPA extends JFrame{
 
                             } else if (choice.equals("View grades for Batch")) {
 
-                                Lecturer up = new Lecturer();
                                 up.updateExamMarks();
                                 up.updateCreditGained();
                                 up.updateLetterGrade();
@@ -356,7 +353,6 @@ public class ViewGradeGPA extends JFrame{
 
                             if(choice1.equals("View GPA for Student")){
 
-                                Lecturer up = new Lecturer();
                                 up.updateExamMarks();
                                 up.updateCreditGained();
                                 up.updateLetterGrade();
@@ -398,7 +394,6 @@ public class ViewGradeGPA extends JFrame{
                                 }
                             }if(choice1.equals("View GPA for Batch")){
 
-                                Lecturer up = new Lecturer();
                                 up.updateExamMarks();
                                 up.updateCreditGained();
                                 up.updateLetterGrade();
