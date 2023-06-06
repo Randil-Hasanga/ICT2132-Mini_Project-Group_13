@@ -113,7 +113,7 @@ CREATE TABLE if not exists Technical_officer
     Address_L2 VARCHAR(50),
     DOB DATE,
     Email VARCHAR(50),
-    Pro_pic blob,
+    Pro_pic longblob,
     Password VARCHAR(500),
     foreign key (Dep_id) references Department (Dep_id)
 );

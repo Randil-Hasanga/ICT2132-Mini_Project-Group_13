@@ -95,7 +95,8 @@ public class TechnicalOfficer extends User {
                         lblPic.setIcon(new ImageIcon(bufferedImage));
                     }
                 } catch (RuntimeException ex){
-                    throw new RuntimeException();
+                    //throw new RuntimeException();
+                    System.out.println("Error : "+ex.getMessage());
                 }
 
             }
