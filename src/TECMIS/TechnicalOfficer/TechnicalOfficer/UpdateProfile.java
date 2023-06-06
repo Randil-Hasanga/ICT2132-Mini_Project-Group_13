@@ -61,9 +61,6 @@ public class UpdateProfile extends TechnicalOfficer{
     private String pw;
     private byte[] imageData;
 
-
-
-
     public void UpdateProfile() {
 
         add(pnlTOProfile);
@@ -108,6 +105,18 @@ public class UpdateProfile extends TechnicalOfficer{
             throw new RuntimeException(e);
         }
 
+        ActionListener listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (maleRbutton.isSelected()) {
+                    gender = "Male";
+                } else if (femaleRbutton.isSelected()) {
+                    gender = "Female";
+                }
+            }
+        };
+        maleRbutton.addActionListener(listener);
+        femaleRbutton.addActionListener(listener);
 
         btnClr.addActionListener(new ActionListener() {
             @Override
@@ -185,19 +194,6 @@ public class UpdateProfile extends TechnicalOfficer{
             }
         });
 
-        ActionListener listener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (maleRbutton.isSelected()) {
-                    gender = "Male";
-                } else if (femaleRbutton.isSelected()) {
-                    gender = "Female";
-                }
-            }
-        };
-
-        maleRbutton.addActionListener(listener);
-        femaleRbutton.addActionListener(listener);
 
 
         btnUpdate.addActionListener(new ActionListener() {

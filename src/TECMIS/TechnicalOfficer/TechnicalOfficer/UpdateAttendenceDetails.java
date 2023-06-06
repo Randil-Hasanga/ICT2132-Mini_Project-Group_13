@@ -32,8 +32,6 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
     private Date selectedDate;
     private String formattedDate;
     private JTextField textFieldStudentID;
-    private JLabel lblCourseID;
-    private JLabel lblDate;
     private JLabel lblStudentID;
     private JButton BtnBack;
     private JButton BtnUpdate;
@@ -44,6 +42,7 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
     private JPanel pnlAttendenceID;
     private JButton btnSubmit;
     private JPanel pnlDetails;
+    private JLabel lblCourseIDDisplay;
     private JDateChooser JDateChooser2;
 
 
@@ -88,10 +87,11 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
                     while(rs.next())
                     {
                         CourseID = rs.getString("Course_id");
+                        Date = rs.getString("Date_");
+                        lblCourseIDDisplay.setText("Course ID :"+ CourseID+ " Date :" + Date );
                         Status = rs.getString("Status_");
 
                     }
-                    textFieldCourseID.setText(CourseID);
                     textFieldStatus.setText(Status);
 
                 } catch (SQLException ex) {
@@ -100,44 +100,12 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
 
             }
         });
-
-        chooseDateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                JFrame frame = new JFrame("Choose Date");
-                JDateChooser dateChooser = new JDateChooser();
-                frame.add(dateChooser);
-                frame.setType(Window.Type.UTILITY);
-                frame.pack();
-                frame.setLocationRelativeTo(null); // Center the frame on the screen
-                frame.setVisible(true);
-
-                dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        if (evt.getPropertyName().equals("date")) {
-                            selectedDate = dateChooser.getDate(); // get selected date
-
-                            // Format the selected date as YYYY-MM-DD
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                            formattedDate = sdf.format(selectedDate);
-                            System.out.println(selectedDate);
-                            System.out.println(formattedDate);
-                            frame.dispose(); // Close the frame after selecting the date
-                        }
-                    }
-                });
-            }
-        });
-
         BtnClear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textFieldAttendenceID.setText("");
+
                 textFieldStatus.setText("");
-                textFieldCourseID.setText("");
-                textFieldStudentID.setText("");
+
             }
         });
 
@@ -165,26 +133,20 @@ public class UpdateAttendenceDetails extends TechnicalOfficer{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-
-                CourseID = textFieldCourseID.getText();
                 Status = textFieldStatus.getText();
-                StudentID = textFieldStudentID.getText();
 
-
-                if ((AttendanceID.isEmpty()) || (Status.isEmpty()) || (CourseID.isEmpty()) || (StudentID.isEmpty())) {
+                if (Status.isEmpty()) {
                     LblSuccess.setText(" Please fill out the all fields !");
 
                 } else {
 
-                    String updAD = "UPDATE Attendance SET  Date_ = ?,Course_id = ? ,Status_ = ? WHERE Attendance_id = ? AND Student_id = ?";
+                    String updAD = "UPDATE Attendance SET Status_ = ? WHERE Attendance_id = ? AND Student_id = ?";
 
                     try (PreparedStatement stmt = conn.prepareStatement(updAD)) {
 
-                        stmt.setString(1, formattedDate);
-                        stmt.setString(2, CourseID);
-                        stmt.setString(3, Status);
-                        stmt.setString(4, AttendanceID);
-                        stmt.setString(5, StudentID);
+                        stmt.setString(1, Status);
+                        stmt.setString(2, AttendanceID);
+                        stmt.setString(3, StudentID);
 
 
                         int rowsInserted = stmt.executeUpdate();
