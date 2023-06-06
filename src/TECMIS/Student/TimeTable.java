@@ -26,6 +26,8 @@ public class TimeTable extends Student{
 
     private String acc;
 
+    private String depID;
+
 
     String TimeTable;
 
@@ -38,6 +40,7 @@ public class TimeTable extends Student{
         UserId = User.getUserId();
 
         add(pnlTimeTable);
+        setVisible(true);
         setSize(600, 600);
         setTitle("Time Table");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -45,7 +48,10 @@ public class TimeTable extends Student{
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
+                depID = txtDepId.getText();
+
+
 
             }
         });
