@@ -23,11 +23,14 @@ public class RemoveAttendenceDetails extends TechnicalOfficer {
     private JButton btnRemove;
     private JButton btnClr;
     private JTextArea facultyOfTechnologyManagementTextArea;
+    private JLabel lblStuID;
+    private JTextField textField1StuID;
 
 
     private String userId;
     private String acc;
     private String AttendenceID;
+    private String StuID;
 
 
     public void RemoveAttendence() {
@@ -36,7 +39,7 @@ public class RemoveAttendenceDetails extends TechnicalOfficer {
 
         add(pnlRemoveAttendenceDetails);
         setSize(700, 600);
-        setTitle(" Remove AttendenceDetails");
+        setTitle(" Remove AttendanceDetails");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -45,6 +48,7 @@ public class RemoveAttendenceDetails extends TechnicalOfficer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 textFieldrmvAttendenceID.setText("");
+                textField1StuID.setText("");
 
             }
         });
@@ -72,17 +76,19 @@ public class RemoveAttendenceDetails extends TechnicalOfficer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AttendenceID = textFieldrmvAttendenceID.getText();
+                StuID = textField1StuID.getText();
 
-                if (AttendenceID.isEmpty()) {
+                if ((AttendenceID.isEmpty() )||(StuID.isEmpty())) {
                     lblRmvSuccess.setText(" Please Fill the field ");
                 } else {
 
 
-                    String rmvADid = " DELETE FROM attendance WHERE Attendance_id = ? ";
+                    String rmvADid = " DELETE FROM attendance WHERE Attendance_id = ? AND Student_id = ?";
 
                     try (PreparedStatement stmt = conn.prepareStatement(rmvADid)) {
 
                         stmt.setString(1, AttendenceID);
+                        stmt.setString(2,StuID);
                         int rows = stmt.executeUpdate();
 
                         lblRmvSuccess.setVisible(true);

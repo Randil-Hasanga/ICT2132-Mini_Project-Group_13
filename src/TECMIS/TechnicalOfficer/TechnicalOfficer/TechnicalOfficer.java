@@ -41,6 +41,8 @@ public class TechnicalOfficer extends User {
     private JTextArea facultyOfTechnologyManagementTextArea;
 
 
+
+
     public void methodTechnicalOfficer() {
         userId = getUserId();
         acc = getAcc();
@@ -105,6 +107,8 @@ public class TechnicalOfficer extends User {
             System.out.println(" Error in add Image "+e.getMessage());
         }
         lblWelcome.setText("Welcome " + Fname + " " + Lname + "!");
+
+
 
         //View Buttons
         ViewBtnNotice.addActionListener(new ActionListener() {
