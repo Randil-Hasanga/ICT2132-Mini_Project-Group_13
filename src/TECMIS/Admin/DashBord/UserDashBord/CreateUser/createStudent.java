@@ -51,6 +51,7 @@ public class createStudent extends JFrame{
     private String Ad2;
     private JButton backButton;
     private JTextField txtLecId;
+    private JLabel suc;
     private String email;
     private String password;
     private String Stype;
@@ -59,7 +60,7 @@ public class createStudent extends JFrame{
     public void methodCreateStudent(){
     add(pnlCreateStudent);
     setVisible(true);
-    setSize(750,500);
+    setSize(750,600);
     setTitle("LMS Software");
     setLocationRelativeTo(null);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -100,6 +101,8 @@ public class createStudent extends JFrame{
                     pstmt.setString(12,lec_id);
 
                     pstmt.executeUpdate();
+
+                    suc.setText("Successful Inserted data!...");
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);

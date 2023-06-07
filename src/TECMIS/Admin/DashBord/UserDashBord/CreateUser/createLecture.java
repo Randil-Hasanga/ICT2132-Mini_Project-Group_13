@@ -23,9 +23,6 @@ public class createLecture extends JFrame{
 
     Connection conn = MySqlCon.MysqlMethod();
     private JTextArea facultyOfTechnologyManagementTextArea;
-    private JPanel pnlPic;
-    private JLabel lblPic;
-    private JButton logOutButton;
     private JTextField txtUid;
     private JTextField txtFname;
     private JTextField txtLname;
@@ -41,6 +38,7 @@ public class createLecture extends JFrame{
     private JButton chooseFileButton;
     private JButton backButton;
     private JPanel createLec;
+    private JLabel suc;
 
     private Date selectedDate;
     private String formattedDate;
@@ -61,7 +59,7 @@ public class createLecture extends JFrame{
     public void methodCreateLec(){
     add(createLec);
     setVisible(true);
-    setSize(750,500);
+    setSize(750,600);
     setTitle("LMS Software");
     setLocationRelativeTo(null);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -174,6 +172,8 @@ public class createLecture extends JFrame{
                     pstmt.setString(11,pos);
 
                     pstmt.executeUpdate();
+
+                    suc.setText("Successful Inserted data!...");
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);

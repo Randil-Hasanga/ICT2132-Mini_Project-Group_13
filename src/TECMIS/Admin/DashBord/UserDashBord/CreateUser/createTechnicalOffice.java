@@ -23,9 +23,6 @@ public class createTechnicalOffice extends JFrame{
 
     Connection conn = MySqlCon.MysqlMethod();
     private JTextArea facultyOfTechnologyManagementTextArea;
-    private JPanel pnlPic;
-    private JLabel lblPic;
-    private JButton logOutButton;
     private JTextField txtUser;
     private JTextField txtDep;
     private JTextField txtFname;
@@ -41,6 +38,7 @@ public class createTechnicalOffice extends JFrame{
     private JButton chooseDate;
     private JButton backButton;
     private JButton btnChoosefile;
+    private JLabel suc;
 
     private Date selectedDate;
     private String formattedDate;
@@ -67,7 +65,7 @@ public class createTechnicalOffice extends JFrame{
 
         add(TecOffPnl);
         setVisible(true);
-        setSize(750,500);
+        setSize(750,600);
         setTitle("LMS Software");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -161,6 +159,8 @@ public class createTechnicalOffice extends JFrame{
 
 
                     pstmt.executeUpdate();
+
+                    suc.setText("Successful Inserted data!...");
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
