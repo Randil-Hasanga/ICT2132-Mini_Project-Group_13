@@ -218,6 +218,7 @@ public class Lecturer extends User implements Calculable{
                 User u1 = new User();
                 u1.setVisible(true);
                 setVisible(false);
+                u1.Login();
 
                 try {
                     conn.close();
