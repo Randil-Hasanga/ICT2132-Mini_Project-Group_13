@@ -6,6 +6,8 @@ import TECMIS.MySqlCon;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -41,6 +43,21 @@ public class UpdateTimeTable extends JFrame{
     setDefaultCloseOperation(EXIT_ON_CLOSE);
 
     AffterPnl.setVisible(false);
+
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    // Close the application
+                    System.exit(0);
+                }else {
+                    // Do nothing (prevent the window from closing)
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+            }
+        });
 
 
 
