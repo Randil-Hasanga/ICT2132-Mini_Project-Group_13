@@ -155,6 +155,7 @@ public class Dashbord extends User {
                 User LogUot = new User();
                 LogUot.setVisible(true);
                 setVisible(false);
+                LogUot.Login();
             }
         });
 

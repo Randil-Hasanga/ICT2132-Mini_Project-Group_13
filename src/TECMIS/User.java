@@ -57,7 +57,7 @@ public class User extends JFrame{
     }
 
 
-    public User() {
+    public void Login() {
         add(pnlLogin);
         icon.setSize(100,100);
         setVisible(true);
