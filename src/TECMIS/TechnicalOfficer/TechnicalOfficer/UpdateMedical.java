@@ -23,13 +23,11 @@ public class UpdateMedical extends TechnicalOfficer {
     private JPanel pnlUpdateMedical;
     private JLabel lblUpdateMedicalID;
     private JTextField textFieldupdMedicalID;
-    private JLabel lblupdStartDate;
 
     private Date selectedDate;
     private String formattedDate;
     private Date selectedDate1;
     private String formattedDate1;
-    private JLabel lblupdEndDate;
 
     private JLabel lblupdStudentID;
     private JTextField textFieldupdStudentID;
@@ -47,6 +45,8 @@ public class UpdateMedical extends TechnicalOfficer {
     private JButton btnSubmit;
     private JPanel pnlMedID;
     private JPanel pnlDetail;
+    private JLabel lblStartDate;
+    private JLabel lblEndDate;
     private JDateChooser JDateChooser1;
     private JDateChooser JDateChooser2;
 
@@ -97,6 +97,10 @@ public class UpdateMedical extends TechnicalOfficer {
                     while(rs.next())
                     {
                         StudentID = rs.getString("Student_id");
+                        Start_Date = rs.getString("Start_Date");
+                        lblStartDate.setText(" Start Date : "+Start_Date);
+                        End_Date = rs.getString("End_Date");
+                        lblEndDate.setText(" End Date : "+End_Date);
                         MedCondition = rs.getString("Medical_Condition");
 
                     }
@@ -112,69 +116,13 @@ public class UpdateMedical extends TechnicalOfficer {
         });
 
 
-        chooseDateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFrame frame = new JFrame("Choose Date");
-                JDateChooser dateChooser = new JDateChooser();
-                frame.add(dateChooser);
-                frame.setType(Window.Type.UTILITY);
-                frame.pack();
-                frame.setLocationRelativeTo(null); // Center the frame on the screen
-                frame.setVisible(true);
 
-                dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        if (evt.getPropertyName().equals("date")) {
-                            selectedDate = dateChooser.getDate(); // get selected date
 
-                            // Format the selected date as YYYY-MM-DD
-                            SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd");
-                            formattedDate = sdf3.format(selectedDate);
-                            System.out.println(selectedDate);
-                            System.out.println(formattedDate);
-                            frame.dispose(); // Close the frame after selecting the date
-                        }
-                    }
-                });
-            }
-        });
-
-        chooseDateButton1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFrame frame = new JFrame("Choose Date");
-                JDateChooser dateChooser = new JDateChooser();
-                frame.add(dateChooser);
-                frame.setType(Window.Type.UTILITY);
-                frame.pack();
-                frame.setLocationRelativeTo(null); // Center the frame on the screen
-                frame.setVisible(true);
-
-                dateChooser.addPropertyChangeListener("date", new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        if (evt.getPropertyName().equals("date")) {
-                            selectedDate1 = dateChooser.getDate(); // get selected date
-
-                            // Format the selected date as YYYY-MM-DD
-                            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-                            formattedDate1 = sdf1.format(selectedDate1);
-                            System.out.println(selectedDate1);
-                            System.out.println(formattedDate1);
-                            frame.dispose(); // Close the frame after selecting the date
-                        }
-                    }
-                });
-            }
-        });
 
         btnClr.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textFieldupdMedicalID.setText("");
-                textFieldupdStudentID.setText("");
+
                 textFieldupdMedCondition.setText("");
             }
         });
@@ -209,15 +157,13 @@ public class UpdateMedical extends TechnicalOfficer {
 
                 } else {
 
-                    String updMed = "UPDATE Medical SET  Student_id = ?,Start_Date = ?,End_Date = ? ,Medical_Condition = ? WHERE Medical_id = ? ";
+                    String updMed = "UPDATE Medical SET  Student_id = ?,Medical_Condition = ? WHERE Medical_id = ? ";
 
                     try (PreparedStatement stmt = conn.prepareStatement(updMed)) {
 
                         stmt.setString(1, StudentID);
-                        stmt.setString(2, formattedDate);
-                        stmt.setString(3, formattedDate1);
-                        stmt.setString(4, MedCondition);
-                        stmt.setString(5, MedicalID);
+                        stmt.setString(2, MedCondition);
+                        stmt.setString(3, MedicalID);
 
 
                         int rowsInserted = stmt.executeUpdate();
