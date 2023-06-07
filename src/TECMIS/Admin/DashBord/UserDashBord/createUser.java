@@ -15,9 +15,6 @@ import java.awt.event.WindowEvent;
 public class createUser extends JFrame{
     private JPanel UserPanel;
     private JTextArea facultyOfTechnologyManagementTextArea;
-    private JPanel pnlPic;
-    private JLabel lblPic;
-    private JButton logOutButton;
     private JButton adminButton;
     private JButton technicalOfficerButton;
     private JButton lecturerButton;
