@@ -40,10 +40,8 @@ public class ViewMarks extends Lecturer{
             public void windowClosing(WindowEvent e) {
                 int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
-                    // Close the application
                     System.exit(0);
                 }else {
-                    // Do nothing (prevent the window from closing)
                     setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 }
             }
@@ -104,12 +102,13 @@ public class ViewMarks extends Lecturer{
                         }
                         tableModel2.addRow(rowData);
                     }
+                    pstmt.close();
+                    rs.close();
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
             }
         });
-
     }
 }

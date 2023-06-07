@@ -130,9 +130,9 @@ public class UploadAttendenceDetails extends TechnicalOfficer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AttendenceID = textFieldAttendenceID.getText();
-                Status = textFieldStatus.getText();
-                CourseID = textFieldCourseID.getText();
                 StudentID = textFieldSID.getText();
+                CourseID = textFieldCourseID.getText();
+                Status = textFieldStatus.getText();
 
                 if ((AttendenceID.isEmpty()) || (Status.isEmpty()) || (CourseID.isEmpty()) || (StudentID.isEmpty())) {
                     lblErrorMsg.setText(" Please Fill out the all Fields ! ");

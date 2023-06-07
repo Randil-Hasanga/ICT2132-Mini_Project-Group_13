@@ -31,8 +31,6 @@ public class RemoveCourseMaterial extends User{
     private String User;
     private String CM_Id;
 
-
-
     public void RemoveCourse(){
 
         acc = getAcc();
@@ -61,12 +59,15 @@ public class RemoveCourseMaterial extends User{
 
         searchButton.addActionListener(new ActionListener() {
 
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                String srch = "SELECT C_Material_Id, Material_Name FROM Course_materials WHERE Lecturer_id = ?";
+                CID = txtCID.getText();
+                String srch = "SELECT C_Material_Id, Material_Name FROM Course_materials WHERE Lecturer_id = ? AND Course_id = ?";
 
                 try(PreparedStatement pstmt = conn.prepareStatement(srch)) {
                     pstmt.setString(1,User);
+                    pstmt.setString(2,CID);
                     ResultSet rs = pstmt.executeQuery();
 
                     DefaultTableModel tableModel2 = new DefaultTableModel();
@@ -86,6 +87,9 @@ public class RemoveCourseMaterial extends User{
                         }
                         tableModel2.addRow(rowData);
                     }
+                    pstmt.close();
+                    rs.close();
+
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -120,6 +124,13 @@ public class RemoveCourseMaterial extends User{
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                
                 if (acc.equals("lecturer")) {
                     Lecturer lecBack = new Lecturer();
                     lecBack.setVisible(true);

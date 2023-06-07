@@ -46,7 +46,7 @@ CREATE TABLE if not exists Lecturer
 INSERT INTO Lecturer
 (User_id,FName,LName,Gender,Address_L1,Address_L2,DOB,Email,Pro_pic,Password,Position)
 VALUES
-('L001','Saman','Perera','Male','Akuressa','Matara','1989-04-05','sperera@gmail.com',null,'Fv8I3RoTOs9/psCbK5afpQ==','Professor'),
+('L001','Nuwan','Laksiri','Male','Akuressa','Matara','1989-04-05','sperera@gmail.com',null,'Fv8I3RoTOs9/psCbK5afpQ==','Professor'),
 ('L002','Kumari','Lanka','Female','Eheliyagoda','Rathnapura','1993-05-24','kumarilanka@gmail.com',null,'+tIaS0rJex1GnK/rCSAUfg==','Senior Professor'),
 ('L003','Sandya','Gunathilaka','Female','Kamburupitiya','Matara','1982-08-12','sgunathilaka@gmail.com',null,'n6CZ9J0FsCbRCuug8lEwsQ==','Senoir Lecturer'),
 ('L004','Gihan','Fernando','Male','Kekanadura','Matara','1995-01-01','gihan123@gmail.com',null,'1rvy9AC72pz5JnpfASW+oA==','Professor'),
@@ -113,7 +113,7 @@ CREATE TABLE if not exists Technical_officer
     Address_L2 VARCHAR(50),
     DOB DATE,
     Email VARCHAR(50),
-    Pro_pic blob,
+    Pro_pic longblob,
     Password VARCHAR(500),
     foreign key (Dep_id) references Department (Dep_id)
 );
@@ -767,3 +767,15 @@ CREATE TABLE if not exists T_Table
     Level_and_Semester VARCHAR(30),
     TT_pdf longblob
 );
+
+CREATE TABLE if not exists Course_materials
+(
+	C_Material_Id VARCHAR(10) primary key not null,
+    Course_id VARCHAR(30),
+    Material_Name VARCHAR(30),
+    Lecturer_id VARCHAR(30),
+    File_ longblob,
+    FOREIGN KEY(Course_id) REFERENCES Course_Detail(Course_id),
+    FOREIGN KEY(Lecturer_id) REFERENCES Lecturer(User_id)
+);
+

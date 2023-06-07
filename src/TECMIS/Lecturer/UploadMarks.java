@@ -4,6 +4,8 @@ import TECMIS.MySqlCon;
 import TECMIS.User;
 
 import javax.swing.*;
+import javax.swing.plaf.nimbus.State;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -45,6 +47,9 @@ public class UploadMarks extends Lecturer{
     private JComboBox style;
     private JLabel lblCID;
     private JComboBox dropCourse;
+    private JTable table1;
+    private JScrollPane ScrollPanel;
+    private JLabel lblShown;
     private String userId;
     private String acc;
     private String SID;
@@ -64,6 +69,7 @@ public class UploadMarks extends Lecturer{
     private double A2;
     private String selected = "Select Mark Style";
     private int newCredit;
+    Lecturer lec = new Lecturer();
 
     public void upMarks(){
 
@@ -71,25 +77,23 @@ public class UploadMarks extends Lecturer{
         acc = User.getAcc();
 
         add(pnlUploadMarks);
-        setSize(750, 500);
+        setSize(850, 600);
         setTitle("Upload Marks");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        lblShown.setVisible(false);
 
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
-                    // Close the application
                     System.exit(0);
                 }else {
-                    // Do nothing (prevent the window from closing)
                     setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 }
             }
         });
-
             style.setVisible(false);
             txtQ1.setVisible(false);
             txtQ2.setVisible(false);
@@ -116,18 +120,68 @@ public class UploadMarks extends Lecturer{
         ActionListener listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 if(existing.isSelected()){
                     dropCourse.setVisible(true);
                     style.setVisible(false);
                     lblCID.setVisible(false);
                     txtCID.setVisible(false);
+                    lblShown.setVisible(false);
 
+                    DefaultTableModel tableModel2 = new DefaultTableModel();
+                    table1.setModel(tableModel2);
+
+                    tableModel2.setRowCount(0);
+                    tableModel2.setColumnCount(0);
+                    table1.setModel(tableModel2);
                 }else if(newR.isSelected()){
                     style.setVisible(true);
                     dropCourse.setVisible(false);
                     lblCID.setVisible(false);
                     txtCID.setVisible(false);
+
+                    String sql = "SELECT Course_id,Course_Name FROM Course_Detail " +
+                            "ORDER BY Course_id ASC " +
+                            "LIMIT 999999 OFFSET 6";
+
+                    try(Statement stmt = conn.createStatement()) {
+                        ResultSet rs = stmt.executeQuery(sql);
+
+                        boolean isEmpty = true;
+
+                            DefaultTableModel tableModel2 = new DefaultTableModel();
+                            table1.setModel(tableModel2);
+
+                            ResultSetMetaData rsmd2 = rs.getMetaData();
+                            int columntCount2 = rsmd2.getColumnCount();
+
+                            for (int i = 1; i <= columntCount2; i++) {
+                                tableModel2.addColumn(rsmd2.getColumnName(i));
+                            }
+                            lblShown.setVisible(true);
+                            lblShown.setText("Newly created courses are shown below");
+
+                            while (rs.next()) {
+                                isEmpty = false;
+                                Object[] rowData = new Object[columntCount2];
+                                for (int i = 1; i <= columntCount2; i++) {
+                                    rowData[i - 1] = rs.getObject(i);
+                                }
+                                tableModel2.addRow(rowData);
+                            }
+
+                            if(isEmpty){
+                                tableModel2.setRowCount(0);
+                                tableModel2.setColumnCount(0);
+                                table1.setModel(tableModel2);
+                                lblShown.setVisible(true);
+                                lblShown.setText("No newly created courses");
+                            }
+
+                            stmt.close();
+                            rs.close();
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             }
         };
@@ -317,6 +371,8 @@ public class UploadMarks extends Lecturer{
                     lblSID.setVisible(true);
                     lblCID.setVisible(true);
                     txtCID.setVisible(true);
+                    txtCID.setVisible(false);
+                    lblCID.setVisible(false);
 
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
@@ -344,6 +400,8 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(false);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+                    txtCID.setVisible(false);
+                    lblCID.setVisible(false);
 
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
@@ -372,6 +430,9 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(true);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+                    txtCID.setVisible(false);
+                    lblCID.setVisible(false);
+
 
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
@@ -401,6 +462,8 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(true);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+                    txtCID.setVisible(false);
+                    lblCID.setVisible(false);
 
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
@@ -431,6 +494,8 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(true);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+                    txtCID.setVisible(false);
+                    lblCID.setVisible(false);
 
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
@@ -459,6 +524,8 @@ public class UploadMarks extends Lecturer{
                     txtFinalPractical.setVisible(false);
                     txtSID.setVisible(true);
                     lblSID.setVisible(true);
+                    txtCID.setVisible(false);
+                    lblCID.setVisible(false);
 
                     txtQ1.setText(p10);
                     txtQ2.setText(p10);
@@ -492,10 +559,10 @@ public class UploadMarks extends Lecturer{
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Lecturer lecBack = new Lecturer();
-                lecBack.setVisible(true);
+
+                lec.setVisible(true);
                 setVisible(false);
-                lecBack.methodLecturer();
+                lec.methodLecturer();
 
                 try {
                     conn.close();
@@ -555,14 +622,14 @@ public class UploadMarks extends Lecturer{
 
                     lblSuccess.setText(" Student marks successfully added to database ! ");
 
-
+                    stmt.close();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
-                Lecturer lec = new Lecturer();
                 lec.updateExamMarks();
 
 
+                // Updating final marks, final CA marks, and Eligibility of newly created course
                 if(selected.equals("Style 1")) {
 
 
@@ -585,6 +652,10 @@ public class UploadMarks extends Lecturer{
                         PreparedStatement pstmt3 = conn.prepareStatement(eg6);
                         pstmt3.setString(1, CID);
                         pstmt3.executeUpdate();
+
+                        pstmt.close();
+                        pstmt2.close();
+                        pstmt3.close();
 
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
@@ -612,6 +683,10 @@ public class UploadMarks extends Lecturer{
                         pstmt3.setString(1, CID);
                         pstmt3.executeUpdate();
 
+                        pstmt.close();
+                        pstmt2.close();
+                        pstmt3.close();
+
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -637,6 +712,10 @@ public class UploadMarks extends Lecturer{
                         PreparedStatement pstmt3 = conn.prepareStatement(eg);
                         pstmt3.setString(1, CID);
                         pstmt3.executeUpdate();
+
+                        pstmt.close();
+                        pstmt2.close();
+                        pstmt3.close();
 
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
@@ -664,39 +743,28 @@ public class UploadMarks extends Lecturer{
                         pstmt.setString(1, CID);
                         pstmt3.executeUpdate();
 
+                        pstmt.close();
+                        pstmt2.close();
+                        pstmt3.close();
+
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
                 }
                 lec.updateLetterGrade();
                 lec.updateCreditGained();
-
-                String getCredit = "SELECT Credit FROM Course_Detail WHERE Course_id = ? ";
-                try {
-                    PreparedStatement pps = conn.prepareStatement(getCredit);
-                    pps.setString(1,CID);
-                    ResultSet rr = pps.executeQuery();
-
-                    while(rr.next()){
-                        newCredit = rr.getInt("Credit");
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-
-                String credit3 = "UPDATE Exam_Mark SET Credit_gained = Grade * "+ newCredit +" WHERE Course_id = ?";
-                try{
-                    PreparedStatement sss = conn.prepareStatement(credit3);
-                    sss.setString(1,CID);
-                    sss.executeUpdate();
-
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-
                 lec.updateStudentGrades();
+
+                //creating a new column in student grades table to store newly created subject credit gains
+                String alter = "ALTER TABLE Student_Grades ADD " +CID+ " VARCHAR(20)";
+
+                try {
+                    Statement stmt = conn.createStatement();
+                    stmt.executeUpdate(alter);
+                    stmt.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
 
                 String sqql = "UPDATE Student_Grades " +
                         "SET " + CID +" = (SELECT Credit_gained FROM Exam_mark WHERE Exam_mark.Student_id = Student_Grades.Student_id AND Exam_mark.Course_id = ? LIMIT 1)";
@@ -705,24 +773,25 @@ public class UploadMarks extends Lecturer{
                     PreparedStatement ss = conn.prepareStatement(sqql);
                     ss.setString(1,CID);
                     ss.executeUpdate();
+                    ss.close();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
                 lec.sumCredit();
                 lec.totalCredit();
 
+                //updating total credits after ading new marks
+
                 String tc = "UPDATE Student_Grades SET Total_credits = Total_credits + "+ CID + " WHERE Student_id = ? ";
                 try (PreparedStatement upTC = conn.prepareStatement(tc)) {
                     //upTC.setString(1, CID);
                     upTC.setString(1,SID);
                     upTC.executeUpdate();
+                    upTC.close();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
-
                 lec.CalculateGPA();
-
-
             }
         });
     }

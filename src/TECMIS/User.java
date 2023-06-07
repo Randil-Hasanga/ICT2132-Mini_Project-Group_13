@@ -57,7 +57,7 @@ public class User extends JFrame{
     }
 
 
-    public void Login() {
+    public User() {
         add(pnlLogin);
         icon.setSize(100,100);
         setVisible(true);
@@ -72,10 +72,8 @@ public class User extends JFrame{
             public void windowClosing(WindowEvent e) {
                 int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
-                    // Close the application
                     System.exit(0);
                 }else {
-                    // Do nothing (prevent the window from closing)
                     setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 }
             }
@@ -142,6 +140,7 @@ public class User extends JFrame{
 
                             stmt.executeUpdate(query1);
                             stmt.executeUpdate(query2);
+                            stmt.close();
 
                             lblDisplay.setText("Password correct");
 
@@ -167,6 +166,7 @@ public class User extends JFrame{
 
                             stmt.executeUpdate(query7);
                             stmt.executeUpdate(query8);
+                            stmt.close();
 
                             lblDisplay.setText("Password correct");
 
@@ -191,6 +191,7 @@ public class User extends JFrame{
 
                             stmt.executeUpdate(query5);
                             stmt.executeUpdate(query6);
+                            stmt.close();
 
                             lblDisplay.setText("Password correct");
 
@@ -212,6 +213,7 @@ public class User extends JFrame{
 
                             stmt.executeUpdate(query3);
                             stmt.executeUpdate(query4);
+                            stmt.close();
 
                             lblDisplay.setText("Password correct");
 
@@ -226,6 +228,8 @@ public class User extends JFrame{
                             lblDisplay.setText("Incorrect email or password");
                         }
                     }
+                    pstmt.close();
+                    rs.close();
                 }catch (SQLException ex) {
                     System.out.println("Connection failed !");
                     ex.printStackTrace();

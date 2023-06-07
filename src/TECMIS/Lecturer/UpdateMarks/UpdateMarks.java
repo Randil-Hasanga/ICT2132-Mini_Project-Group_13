@@ -238,6 +238,7 @@ public class UpdateMarks extends Lecturer{
                         up.totalCredit();
                         up.CalculateGPA();
 
+                        pst.close();
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -266,39 +267,14 @@ public class UpdateMarks extends Lecturer{
                         up.sumCredit();
                         up.totalCredit();
                         up.CalculateGPA();
+
+                        pst.close();
+
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                 }
 
-            }else if(CID.equals("ICT03")){
-
-                    String sql = "UPDATE Exam_mark SET Assignment001 = ? ,Assignment002 = ?,QUIZ01 = ?, QUIZ02 = ?, QUIZ03 = ? ," +
-                            "FINAL_Practical = ? ,FINAL_Theory = ? WHERE (Course_id = ?) AND (Student_id = ? ) ";
-
-                    try(PreparedStatement pst = conn.prepareStatement(sql)){
-                        pst.setDouble(1,A1);
-                        pst.setDouble(2,A2);
-                        pst.setDouble(3,Q1);
-                        pst.setDouble(4,Q2);
-                        pst.setDouble(5,Q3);
-                        pst.setDouble(6,F_Practical);
-                        pst.setDouble(7,F_Theory);
-                        pst.setString(8,CID);
-                        pst.setString(9,SID);
-                        int rowsAffected = pst.executeUpdate();
-                        lblSuccess.setText("Success! " + rowsAffected + " row(s) updated.");
-
-                        up.updateExamMarks();
-                        up.updateCreditGained();
-                        up.updateLetterGrade();
-                        up.updateStudentGrades();
-                        up.sumCredit();
-                        up.totalCredit();
-                        up.CalculateGPA();
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
-            }else if(CID.equals("ICT04")){
+                }else if(CID.equals("ICT03")){
 
                     String sql = "UPDATE Exam_mark SET Assignment001 = ? ,Assignment002 = ?,QUIZ01 = ?, QUIZ02 = ?, QUIZ03 = ? ," +
                             "FINAL_Practical = ? ,FINAL_Theory = ? WHERE (Course_id = ?) AND (Student_id = ? ) ";
@@ -324,10 +300,43 @@ public class UpdateMarks extends Lecturer{
                         up.totalCredit();
                         up.CalculateGPA();
 
+                        pst.close();
+
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
-            }
+                }else if(CID.equals("ICT04")){
+
+                    String sql = "UPDATE Exam_mark SET Assignment001 = ? ,Assignment002 = ?,QUIZ01 = ?, QUIZ02 = ?, QUIZ03 = ? ," +
+                            "FINAL_Practical = ? ,FINAL_Theory = ? WHERE (Course_id = ?) AND (Student_id = ? ) ";
+
+                    try(PreparedStatement pst = conn.prepareStatement(sql)){
+                        pst.setDouble(1,A1);
+                        pst.setDouble(2,A2);
+                        pst.setDouble(3,Q1);
+                        pst.setDouble(4,Q2);
+                        pst.setDouble(5,Q3);
+                        pst.setDouble(6,F_Practical);
+                        pst.setDouble(7,F_Theory);
+                        pst.setString(8,CID);
+                        pst.setString(9,SID);
+                        int rowsAffected = pst.executeUpdate();
+                        lblSuccess.setText("Success! " + rowsAffected + " row(s) updated.");
+
+                        up.updateExamMarks();
+                        up.updateCreditGained();
+                        up.updateLetterGrade();
+                        up.updateStudentGrades();
+                        up.sumCredit();
+                        up.totalCredit();
+                        up.CalculateGPA();
+
+                        pst.close();
+
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
             }
         });
 
@@ -362,10 +371,6 @@ public class UpdateMarks extends Lecturer{
                 }
             }
         });
-
-
     }
-
-
 }
 
