@@ -19,6 +19,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.sql.Connection;
@@ -46,6 +48,7 @@ public class Dashbord extends User {
     private JButton RemoveCourseButton;
     private JButton removeNoticeButton;
     private JButton removeTimeTableButton;
+    private JLabel welcome;
     private String userId;
     private String acc;
     private byte[] dImg;
@@ -74,6 +77,23 @@ public class Dashbord extends User {
         setTitle("LMS Software");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        welcome.setText("Welcome to admin page ! ...   ");
+
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to close?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    // Close the application
+                    System.exit(0);
+                }else {
+                    // Do nothing (prevent the window from closing)
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+            }
+        });
 
         String sql = "SELECT FName,LName,Pro_pic FROM " + acc + " WHERE User_id = ?";
         String dfIcon = "SELECT img FROM DefaulImg WHERE imgId = 0";
